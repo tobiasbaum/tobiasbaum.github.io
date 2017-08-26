@@ -29,6 +29,18 @@
 	================================================== -->
 	<link rel="shortcut icon" href="favicon.png" >
 
+	<script type="text/javascript">
+	   function checkAndOpenResults() {
+			//do some dummy check so that non-participants and bots are less likely to go to the page
+			var s = prompt("Please enter your participant ID");
+			if (s != null && s.indexOf("R") >= 0 && s.length >= 3) {
+				window.location.href = "./results.html";
+			} else {
+				alert("Invalid participant ID!");
+			}
+			return false;
+	   }
+	</script>
 </head>
 
 <body>
@@ -140,7 +152,7 @@
 
       		<h1>Code Review Study<span>.</span></h1>
 	         <hr />               
-			<p>The code review study has ended, further info can soon be found here.</p>
+			<p>The code review study has ended, <a href="javascript:checkAndOpenResults()">further info for the participants</a> is now available.</p>
 			
       		<h1>My research<span>.</span></h1>
 
