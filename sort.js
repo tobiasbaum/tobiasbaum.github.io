@@ -2,6 +2,7 @@ var items;
 var knownComparisons;
 var missingComparisons;
 var currentSortFunction;
+var showResultsSorted = true;
 
 function startRanking(rankFunction) {
 	var text = $("#itemInput").val();
@@ -32,13 +33,36 @@ function continueRanking() {
 }
 
 function showResults(sortedItems) {
-	var res = "";
-	for (var i = 0; i < items.length; i++) {
-		res += items[i] + ";" + (sortedItems.indexOf(items[i]) + 1) + "\n";
+	var res;
+	if (showResultsSorted) {
+		res = formatResultsSorted(sortedItems);
+	} else {
+		res = formatResultsWithRank(sortedItems);
 	}
 	$("#comparison").hide();
 	$("#itemOutput").text(res);
 	$("#output").show();
+}
+
+function formatResultsSorted(sortedItems) {
+	var res = "";
+	for (var i = 0; i < sortedItems.length; i++) {
+		res += sortedItems[i] + "\n";
+	}
+	return res;
+}
+
+function formatResultsWithRank(sortedItems) {
+	var res = "";
+	for (var i = 0; i < items.length; i++) {
+		res += items[i] + ";" + (sortedItems.indexOf(items[i]) + 1) + "\n";
+	}
+	return res;
+}
+
+function toggleDisplay() {
+	showResultsSorted = !showResultsSorted;
+	continueRanking();
 }
 
 function askForNextComparison() {
