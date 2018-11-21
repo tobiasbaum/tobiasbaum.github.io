@@ -5,6 +5,7 @@ function findLongestSentences() {
 	let curSentence = "";
 	let wordCountInCurSentence = 0;
 	let sentences = [];
+	let lastWasWhitespace = false;
 	for (let ch of text) {
 	    if (isEndOfSentence(ch)) {
 			potentialEndOfSentence = true;
