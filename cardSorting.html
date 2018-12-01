@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Card Sorting</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<link rel="stylesheet" href="jquery-ui-1.12.1/jquery-ui.min.css">
+	<link rel="stylesheet" href="cardSorting.css">
+
+	<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+	<script src="jquery-ui-1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="cardSorting.js"></script>
+</head>
+<body>
+<div id="input">
+Items to classify (separated by empty lines, or one per line):<br/>
+<textarea id="itemInput" cols="100"></textarea><br/>
+<button onclick="startCardSort()">Start card sort</button><br/>
+</div>
+
+<div id="comparison" style="display:none;">
+<div><span id="toGo">42</span> items to go. <a href="javascript:void(0)" onclick="cancel()">Cancel</a></div>
+<br/>
+<div id="toClassify">a</div>
+<br/><br/><br/>
+
+<div id="flexContainer">
+<div id="postpone">Postpone</div>
+<div id="buckets">
+</div>
+<div id="newBucket">New bucket</div>
+</div>
+</div>
+
+<div id="output" style="display:none;">
+Result:<br/>
+<textarea id="itemOutput" cols="100"></textarea><br/>
+</div>
+
+</body>
+</html>
