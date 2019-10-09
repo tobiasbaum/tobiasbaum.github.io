@@ -466,12 +466,43 @@
 
 	      	<div class="bgrid">	               
 
+	            <h3>A Multi-Objective Anytime Rule Mining System to Ease Iterative Feedback from Domain Experts</h3>
+
+	            <div class="service-content">	                  
+		            <p>Data extracted from software repositories is used intensively in Software Engineering research, for example, to predict defects in source code. In our research in this area, with data from open source projects as well as an industrial partner, we noticed several shortcomings of conventional data mining approaches for classification problems: (1) Domain experts' acceptance is of critical importance, and domain experts can provide valuable input, but it is hard to use this feedback. (2) The evaluation of the model is not a simple matter of calculating AUC or accuracy. Instead, there are multiple objectives of varying importance, but their importance cannot be easily quantified. Furthermore, the performance of the model cannot be evaluated on a per-instance level in our case, because it shares aspects with the set cover problem. To overcome these problems, we take a holistic approach and develop a rule mining system that simplifies iterative feedback from domain experts and can easily incorporate the domain-specific evaluation needs. A central part of the system is a novel multi-objective anytime rule mining algorithm. The algorithm is based on the GRASP-PR meta-heuristic but extends it with ideas from several other approaches. We successfully applied the system in the industrial context. In the current article, we focus on the description of the algorithm and the concepts of the system. We provide an implementation of the system for reuse.
+</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1812.09746">Pre-print on arXiv</a></li>
+<li><a href="https://doi.org/10.6084/m9.figshare.7438676.v1">Data set, source code and materials</a></li>
+</ul>
+
+	         	</div>  
+
+			</div> <!-- end bgrid -->
+
+	      	<div class="bgrid">	               
+
+	            <h3>An Industrial Case Study on Shrinking Code Review Changesets through Remark Prediction</h3>
+
+	            <div class="service-content">	                  
+		            <p>Change-based code review is used widely in industrial software development. Thus, research on tools that help the reviewer to achieve better review performance can have a high impact. We analyze one possibility to provide cognitive support for the reviewer: Determining the importance of change parts for review, specifically determining which parts of the code change can be left out from the review without harm. To determine the importance of change parts, we extract data from software repositories and build prediction models for review remarks based on this data. The approach is discussed in detail. To gather the input data, we propose a novel algorithm to trace review remarks to their triggers. We apply our approach in a medium-sized software company. In this company, we can avoid the review of 25% of the change parts and of 23% of the changed Java source code lines, while missing only about 1% of the review remarks. Still, we also observe severe limitations of the tried approach: Much of the savings are due to simple syntactic rules, noise in the data hampers the search for better prediction models, and some developers in the case company oppose the taken approach. Besides the main results on the mining and prediction of triggers for review remarks, we contribute experiences with a novel, multi-objective and interactive rule mining approach. The anonymized dataset from the company is made available, as are the implementations for the devised algorithms.</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1812.09510">Extended report on arXiv</a></li>
+<li><a href="https://doi.org/10.6084/m9.figshare.7438676.v1">Data set, source code and materials</a></li>
+</ul>
+
+	         	</div>  
+
+			</div> <!-- end bgrid -->
+
+	      	<div class="bgrid">	               
+
 	            <h3>Associating Working Memory Capacity and Code Change Ordering with Code Review Performance</h3>
 
 	            <div class="service-content">	                  
 		            <p>Change-based code review is a software quality assurance technique that is widely used in practice. Therefore, better understanding what influences performance in code reviews and finding ways to improve it can have a large impact.
 In this study, we examine the association of working memory capacity and cognitive load with code review performance and we test the predictions of a recent theory regarding improved code review efficiency with certain code change part orders.
-We perform a confirmatory experiment with \dtaParticipantCount{} participants, mostly professional software developers. The participants performed code reviews on one small and two larger code changes from an open source software system to which we had seeded additional defects. We measured their efficiency and effectiveness in defect detection, their working memory capacity, and several potential confounding factors.
+We perform a confirmatory experiment with 50 participants, mostly professional software developers. The participants performed code reviews on one small and two larger code changes from an open source software system to which we had seeded additional defects. We measured their efficiency and effectiveness in defect detection, their working memory capacity, and several potential confounding factors.
 We find that there is a moderate association between working memory capacity and the effectiveness of finding delocalized defects, influenced by other factors, whereas the association with other defect types is almost non-existing. We also confirm that the effectiveness of reviews is significantly larger for small code changes. We cannot conclude reliably whether the order of presenting the code change parts influences the efficiency of code review.
 </p>
 <ul>
