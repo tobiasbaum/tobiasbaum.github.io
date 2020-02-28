@@ -13,13 +13,22 @@
 </head>
 <body>
 <div id="input">
+<h1>Online Card Sorting Tool</h1>
+<p>Card Sorting is a technique to bring order into a set of items by assigning them to buckets one after the other. You can use it for research, development, or just to structure your thoughts. Card sorting is usually performed with snippets of paper, but this online tool allows you to do <i>card sorting in the browser</i>. Just enter the items below and click start.</p>
+
+<p>
 Items to classify (separated by empty lines, or one per line):<br/>
 <textarea id="itemInput" cols="100"></textarea><br/>
 <button onclick="startCardSort()">Start card sort</button><br/>
+</p>
+
+<p>
+You can find out <a href="https://en.wikipedia.org/wiki/Card_sorting">more about Card Sorting on Wikipedia</a>, in <a href="http://boxesandarrows.com/card-sorting-a-definitive-guide/">Donna Spencer's article</a> or read about it, e.g., in <a href="https://books.google.de/books?id=uZ8uzWAcdxEC&lpg=PP1&dq=Universal%20methods%20of%20design&pg=PP1#v=onepage&q=Universal%20methods%20of%20design&f=false">"Universal methods of design" by Hanington and Martin</a>.
+</p>
 </div>
 
 <div id="comparison" style="display:none;">
-<div><span id="toGo">42</span> items to go. <a href="javascript:void(0)" onclick="cancel()">Cancel</a></div>
+<div>Assign item by drag and drop. <span id="toGo">42</span> items to go. <a href="javascript:void(0)" onclick="cancel()">Cancel</a></div>
 <br/>
 <div id="toClassify">a</div>
 <br/><br/><br/>
