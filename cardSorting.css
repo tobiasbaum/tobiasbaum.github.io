@@ -15,11 +15,6 @@ div {
 	flex-direction: row;
 }
 
-#postpone {
-	background-color: #CCCCCC;
-	width: 150px;
-}
-
 #buckets {
 	flex-grow: 1;
 	overflow: auto;
@@ -36,6 +31,10 @@ div {
 	margin: 2px;
 }
 
+.bucket.highlight {
+	background-color: #DDDDDD;
+}
+
 .head {
 }
 
@@ -45,7 +44,21 @@ div {
 	white-space: nowrap;
 }
 
+#postpone {
+	background-color: #CCCCCC;
+	width: 150px;
+}
+
+#postpone.highlight {
+	background-color: #DDDDDD;
+}
+
 #newBucket {
 	background-color: #CCCCCC;
 	width: 150px;
 }
+
+#newBucket.highlight {
+	background-color: #DDDDDD;
+}
+

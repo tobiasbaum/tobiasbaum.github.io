@@ -22,12 +22,14 @@ function startCardSort() {
 	});
 	$("#postpone").droppable({
 		tolerance: "pointer",
+		hoverClass: "highlight",
 		drop: function( event, ui ) {
 			postpone();
 		}
 	});
 	$("#newBucket").droppable({
 		tolerance: "pointer",
+		hoverClass: "highlight",
 		drop: function( event, ui ) {
 			newBucket();
 		}
@@ -83,6 +85,7 @@ function newBucket() {
 		$("#buckets").append("<div id=\"gr_" + bucketId + "\" class=\"bucket\"><div class=\"head\" " + color + ">" + escape(name) + "</div><div class=\"items\"></div>");
 		$("#gr_" + bucketId).droppable({
 			tolerance: "pointer",
+			hoverClass: "highlight",
 			drop: function( event, ui ) {
 				putInBucket(bucketId);
 			}
