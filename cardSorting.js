@@ -123,8 +123,16 @@ function cancel() {
 
 function printResults() {
 	var text = "";
+	var sortedKeys = [];
 	var key;
 	for (key in buckets) {
+	    sortedKeys.push(key);
+	}
+	alert("before: " + sortedKeys);
+	sortedKeys.sort(function(k1, k2) { return buckets[k2].content.length - buckets[k1].content.length; });
+	alert("after: " + sortedKeys);
+	for (var j = 0; j < sortedKeys.length; j++) {
+	        var key = sortedKeys[j];
 		var obj = buckets[key];
 		text += "== " + obj.name + "\n";
 		var list = obj.content;
