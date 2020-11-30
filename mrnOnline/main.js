@@ -23,19 +23,36 @@ module.exports = __webpack_require__(/*! /home/ich/mrnOnline/src/main.ts */"zUnb
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelfPlayerComponent", function() { return SelfPlayerComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
-/* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../card-collection/card-collection.component */ "DBil");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
+/* harmony import */ var _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal-card-collection.service */ "F95V");
+/* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../card-collection/card-collection.component */ "DBil");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
 
 
 
 
+
+
+
+function SelfPlayerComponent_mrn_card_collection_20_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "mrn-card-collection", 6);
+} if (rf & 2) {
+    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx_r0.exile)("act", "GR")("collapsed", true);
+} }
 class SelfPlayerComponent {
-    constructor(field, cdr) {
+    constructor(field, cdr, mcc) {
         this.field = field;
         this.cdr = cdr;
-        field.subscribe((f) => f.myself.subscribeForUpdate(() => cdr.markForCheck()));
+        this.mcc = mcc;
+        this.destroy = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        field.subscribe((f) => f.myself.subscribeForUpdate(() => cdr.markForCheck()), this.destroy);
     }
     ngOnInit() {
+    }
+    ngOnDestroy() {
+        this.destroy.next();
     }
     get name() {
         return this.field.gameField.myself.name;
@@ -61,8 +78,14 @@ class SelfPlayerComponent {
     get graveyard() {
         return this.field.gameField.myself.graveyard;
     }
+    get exile() {
+        return this.field.gameField.myself.exile;
+    }
+    untapAll() {
+        this.field.gameField.myself.untapAll();
+    }
     drawCard() {
-        this.field.gameField.drawCard();
+        this.field.gameField.myself.drawCard();
     }
     decreaseLifes() {
         this.field.gameField.decreaseLifes();
@@ -85,47 +108,84 @@ class SelfPlayerComponent {
     isCurrentPlayer() {
         return this.field.gameField.currentPlayerName === this.field.gameField.myself.name;
     }
+    openLibrary() {
+        this.gameField.myself.sendNotification('öffnet die Bibliothek');
+        let subscr = this.mcc.closed.subscribe(() => {
+            this.gameField.myself.sendNotification('schließt die Bibliothek');
+            subscr.unsubscribe();
+        });
+        this.mcc.show(this.gameField.myself.library, 'Bibliothek', 'DR,PL,PT,GR');
+    }
+    shuffleLibrary() {
+        this.gameField.myself.shuffleLibrary();
+    }
+    createToken() {
+        let lastName = localStorage.getItem('lastTokenName');
+        let name = prompt('Name', lastName ? lastName : undefined);
+        if (name) {
+            localStorage.setItem('lastTokenName', name);
+            this.gameField.myself.createToken(name);
+        }
+    }
 }
-SelfPlayerComponent.ɵfac = function SelfPlayerComponent_Factory(t) { return new (t || SelfPlayerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_1__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"])); };
-SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: SelfPlayerComponent, selectors: [["mrn-self-player"]], decls: 22, vars: 13, consts: [["name", "Hand", 3, "collection", "act"], ["name", "Ausgelegt", 3, "collection", "act"], [3, "click"], ["name", "Friedhof", 3, "collection", "act", "collapsed"]], template: function SelfPlayerComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "fieldset");
+SelfPlayerComponent.ɵfac = function SelfPlayerComponent_Factory(t) { return new (t || SelfPlayerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_modal_card_collection_service__WEBPACK_IMPORTED_MODULE_3__["ModalCardCollectionService"])); };
+SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: SelfPlayerComponent, selectors: [["mrn-self-player"]], decls: 31, vars: 15, consts: [[3, "id"], ["name", "Hand", 3, "collection", "act"], ["name", "Ausgelegt", 3, "collection", "act"], [3, "click"], ["name", "Friedhof", 3, "collection", "act", "collapsed"], ["name", "Aus dem Spiel", 3, "collection", "act", "collapsed", 4, "ngIf"], ["name", "Aus dem Spiel", 3, "collection", "act", "collapsed"]], template: function SelfPlayerComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "fieldset", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "legend");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "b");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "mrn-card-collection", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "mrn-card-collection", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "div");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "button", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_9_listener() { return ctx.drawCard(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10, "Karte ziehen");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "mrn-card-collection", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "mrn-card-collection", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_7_listener() { return ctx.untapAll(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8, "Alles enttappen");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "div");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_11_listener() { return ctx.drawCard(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](12, "Karte ziehen");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_13_listener() { return ctx.openLibrary(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](14, "Bibliothek \u00F6ffnen");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_15_listener() { return ctx.shuffleLibrary(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](16, "Bibliothek mischen");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_17_listener() { return ctx.createToken(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](18, "Token erstellen");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](11, "mrn-card-collection", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "div");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](13);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "button", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_14_listener() { return ctx.increaseLifes(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15, "+");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](19, "mrn-card-collection", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](20, SelfPlayerComponent_mrn_card_collection_20_Template, 1, 3, "mrn-card-collection", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "div");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](22);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](23, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_23_listener() { return ctx.increaseLifes(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](24, "+");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "button", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_16_listener() { return ctx.decreaseLifes(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](17, "-");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](25, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_25_listener() { return ctx.decreaseLifes(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](26, "-");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "button", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_18_listener() { return ctx.multiLifeIncrease(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](19, "+X ...");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](27, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_27_listener() { return ctx.multiLifeIncrease(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](28, "+X ...");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](20, "button", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_20_listener() { return ctx.multiLifeDecrease(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](21, "-X ...");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "button", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_button_click_29_listener() { return ctx.multiLifeDecrease(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](30, "-X ...");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("id", ctx.id);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("turn", ctx.isCurrentPlayer());
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
@@ -133,16 +193,18 @@ SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" (ID: ", ctx.id, ")");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.hand)("act", "PL,PT,GR");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.hand)("act", "PL,PT,GR,EX");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.table)("act", "TA,UT,GR");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.table)("act", "TA,UT,BL,GR,EX,HA,MO");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("Bibliothek: ", ctx.librarySize(), " Karten. ");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.graveyard)("act", "PL,PT")("collapsed", true);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.graveyard)("act", "PL,PT,HA,EX")("collapsed", true);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.exile.size > 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("Lebenspunkte: ", ctx.lifes, " ");
-    } }, directives: [_card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_2__["CardCollectionComponent"]], styles: ["legend.turn[_ngcontent-%COMP%] {\n  color: red;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NlbGYtcGxheWVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksVUFBQTtBQUNKIiwiZmlsZSI6InNlbGYtcGxheWVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsibGVnZW5kLnR1cm4ge1xuICAgIGNvbG9yOiByZWQ7XG59XG4iXX0= */"] });
+    } }, directives: [_card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_4__["CardCollectionComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"]], styles: ["legend.turn[_ngcontent-%COMP%] {\n  color: red;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NlbGYtcGxheWVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksVUFBQTtBQUNKIiwiZmlsZSI6InNlbGYtcGxheWVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsibGVnZW5kLnR1cm4ge1xuICAgIGNvbG9yOiByZWQ7XG59XG4iXX0= */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](SelfPlayerComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -150,7 +212,70 @@ SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
                 templateUrl: './self-player.component.html',
                 styleUrls: ['./self-player.component.scss']
             }]
-    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_1__["GameFieldStoreService"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }]; }, null); })();
+    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }, { type: _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_3__["ModalCardCollectionService"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "7u39":
+/*!**************************************************************************!*\
+  !*** ./src/app/modal-card-collection/modal-card-collection.component.ts ***!
+  \**************************************************************************/
+/*! exports provided: ModalCardCollectionComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalCardCollectionComponent", function() { return ModalCardCollectionComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modal-card-collection.service */ "F95V");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../card-collection/card-collection.component */ "DBil");
+
+
+
+
+
+function ModalCardCollectionComponent_div_0_Template(rf, ctx) { if (rf & 1) {
+    const _r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ModalCardCollectionComponent_div_0_Template_button_click_1_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r2); const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r1.hide(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "Schlie\u00DFen");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "mrn-card-collection", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("name", ctx_r0.service.name)("collection", ctx_r0.service.collection)("act", ctx_r0.service.act);
+} }
+class ModalCardCollectionComponent {
+    constructor(service) {
+        this.service = service;
+        service;
+    }
+    ngOnInit() {
+    }
+    hide() {
+        this.service.isShown = false;
+        this.service.closed.next();
+    }
+}
+ModalCardCollectionComponent.ɵfac = function ModalCardCollectionComponent_Factory(t) { return new (t || ModalCardCollectionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_modal_card_collection_service__WEBPACK_IMPORTED_MODULE_1__["ModalCardCollectionService"])); };
+ModalCardCollectionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ModalCardCollectionComponent, selectors: [["mrn-modal-card-collection"]], decls: 1, vars: 1, consts: [["class", "glass-pane", 4, "ngIf"], [1, "glass-pane"], [3, "click"], [3, "name", "collection", "act"]], template: function ModalCardCollectionComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, ModalCardCollectionComponent_div_0_Template, 4, 3, "div", 0);
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.service.isShown);
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"], _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_3__["CardCollectionComponent"]], styles: ["div.glass-pane[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  z-index: 10;\n  position: fixed;\n  top: 0;\n  left: 0;\n  margin: 0;\n  padding: 0;\n  background: rgba(1, 1, 1, 0.6);\n  overflow: scroll;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL21vZGFsLWNhcmQtY29sbGVjdGlvbi5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLFdBQUE7RUFDQSxZQUFBO0VBQ0EsV0FBQTtFQUNBLGVBQUE7RUFDQSxNQUFBO0VBQ0EsT0FBQTtFQUNBLFNBQUE7RUFDQSxVQUFBO0VBQ0EsOEJBQUE7RUFDQSxnQkFBQTtBQUNKIiwiZmlsZSI6Im1vZGFsLWNhcmQtY29sbGVjdGlvbi5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImRpdi5nbGFzcy1wYW5lIHtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBoZWlnaHQ6IDEwMCU7XG4gICAgei1pbmRleDogMTA7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogMDtcbiAgICBsZWZ0OiAwO1xuICAgIG1hcmdpbjogMDtcbiAgICBwYWRkaW5nOiAwO1xuICAgIGJhY2tncm91bmQ6IHJnYmEoMSwgMSwgMSwgMC42KTtcbiAgICBvdmVyZmxvdzogc2Nyb2xsO1xufSJdfQ== */"] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ModalCardCollectionComponent, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
+        args: [{
+                selector: 'mrn-modal-card-collection',
+                templateUrl: './modal-card-collection.component.html',
+                styleUrls: ['./modal-card-collection.component.scss']
+            }]
+    }], function () { return [{ type: _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_1__["ModalCardCollectionService"] }]; }, null); })();
 
 
 /***/ }),
@@ -166,8 +291,10 @@ SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatBoxComponent", function() { return ChatBoxComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "ofXK");
+
 
 
 
@@ -218,9 +345,13 @@ class ChatBoxComponent {
         this.field = field;
         this.cdr = cdr;
         this.messages = [];
-        field.subscribe(gf => gf.registerMessageHandler((id, msg) => this.handleAddedMessage(msg)));
+        this.destroy = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        field.subscribe(gf => gf.registerMessageHandler((id, msg) => this.handleAddedMessage(msg)), this.destroy);
     }
     ngOnInit() {
+    }
+    ngOnDestroy() {
+        this.destroy.next();
     }
     handleAddedMessage(msg) {
         this.messages.push(msg);
@@ -236,11 +367,11 @@ class ChatBoxComponent {
     sendMessage() {
         var message = prompt('Nachricht');
         if (message) {
-            window.mrnOnline.gameField.sendMessage(message);
+            this.field.gameField.sendMessage(message);
         }
     }
 }
-ChatBoxComponent.ɵfac = function ChatBoxComponent_Factory(t) { return new (t || ChatBoxComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_1__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"])); };
+ChatBoxComponent.ɵfac = function ChatBoxComponent_Factory(t) { return new (t || ChatBoxComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"])); };
 ChatBoxComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ChatBoxComponent, selectors: [["mrn-chat-box"]], decls: 7, vars: 1, consts: [[3, "click"], ["id", "chatbox", 1, "chatbox"], [4, "ngFor", "ngForOf"], [4, "ngIf"]], template: function ChatBoxComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "fieldset");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "legend");
@@ -257,7 +388,7 @@ ChatBoxComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.messages);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"]], styles: ["div.chatbox[_ngcontent-%COMP%] {\n  height: 150px;\n  overflow: scroll;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NoYXQtYm94LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksYUFBQTtFQUNBLGdCQUFBO0FBQ0oiLCJmaWxlIjoiY2hhdC1ib3guY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJkaXYuY2hhdGJveCB7XG4gICAgaGVpZ2h0OiAxNTBweDtcbiAgICBvdmVyZmxvdzogc2Nyb2xsO1xufSJdfQ== */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"]], styles: ["div.chatbox[_ngcontent-%COMP%] {\n  overflow: scroll;\n  height: 200px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NoYXQtYm94LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksZ0JBQUE7RUFDQSxhQUFBO0FBQ0oiLCJmaWxlIjoiY2hhdC1ib3guY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJkaXYuY2hhdGJveCB7XG4gICAgb3ZlcmZsb3c6IHNjcm9sbDtcbiAgICBoZWlnaHQ6IDIwMHB4O1xufVxuIl19 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ChatBoxComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -265,7 +396,59 @@ ChatBoxComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
                 templateUrl: './chat-box.component.html',
                 styleUrls: ['./chat-box.component.scss']
             }]
-    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_1__["GameFieldStoreService"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }]; }, null); })();
+    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "9Lk1":
+/*!*********************************************!*\
+  !*** ./src/app/card-action-mode.service.ts ***!
+  \*********************************************/
+/*! exports provided: CardActionModeService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CardActionModeService", function() { return CardActionModeService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
+
+
+
+
+class CardActionModeService {
+    constructor() {
+        this.savedCardId = undefined;
+        this.subject = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+    }
+    selectForModify(cardId) {
+        this.savedCardId = cardId;
+        this.subject.next();
+    }
+    normalMode() {
+        this.savedCardId = undefined;
+        this.subject.next();
+    }
+    get savedId() {
+        return this.savedCardId;
+    }
+    get isModifyMode() {
+        return typeof this.savedCardId !== 'undefined';
+    }
+    subscribe(handler, destroy) {
+        this.subject.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(destroy)).subscribe(handler);
+    }
+}
+CardActionModeService.ɵfac = function CardActionModeService_Factory(t) { return new (t || CardActionModeService)(); };
+CardActionModeService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: CardActionModeService, factory: CardActionModeService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](CardActionModeService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return []; }, null); })();
 
 
 /***/ }),
@@ -315,13 +498,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Card", function() { return Card; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CardType", function() { return CardType; });
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs */ "qCKp");
-/* harmony import */ var _distributed_database__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./distributed-database */ "JjPw");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
+/* harmony import */ var _distributed_database__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./distributed-database */ "JjPw");
+
 
 
 class CardType {
-    constructor(name, img) {
+    constructor(name, img, token) {
         this.name = name;
-        this.img = img;
+        if (token) {
+            this.token = true;
+        }
+        else {
+            this.token = false;
+        }
+        if (img) {
+            this.img = img;
+        }
+        else {
+            this.img = 'data:image/svg+xml;base64,' + btoa(this.createSvg(name.replace(/[^a-zA-Z0-9 ]/, '')));
+        }
+    }
+    createSvg(title) {
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 334"><rect x="5" y="5" width="230" height="324" fill="gray" /><text x="20" y="35">' + title + '</text></svg>';
     }
     toDto() {
         return {
@@ -334,9 +533,17 @@ function cardTypeFromDto(dto) {
     return new CardType(dto.name, dto.img);
 }
 var cardCnt = 0;
+var CardState;
+(function (CardState) {
+    CardState[CardState["Normal"] = 0] = "Normal";
+    CardState[CardState["Blocker"] = 1] = "Blocker";
+    CardState[CardState["Tapped"] = 2] = "Tapped";
+})(CardState || (CardState = {}));
 class Card {
-    constructor(type, id, tapped) {
+    constructor(type, controllerId, id, tapped, mods) {
+        this.state = CardState.Normal;
         this.type = type;
+        this.controllerId = controllerId;
         if (typeof id === 'undefined') {
             this.id = Math.floor(Math.random() * 10000) * 1000 + cardCnt++;
         }
@@ -344,17 +551,61 @@ class Card {
             this.id = id;
         }
         if (typeof tapped === 'undefined') {
-            this.tapped = false;
+            this.state = CardState.Normal;
         }
         else {
-            this.tapped = tapped;
+            this.state = tapped ? CardState.Tapped : CardState.Normal;
+        }
+        if (typeof mods === 'undefined') {
+            this.mods = [];
+        }
+        else {
+            this.mods = mods;
         }
     }
+    get tapped() {
+        return this.state === CardState.Tapped;
+    }
+    get normal() {
+        return this.state === CardState.Normal;
+    }
+    get markedAsBlocker() {
+        return this.state === CardState.Blocker;
+    }
     tap() {
-        this.tapped = true;
+        this.state = CardState.Tapped;
+    }
+    markAsBlocker() {
+        if (this.state === CardState.Normal) {
+            this.state = CardState.Blocker;
+        }
     }
     untap() {
-        this.tapped = false;
+        this.state = CardState.Normal;
+    }
+    modifyWith(c) {
+        this.mods.push(c);
+    }
+    clearModifiers() {
+        this.mods = [];
+    }
+    isModifiedBy(cardId) {
+        for (let i = 0; i < this.mods.length; i++) {
+            if (this.mods[i].id === cardId) {
+                return true;
+            }
+        }
+        return false;
+    }
+    removeModifier(cardId) {
+        for (let i = 0; i < this.mods.length; i++) {
+            if (this.mods[i].id === cardId) {
+                let card = this.mods[i];
+                this.mods.splice(i, 1);
+                return card;
+            }
+        }
+        return null;
     }
     get name() {
         return this.type.name;
@@ -362,16 +613,27 @@ class Card {
     get img() {
         return this.type.img;
     }
+    get isModified() {
+        return this.mods.length > 0;
+    }
+    get reversedModifiers() {
+        return this.mods.slice().reverse();
+    }
+    get modifiers() {
+        return this.mods;
+    }
     toDto() {
         return {
             id: this.id,
+            cntr: this.controllerId,
             type: this.type.toDto(),
-            tapped: this.tapped
+            tapped: this.tapped,
+            mods: this.mods.map(x => x.toDto())
         };
     }
 }
 function cardFromDto(dto) {
-    return new Card(cardTypeFromDto(dto.type), dto.id, dto.tapped);
+    return new Card(cardTypeFromDto(dto.type), dto.cntr, dto.id, dto.tapped, dto.mods.map(cardFromDto));
 }
 class CardCollection {
     constructor(cards) {
@@ -461,13 +723,19 @@ class SelfPlayer {
         this.db = db;
         this.library = new CardStash(deck);
         this.library.shuffle();
+        this.db.put('librarySizes', this.id, this.library.size);
         this.hand = new CardBag([]);
         this.table = new CardBag([]);
         this.graveyard = new CardStash([]);
         this.db.put('graveyards', this.id, this.graveyard.toDto());
+        this.exile = new CardBag([]);
+        this.db.put('exiles', this.id, this.exile.toDto());
         this.lifes = 20;
         this.db.put('lifes', this.id, this.lifes);
         this.color = 'hsl(' + (Math.floor(Math.random() * 72) * 5) + ',90%,40%)';
+        this.orderNumber = Math.random();
+        this.db.on('receiveCommand', 'putToGraveyard', (cardDto) => this.addToGraveyard(cardFromDto(cardDto)));
+        this.db.on('receiveCommand', 'modifyCard', (x) => this.modifyWithOthersCard(x.tgt, cardFromDto(x.card)));
     }
     subscribeForUpdate(arg0) {
         this.subject.subscribe(arg0);
@@ -479,15 +747,38 @@ class SelfPlayer {
             tr: tr
         };
     }
-    drawCard() {
-        let c = this.library.draw();
+    untapAll() {
+        this.table.cards.forEach(c => {
+            if (!c.normal) {
+                this.untap(c.id);
+            }
+        });
+    }
+    drawCard(cardId) {
+        let c;
+        if (cardId) {
+            let coll = this.getContainingCollection(cardId);
+            c = this.removeFromCollection(coll, cardId);
+        }
+        else {
+            c = this.library.draw();
+        }
+        this.db.put('librarySizes', this.id, this.library.size);
         if (!c) {
             this.sendNotification('kann nicht ziehen');
             return;
         }
-        this.hand.add(c);
+        this.addToHand(c);
         this.sendNotification('zieht eine Karte');
         this.subject.next();
+    }
+    shuffleLibrary() {
+        this.sendNotification('mischt die Bibliothek');
+        this.library.shuffle();
+    }
+    addToHand(c) {
+        this.hand.add(c);
+        this.db.put('handSizes', this.id, this.hand.size);
     }
     changeLifeCount(diff) {
         this.lifes += diff;
@@ -503,10 +794,35 @@ class SelfPlayer {
     putToGraveyard(cardId) {
         let coll = this.getContainingCollection(cardId);
         let card = this.removeFromCollection(coll, cardId);
+        this.addToGraveyard(card);
+        this.subject.next();
+    }
+    addToGraveyard(card) {
+        if (card.type.token) {
+            this.sendNotification('Token ' + card.name + ' verschwindet');
+            return;
+        }
         card.untap();
-        this.graveyard.add(card);
-        this.db.put('graveyards', this.id, this.graveyard.toDto());
-        this.sendNotification('legt ' + card.name + ' auf Friedhof');
+        if (this.id === card.controllerId) {
+            this.graveyard.add(card);
+            this.db.put('graveyards', this.id, this.graveyard.toDto());
+            this.sendNotification('legt ' + card.name + ' auf Friedhof');
+        }
+        else {
+            this.db.sendCommandTo(card.controllerId, 'putToGraveyard', card.toDto());
+        }
+    }
+    putToExile(cardId) {
+        let coll = this.getContainingCollection(cardId);
+        let card = this.removeFromCollection(coll, cardId);
+        if (card.type.token) {
+            this.sendNotification('Token ' + card.name + ' verschwindet');
+            return;
+        }
+        card.untap();
+        this.exile.add(card);
+        this.db.put('exiles', this.id, this.exile.toDto());
+        this.sendNotification('nimmt ' + card.name + ' ganz aus dem Spiel');
         this.subject.next();
     }
     putIntoPlay(cardId) {
@@ -524,8 +840,51 @@ class SelfPlayer {
         this.sendNotification('spielt ' + card.name + ' getappt aus');
         this.subject.next();
     }
+    putToHand(cardId) {
+        let coll = this.getContainingCollection(cardId);
+        let card = this.removeFromCollection(coll, cardId);
+        card.untap();
+        this.addToHand(card);
+        this.sendNotification('nimmt ' + card.name + ' auf die Hand');
+        this.subject.next();
+    }
+    modifyOwnCard(modifierCardId, toModifyCardId) {
+        let toModify = this.table.getById(toModifyCardId);
+        if (!toModify) {
+            return;
+        }
+        let collData = this.getContainingCollection(modifierCardId);
+        let card = this.removeFromCollection(collData, modifierCardId);
+        this.applyModification(toModify, card);
+    }
+    modifyOtherPlayersCard(modifierCardId, toModifyCardId, otherPlayerId) {
+        let collData = this.getContainingCollection(modifierCardId);
+        let card = this.removeFromCollection(collData, modifierCardId);
+        this.db.sendCommandTo(otherPlayerId, 'modifyCard', { tgt: toModifyCardId, card: card.toDto() });
+    }
+    modifyWithOthersCard(toModifyCardId, card) {
+        let toModify = this.table.getById(toModifyCardId);
+        if (!toModify) {
+            return;
+        }
+        this.applyModification(toModify, card);
+    }
+    applyModification(toModify, card) {
+        card.untap();
+        toModify.modifyWith(card);
+        this.db.put('tables', this.id, this.table.toDto());
+        this.sendNotification('spielt ' + card.name + ' auf ' + toModify.name);
+        this.subject.next();
+    }
     removeFromCollection(collData, cardId) {
-        let card = collData.obj.remove(cardId);
+        let card;
+        if (collData.nestedIn) {
+            card = collData.nestedIn.removeModifier(cardId);
+        }
+        else {
+            card = collData.obj.remove(cardId);
+            this.dropModifiers(card);
+        }
         if (collData.countOnly) {
             this.db.put(collData.name, this.id, collData.obj.size);
         }
@@ -533,6 +892,10 @@ class SelfPlayer {
             this.db.put(collData.name, this.id, collData.obj.toDto());
         }
         return card;
+    }
+    dropModifiers(c) {
+        c.modifiers.forEach(m => this.addToGraveyard(m));
+        c.clearModifiers();
     }
     addToTable(card) {
         this.table.add(card);
@@ -552,7 +915,17 @@ class SelfPlayer {
         if (this.library.contains(cardId)) {
             return { obj: this.library, name: 'librarySizes', countOnly: true };
         }
+        if (this.exile.contains(cardId)) {
+            return { obj: this.exile, name: 'exiles', countOnly: false };
+        }
+        let nested = this.table.cards.filter(c => c.isModifiedBy(cardId));
+        if (nested.length > 0) {
+            return { obj: this.table, name: 'tables', countOnly: false, nestedIn: nested[0] };
+        }
         return null;
+    }
+    hasCard(cardId) {
+        return this.getContainingCollection(cardId) !== null;
     }
     tap(cardId) {
         let card = this.table.getById(cardId);
@@ -562,6 +935,16 @@ class SelfPlayer {
         card.tap();
         this.db.put('tables', this.id, this.table.toDto());
         this.sendNotification('tappt ' + card.name);
+        this.subject.next();
+    }
+    markAsBlocker(cardId) {
+        let card = this.table.getById(cardId);
+        if (!card) {
+            return;
+        }
+        card.markAsBlocker();
+        this.db.put('tables', this.id, this.table.toDto());
+        this.sendNotification('markiert ' + card.name + ' als Blocker');
         this.subject.next();
     }
     untap(cardId) {
@@ -575,7 +958,12 @@ class SelfPlayer {
         this.subject.next();
     }
     sendNotification(msg) {
-        this.db.add('messages', this.makeColored(new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' ' + this.name + ' ' + msg, ''));
+        this.db.add('messages', this.makeColored(curTime() + ' ' + this.name + ' ' + msg, ''));
+    }
+    createToken(name) {
+        let type = new CardType(name, undefined, true);
+        let card = new Card(type, this.id);
+        this.addToTable(card);
     }
 }
 class OtherPlayer {
@@ -583,45 +971,81 @@ class OtherPlayer {
         this.id = id;
         this.db = db;
         this.subject = new rxjs__WEBPACK_IMPORTED_MODULE_0__["Subject"]();
+        this.cachedGraveyard = new CardStash([]);
+        this.cachedTable = new CardStash([]);
+        db.on(['add', 'update'], 'graveyards', (playerId, content) => {
+            if (playerId === this.id) {
+                this.cachedGraveyard = this.map(content);
+                this.notifyUpdate();
+            }
+        });
+        db.on(['add', 'update'], 'tables', (playerId, content) => {
+            if (playerId === this.id) {
+                this.cachedTable = this.map(content);
+                this.notifyUpdate();
+            }
+        });
     }
+    ;
     get name() {
-        return this.db.get('playerNames', this.id);
+        var _a;
+        return (_a = this.playerData) === null || _a === void 0 ? void 0 : _a.name;
+    }
+    get orderNumber() {
+        var _a;
+        return (_a = this.playerData) === null || _a === void 0 ? void 0 : _a.orderNumber;
+    }
+    get color() {
+        var _a;
+        return (_a = this.playerData) === null || _a === void 0 ? void 0 : _a.color;
+    }
+    get playerData() {
+        return this.db.get('playerData', this.id);
     }
     get lifes() {
         return this.db.get('lifes', this.id);
     }
+    get handSize() {
+        return this.db.get('handSizes', this.id);
+    }
+    get librarySize() {
+        return this.db.get('librarySizes', this.id);
+    }
     get graveyard() {
-        return this.getCardStash('graveyards');
+        return this.cachedGraveyard;
     }
     get table() {
-        return this.getCardStash('tables');
+        return this.cachedTable;
     }
-    getCardStash(stashId) {
-        let g = this.db.get(stashId, this.id);
-        if (!g) {
-            g = [];
-        }
-        return new CardStash(g.map(x => cardFromDto(x)));
+    map(data) {
+        return new CardStash(data.map(x => cardFromDto(x)));
     }
     notifyUpdate() {
         console.log('notify update ' + this.id);
         this.subject.next();
     }
-    subscribeForUpdate(arg0) {
-        this.subject.subscribe(arg0);
+    subscribeForUpdate(arg0, destroy) {
+        this.subject.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["takeUntil"])(destroy)).subscribe(arg0);
+    }
+    hasCard(cardId) {
+        return this.table.contains(cardId);
     }
 }
 class GameField {
-    constructor(peer, ownId, ownName) {
+    constructor(peer, ownId, ownName, deck) {
         this.others = [];
-        this.db = new _distributed_database__WEBPACK_IMPORTED_MODULE_1__["DistributedDatabaseSystem"](peer, ownId);
-        this.db.on('add', 'playerNames', (id, name) => this.updatePlayer(id));
-        this.db.on('update', 'playerNames', (id, name) => this.updatePlayer(id));
+        this.db = new _distributed_database__WEBPACK_IMPORTED_MODULE_2__["DistributedDatabaseSystem"](peer, ownId);
+        this.db.on('add', 'playerData', (id, name) => this.updatePlayer(id));
+        this.db.on('update', 'playerData', (id, name) => this.updatePlayer(id));
         this.db.on('update', 'lifes', (id, cnt) => this.updatePlayer(id));
         this.db.on('update', 'graveyards', (id, cards) => this.updatePlayer(id));
         this.db.on('update', 'tables', (id, cards) => this.updatePlayer(id));
-        this.myself = new SelfPlayer(ownId, ownName, window.mrnOnline.deck, this.db);
-        this.db.put('playerNames', ownId, ownName);
+        this.myself = new SelfPlayer(ownId, ownName, deck, this.db);
+        this.db.put('playerData', ownId, {
+            name: ownName,
+            color: this.myself.color,
+            orderNumber: this.myself.orderNumber
+        });
     }
     registerMessageHandler(handler) {
         this.db.on('add', 'messages', handler);
@@ -653,29 +1077,40 @@ class GameField {
         }
     }
     nextPlayer() {
-        if (this.others.length === 0) {
+        this.ensurePlayersSorted();
+        let withLargerNumber = this.others.filter(x => x.orderNumber > this.myself.orderNumber);
+        if (withLargerNumber.length > 0) {
+            this.setCurrentPlayer(withLargerNumber[0].name);
+        }
+        else if (this.others.length === 0) {
             this.setCurrentPlayer(this.myself.name);
         }
         else {
             this.setCurrentPlayer(this.others[0].name);
         }
     }
+    get allPlayers() {
+        let ret = [this.myself, ...this.others];
+        ret.sort((a, b) => a.orderNumber - b.orderNumber);
+        return ret;
+    }
+    ensurePlayersSorted() {
+        this.others.sort((a, b) => a.orderNumber - b.orderNumber);
+    }
     setCurrentPlayer(name) {
         this.db.put('currentPlayer', 'name', name);
-        this.sendMessageRaw({ color: 'black', tc: name + ' ist am Zug', tr: '' });
+        this.sendMessageRaw({ color: 'black', tc: curTime() + ' ' + name + ' ist am Zug', tr: '' });
     }
     updatePlayer(id) {
         var _a;
+        this.ensurePlayersSorted();
         (_a = this.others.find(p => p.id === id)) === null || _a === void 0 ? void 0 : _a.notifyUpdate();
     }
     sendMessage(msg) {
-        this.sendMessageRaw(this.myself.makeColored(new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' ' + this.myself.name, msg));
+        this.sendMessageRaw(this.myself.makeColored(curTime() + ' ' + this.myself.name, msg));
     }
     sendMessageRaw(msg) {
         this.db.add('messages', msg);
-    }
-    drawCard() {
-        this.myself.drawCard();
     }
     increaseLifes() {
         this.myself.changeLifeCount(1);
@@ -683,21 +1118,21 @@ class GameField {
     decreaseLifes() {
         this.myself.changeLifeCount(-1);
     }
-    putToGraveyard(cardId) {
-        this.myself.putToGraveyard(cardId);
+    modifyOtherCard(modifierCardId, targetId) {
+        if (this.myself.hasCard(targetId)) {
+            this.myself.modifyOwnCard(modifierCardId, targetId);
+        }
+        else {
+            this.others.forEach(p => {
+                if (p.hasCard(targetId)) {
+                    this.myself.modifyOtherPlayersCard(modifierCardId, targetId, p.id);
+                }
+            });
+        }
     }
-    tap(cardId) {
-        this.myself.tap(cardId);
-    }
-    untap(cardId) {
-        this.myself.untap(cardId);
-    }
-    putIntoPlay(cardId) {
-        this.myself.putIntoPlay(cardId);
-    }
-    putIntoPlayTapped(cardId) {
-        this.myself.putIntoPlayTapped(cardId);
-    }
+}
+function curTime() {
+    return new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 }
 
 
@@ -830,6 +1265,85 @@ CardCollectionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
 
 /***/ }),
 
+/***/ "F95V":
+/*!**************************************************!*\
+  !*** ./src/app/modal-card-collection.service.ts ***!
+  \**************************************************/
+/*! exports provided: ModalCardCollectionService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalCardCollectionService", function() { return ModalCardCollectionService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var _domain_game_field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./domain/game-field */ "BuRQ");
+
+
+
+
+class ModalCardCollectionService {
+    constructor() {
+        this.collection = new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["CardBag"]([]);
+        this.name = 'coll';
+        this.act = '';
+        this.isShown = false;
+        this.closed = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+    }
+    show(cards, name, actions) {
+        this.collection = cards;
+        this.name = name;
+        this.act = actions;
+        this.isShown = true;
+    }
+}
+ModalCardCollectionService.ɵfac = function ModalCardCollectionService_Factory(t) { return new (t || ModalCardCollectionService)(); };
+ModalCardCollectionService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: ModalCardCollectionService, factory: ModalCardCollectionService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ModalCardCollectionService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return []; }, null); })();
+
+
+/***/ }),
+
+/***/ "GGrU":
+/*!*************************************!*\
+  !*** ./src/app/is-safe-url.pipe.ts ***!
+  \*************************************/
+/*! exports provided: IsSafeUrlPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IsSafeUrlPipe", function() { return IsSafeUrlPipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "jhN1");
+
+
+
+class IsSafeUrlPipe {
+    constructor(san) {
+        this.san = san;
+    }
+    transform(value, ...args) {
+        return this.san.bypassSecurityTrustUrl(value);
+    }
+}
+IsSafeUrlPipe.ɵfac = function IsSafeUrlPipe_Factory(t) { return new (t || IsSafeUrlPipe)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["DomSanitizer"])); };
+IsSafeUrlPipe.ɵpipe = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefinePipe"]({ name: "isSafeUrl", type: IsSafeUrlPipe, pure: true });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](IsSafeUrlPipe, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"],
+        args: [{
+                name: 'isSafeUrl'
+            }]
+    }], function () { return [{ type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["DomSanitizer"] }]; }, null); })();
+
+
+/***/ }),
+
 /***/ "JjPw":
 /*!************************************************!*\
   !*** ./src/app/domain/distributed-database.ts ***!
@@ -889,7 +1403,7 @@ class DistributedDatabaseSystem {
         this.time = 0;
         this.otherNames = [];
         this.others = [];
-        this.callbacks = { add: {}, update: {}, ignore: {} };
+        this.callbacks = { add: {}, update: {}, ignore: {}, receiveCommand: {} };
         this.databases = {};
     }
     connectToNode(id) {
@@ -914,6 +1428,10 @@ class DistributedDatabaseSystem {
     }
     handleData(d) {
         console.log('received: ' + JSON.stringify(d));
+        if (d.cmd) {
+            this.handleCommand(d);
+            return;
+        }
         this.time = Math.max(this.time, d.t);
         this.ensureDbExists(d.db);
         let eventType = this.databases[d.db].put(d.t, d.id, d.dta);
@@ -924,6 +1442,11 @@ class DistributedDatabaseSystem {
             this.forwardToFurtherReceivers(d);
         }
         this.establishConnectionToUnknownNodes(d);
+    }
+    handleCommand(d) {
+        if (this.callbacks['receiveCommand'][d.cmd]) {
+            this.callbacks['receiveCommand'][d.cmd](d.dta);
+        }
     }
     ensureDbExists(dbName) {
         if (!this.databases[dbName]) {
@@ -983,7 +1506,19 @@ class DistributedDatabaseSystem {
         return this.databases[database].get(id);
     }
     on(eventType, database, action) {
-        this.callbacks[eventType][database] = action;
+        if (typeof eventType !== 'string') {
+            eventType.forEach(x => this.on(x, database, action));
+        }
+        else {
+            this.callbacks[eventType][database] = action;
+        }
+    }
+    sendCommandTo(receiverId, command, data) {
+        let idx = this.otherNames.indexOf(receiverId);
+        this.others[idx].send({
+            cmd: command,
+            dta: data
+        });
     }
 }
 
@@ -1001,8 +1536,10 @@ class DistributedDatabaseSystem {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OtherPlayerComponent", function() { return OtherPlayerComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
-/* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../card-collection/card-collection.component */ "DBil");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
+/* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../card-collection/card-collection.component */ "DBil");
+
 
 
 
@@ -1011,9 +1548,13 @@ class OtherPlayerComponent {
     constructor(field, cdr) {
         this.field = field;
         this.cdr = cdr;
+        this.destroy = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
     }
     ngOnInit() {
-        this.me.subscribeForUpdate(() => this.cdr.detectChanges());
+        this.me.subscribeForUpdate(() => this.cdr.detectChanges(), this.destroy);
+    }
+    ngOnDestroy() {
+        this.destroy.next();
     }
     get name() {
         return this.me.name;
@@ -1023,6 +1564,12 @@ class OtherPlayerComponent {
     }
     get lifes() {
         return this.me.lifes;
+    }
+    get handSize() {
+        return this.me.handSize;
+    }
+    get librarySize() {
+        return this.me.librarySize;
     }
     get table() {
         return this.me.table;
@@ -1034,29 +1581,30 @@ class OtherPlayerComponent {
         return this.field.gameField.currentPlayerName === this.me.name;
     }
 }
-OtherPlayerComponent.ɵfac = function OtherPlayerComponent_Factory(t) { return new (t || OtherPlayerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_1__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"])); };
-OtherPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: OtherPlayerComponent, selectors: [["mrn-other-player"]], inputs: { me: "me" }, decls: 7, vars: 8, consts: [["name", "Ausgelegt", 3, "collection"], ["name", "Friedhof", 3, "collection", "collapsed"]], template: function OtherPlayerComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "fieldset");
+OtherPlayerComponent.ɵfac = function OtherPlayerComponent_Factory(t) { return new (t || OtherPlayerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"])); };
+OtherPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: OtherPlayerComponent, selectors: [["mrn-other-player"]], inputs: { me: "me" }, decls: 7, vars: 11, consts: [[3, "id"], ["name", "Ausgelegt", 3, "collection"], ["name", "Friedhof", 3, "collection", "collapsed"]], template: function OtherPlayerComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "fieldset", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "legend");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "br");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "mrn-card-collection", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "mrn-card-collection", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "mrn-card-collection", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "mrn-card-collection", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("id", ctx.id);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("turn", ctx.isCurrentPlayer());
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"]("", ctx.name, " (", ctx.id, ")");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.lifes, " Lebenspunkte");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate3"](" ", ctx.lifes, " Lebenspunkte, ", ctx.handSize, " Handkarten, ", ctx.librarySize, " Karten in der Bibliothek");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.table);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.graveyard)("collapsed", true);
-    } }, directives: [_card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_2__["CardCollectionComponent"]], styles: ["legend.turn[_ngcontent-%COMP%] {\n  color: red;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL290aGVyLXBsYXllci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLFVBQUE7QUFDSiIsImZpbGUiOiJvdGhlci1wbGF5ZXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJsZWdlbmQudHVybiB7XG4gICAgY29sb3I6IHJlZDtcbn1cbiJdfQ== */"] });
+    } }, directives: [_card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_3__["CardCollectionComponent"]], styles: ["legend.turn[_ngcontent-%COMP%] {\n  color: red;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL290aGVyLXBsYXllci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLFVBQUE7QUFDSiIsImZpbGUiOiJvdGhlci1wbGF5ZXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJsZWdlbmQudHVybiB7XG4gICAgY29sb3I6IHJlZDtcbn1cbiJdfQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](OtherPlayerComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -1064,7 +1612,7 @@ OtherPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
                 templateUrl: './other-player.component.html',
                 styleUrls: ['./other-player.component.scss']
             }]
-    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_1__["GameFieldStoreService"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }]; }, { me: [{
+    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }]; }, { me: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }] }); })();
 
@@ -1082,12 +1630,22 @@ OtherPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _domain_game_field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./domain/game-field */ "BuRQ");
-/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./game-field-store.service */ "c3lu");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./self-player/self-player.component */ "3Hr+");
-/* harmony import */ var _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./chat-box/chat-box.component */ "8Yrd");
-/* harmony import */ var _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./other-player/other-player.component */ "OGS3");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var _domain_game_field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./domain/game-field */ "BuRQ");
+/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./game-field-store.service */ "c3lu");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./self-player/self-player.component */ "3Hr+");
+/* harmony import */ var _card_details_card_details_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./card-details/card-details.component */ "jXAV");
+/* harmony import */ var _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./chat-box/chat-box.component */ "8Yrd");
+/* harmony import */ var _modal_card_collection_modal_card_collection_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modal-card-collection/modal-card-collection.component */ "7u39");
+/* harmony import */ var _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./other-player/other-player.component */ "OGS3");
+
+
+
+
+
 
 
 
@@ -1099,86 +1657,153 @@ __webpack_require__.r(__webpack_exports__);
 function AppComponent_ng_container_0_Template(rf, ctx) { if (rf & 1) {
     const _r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_0_Template_button_click_1_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r4); const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r3.start(); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "Start ...");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "form");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "table");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "tr");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "td");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5, "Spieler");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "td");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "input", 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngModelChange", function AppComponent_ng_container_0_Template_input_ngModelChange_7_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r4); const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r3.formData.playerName = $event; });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "tr");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "td");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10, "Deck-URL");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "td");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "input", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("ngModelChange", function AppComponent_ng_container_0_Template_input_ngModelChange_12_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r4); const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r5.formData.deckUrl = $event; });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "button", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_0_Template_button_click_13_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r4); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r6.start(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](14, "Start ...");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
+} if (rf & 2) {
+    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx_r0.formData.playerName);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx_r0.formData.deckUrl);
 } }
 function AppComponent_ng_container_1_Template(rf, ctx) { if (rf & 1) {
-    const _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    const _r8 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_1_Template_button_click_1_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r6); const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r5.waitForOthers(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_1_Template_button_click_1_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r8); const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r7.waitForOthers(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "Neues Spiel starten");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "button", 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_1_Template_button_click_3_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r6); const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r7.join(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "button", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_1_Template_button_click_3_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r8); const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r9.join(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4, "Existierendem Spiel beitreten ...");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
 } }
-function AppComponent_ng_container_2_button_1_Template(rf, ctx) { if (rf & 1) {
-    const _r12 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_button_1_Template_button_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r12); const ctx_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r11.fieldService.gameField.shuffleStartPlayer(); });
+function AppComponent_ng_container_2_button_3_Template(rf, ctx) { if (rf & 1) {
+    const _r16 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_button_3_Template_button_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r16); const ctx_r15 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r15.fieldService.gameField.shuffleStartPlayer(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "Zuf\u00E4lligen Startspieler w\u00E4hlen");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-function AppComponent_ng_container_2_button_2_Template(rf, ctx) { if (rf & 1) {
-    const _r14 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_button_2_Template_button_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r14); const ctx_r13 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r13.fieldService.gameField.nextPlayer(); });
+function AppComponent_ng_container_2_button_4_Template(rf, ctx) { if (rf & 1) {
+    const _r18 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_button_4_Template_button_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r18); const ctx_r17 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r17.fieldService.gameField.nextPlayer(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "Zug beenden");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-function AppComponent_ng_container_2_mrn_other_player_10_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "mrn-other-player", 4);
+function AppComponent_ng_container_2_ng_container_5_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "\u00A0");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "a", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
 } if (rf & 2) {
-    const p_r15 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("me", p_r15);
+    const p_r19 = ctx.$implicit;
+    const ctx_r12 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleProp"]("background-color", p_r19.color);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("activePlayer", ctx_r12.fieldService.gameField.currentPlayerName === p_r19.name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("href", "#", p_r19.id, "", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", p_r19.name, " ");
+} }
+function AppComponent_ng_container_2_mrn_other_player_15_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "mrn-other-player", 13);
+} if (rf & 2) {
+    const p_r20 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("me", p_r20);
 } }
 function AppComponent_ng_container_2_Template(rf, ctx) { if (rf & 1) {
-    const _r17 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    const _r22 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, AppComponent_ng_container_2_button_1_Template, 2, 0, "button", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, AppComponent_ng_container_2_button_2_Template, 2, 0, "button", 2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "mrn-self-player");
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "button", 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_Template_button_click_4_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r17); const ctx_r16 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r16.dice(6); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5, "W\u00FCrfel 6");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, AppComponent_ng_container_2_button_3_Template, 2, 0, "button", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, AppComponent_ng_container_2_button_4_Template, 2, 0, "button", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, AppComponent_ng_container_2_ng_container_5_Template, 4, 6, "ng-container", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6, " \u00A0 ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "button", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_Template_button_click_7_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r22); const ctx_r21 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r21.dice(6); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8, "W\u00FCrfel 6");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_Template_button_click_6_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r17); const ctx_r18 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r18.dice(10); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7, "W\u00FCrfel 10");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "button", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_Template_button_click_9_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r22); const ctx_r23 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r23.dice(10); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10, "W\u00FCrfel 10");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "button", 1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_Template_button_click_8_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r17); const ctx_r19 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r19.dice(20); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9, "W\u00FCrfel 20");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "button", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_2_Template_button_click_11_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r22); const ctx_r24 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r24.dice(20); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](12, "W\u00FCrfel 20");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](10, AppComponent_ng_container_2_mrn_other_player_10_Template, 1, 1, "mrn-other-player", 3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](11, "mrn-chat-box");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div", 8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](14, "mrn-self-player");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](15, AppComponent_ng_container_2_mrn_other_player_15_Template, 1, 1, "mrn-other-player", 9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "div", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](17, "mrn-card-details");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](18, "mrn-chat-box");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](19, "mrn-modal-card-collection", null, 11);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
 } if (rf & 2) {
     const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx_r2.fieldService.gameField.currentPlayerName);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r2.isOwnTurn());
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx_r2.fieldService.gameField.allPlayers);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](10);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx_r2.otherPlayers);
 } }
 class AppComponent {
-    constructor(fieldService, cdr) {
+    constructor(fieldService, http, cdr) {
         this.fieldService = fieldService;
+        this.http = http;
         this.title = 'mrnOnline';
         this.state = 'initial';
-        fieldService.subscribe(f => f.registerPlayerChangeHandler(() => { console.log('hallo'); cdr.detectChanges(); }));
+        this.formData = {
+            playerName: localStorage.getItem('mrnUserName'),
+            deckUrl: './assets/stubData.json'
+        };
+        this.destroy = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        fieldService.subscribe(f => f.registerPlayerChangeHandler(() => { cdr.detectChanges(); }), this.destroy);
+    }
+    ngOnDestroy() {
+        this.destroy.next();
     }
     createPeer(name) {
-        if (window.mrnOnline.gameField) {
-            return;
-        }
         //var peer = new Peer(undefined, {host: 'localhost', port: 9000, key: 'peerjs', debug: 2});
         var peer = new Peer(undefined, {});
         peer.on('error', (err) => {
@@ -1187,46 +1812,46 @@ class AppComponent {
         });
         peer.on('open', (id) => {
             //alert('My peer ID is: ' + id);
-            window.mrnOnline.gameField = new _domain_game_field__WEBPACK_IMPORTED_MODULE_1__["GameField"](peer, id, name);
-            this.fieldService.init(window.mrnOnline.gameField);
-            this.state = 'started';
+            this.loadDeckAndStart(peer, id);
         });
         peer.on('connection', (conn) => {
             //alert('Got connection ' + conn);
-            window.mrnOnline.gameField.addOtherPlayer(conn);
+            this.fieldService.gameField.addOtherPlayer(conn);
+        });
+    }
+    loadDeckAndStart(peer, playerId) {
+        this.http.get(this.formData.deckUrl).subscribe((data) => {
+            let deck = this.mapDecksAndCards(data, playerId);
+            console.log('loaded deck with ' + deck.length + ' cards');
+            this.fieldService.init(new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["GameField"](peer, playerId, this.formData.playerName, deck));
+            this.state = 'started';
         });
     }
     start() {
-        this.mapDecksAndCards();
-        let def = localStorage.getItem('mrnUserName');
-        let name = prompt('Name', def !== null ? def : undefined);
+        let name = this.formData.playerName;
         if (name) {
             localStorage.setItem('mrnUserName', name);
             this.createPeer(name);
         }
     }
-    mapDecksAndCards() {
-        let mi = {
-            cards: [],
-            deck: [],
-            gameField: undefined
-        };
-        window.mrnOnline = mi;
-        for (let i = 0; i < window.mrnData.cards.length; i++) {
-            let card = window.mrnData.cards[i];
-            window.mrnOnline.cards[card.name] = new _domain_game_field__WEBPACK_IMPORTED_MODULE_1__["CardType"](card.name, card.img);
+    mapDecksAndCards(data, peerId) {
+        let cards = {};
+        for (let i = 0; i < data.cards.length; i++) {
+            let card = data.cards[i];
+            cards[card.name] = new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["CardType"](card.name, card.img);
         }
-        let d = window.mrnData.decks[0].cards;
-        window.mrnOnline.deck = [];
+        let d = data.deck;
+        let deck = [];
         for (let i = 0; i < d.length; i++) {
             let card = d[i];
-            window.mrnOnline.deck.push(new _domain_game_field__WEBPACK_IMPORTED_MODULE_1__["Card"](window.mrnOnline.cards[card]));
+            deck.push(new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["Card"](cards[card], peerId));
         }
+        return deck;
     }
     join() {
         var other = prompt('ID des Mitspielers');
         if (other) {
-            window.mrnOnline.gameField.connectToOtherPlayer(other);
+            this.fieldService.gameField.connectToOtherPlayer(other);
             this.state = 'joined';
         }
     }
@@ -1244,18 +1869,18 @@ class AppComponent {
         return this.fieldService.gameField.others;
     }
 }
-AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"])); };
-AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 3, vars: 3, consts: [[4, "ngIf"], [3, "click"], [3, "click", 4, "ngIf"], [3, "me", 4, "ngFor", "ngForOf"], [3, "me"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, AppComponent_ng_container_0_Template, 3, 0, "ng-container", 0);
+AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_3__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"])); };
+AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 3, vars: 3, consts: [[4, "ngIf"], ["type", "text", "name", "playerName", 3, "ngModel", "ngModelChange"], ["type", "text", "name", "deckUrl", 3, "ngModel", "ngModelChange"], [3, "click"], [1, "grid-parent"], [1, "grid-top"], [3, "click", 4, "ngIf"], [4, "ngFor", "ngForOf"], [1, "grid-center"], [3, "me", 4, "ngFor", "ngForOf"], [1, "grid-right"], ["mcc", ""], [1, "playerLink", 3, "href"], [3, "me"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, AppComponent_ng_container_0_Template, 15, 2, "ng-container", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, AppComponent_ng_container_1_Template, 5, 0, "ng-container", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, AppComponent_ng_container_2_Template, 12, 3, "ng-container", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, AppComponent_ng_container_2_Template, 21, 4, "ng-container", 0);
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.state === "initial");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.state === "started");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.state === "joined");
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["NgIf"], _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_4__["SelfPlayerComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_3__["NgForOf"], _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_5__["ChatBoxComponent"], _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_6__["OtherPlayerComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcHAuY29tcG9uZW50LnNjc3MifQ== */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgForm"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgModel"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgForOf"], _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_7__["SelfPlayerComponent"], _card_details_card_details_component__WEBPACK_IMPORTED_MODULE_8__["CardDetailsComponent"], _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_9__["ChatBoxComponent"], _modal_card_collection_modal_card_collection_component__WEBPACK_IMPORTED_MODULE_10__["ModalCardCollectionComponent"], _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_11__["OtherPlayerComponent"]], styles: [".grid-parent[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-rows: 30px 1fr;\n  grid-template-columns: 1fr 250px;\n  width: 100%;\n  height: 100%;\n}\n\n.grid-top[_ngcontent-%COMP%] {\n  grid-row-start: 1;\n  grid-column-start: 1;\n}\n\n.grid-center[_ngcontent-%COMP%] {\n  grid-row-start: 2;\n  grid-column-start: 1;\n  overflow: scroll;\n}\n\n.grid-right[_ngcontent-%COMP%] {\n  grid-row-start: 1;\n  grid-row-end: span 2;\n  grid-column-start: 2;\n}\n\na.playerLink[_ngcontent-%COMP%] {\n  color: white;\n}\n\na.activePlayer[_ngcontent-%COMP%] {\n  animation-duration: 0.7s;\n  animation-name: showActive;\n  animation-iteration-count: 2;\n}\n\n@keyframes showActive {\n  0% {\n    filter: none;\n  }\n  50% {\n    filter: hue-rotate(90deg);\n  }\n  100% {\n    filter: none;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLGFBQUE7RUFDQSw0QkFBQTtFQUNBLGdDQUFBO0VBQ0EsV0FBQTtFQUNBLFlBQUE7QUFDSjs7QUFFQTtFQUNJLGlCQUFBO0VBQ0Esb0JBQUE7QUFDSjs7QUFFQTtFQUNJLGlCQUFBO0VBQ0Esb0JBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxvQkFBQTtFQUNBLG9CQUFBO0FBQ0o7O0FBRUE7RUFDSSxZQUFBO0FBQ0o7O0FBRUE7RUFDSSx3QkFBQTtFQUNBLDBCQUFBO0VBQ0EsNEJBQUE7QUFDSjs7QUFFQTtFQUNJO0lBQ0ksWUFBQTtFQUNOO0VBQ0U7SUFDSSx5QkFBQTtFQUNOO0VBQ0U7SUFDSSxZQUFBO0VBQ047QUFDRiIsImZpbGUiOiJhcHAuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZ3JpZC1wYXJlbnQge1xuICAgIGRpc3BsYXk6IGdyaWQ7XG4gICAgZ3JpZC10ZW1wbGF0ZS1yb3dzOiAzMHB4IDEuMGZyO1xuICAgIGdyaWQtdGVtcGxhdGUtY29sdW1uczogMS4wZnIgMjUwcHg7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgaGVpZ2h0OiAxMDAlO1xufVxuXG4uZ3JpZC10b3Age1xuICAgIGdyaWQtcm93LXN0YXJ0OiAxO1xuICAgIGdyaWQtY29sdW1uLXN0YXJ0OiAxO1xufVxuXG4uZ3JpZC1jZW50ZXIge1xuICAgIGdyaWQtcm93LXN0YXJ0OiAyO1xuICAgIGdyaWQtY29sdW1uLXN0YXJ0OiAxO1xuICAgIG92ZXJmbG93OiBzY3JvbGw7XG59XG5cbi5ncmlkLXJpZ2h0IHtcbiAgICBncmlkLXJvdy1zdGFydDogMTtcbiAgICBncmlkLXJvdy1lbmQ6IHNwYW4gMjtcbiAgICBncmlkLWNvbHVtbi1zdGFydDogMjtcbn1cblxuYS5wbGF5ZXJMaW5rIHtcbiAgICBjb2xvcjogd2hpdGU7XG59XG5cbmEuYWN0aXZlUGxheWVyIHtcbiAgICBhbmltYXRpb24tZHVyYXRpb246IDAuN3M7XG4gICAgYW5pbWF0aW9uLW5hbWU6IHNob3dBY3RpdmU7XG4gICAgYW5pbWF0aW9uLWl0ZXJhdGlvbi1jb3VudDogMjtcbn1cblxuQGtleWZyYW1lcyBzaG93QWN0aXZlIHtcbiAgICAwJSB7XG4gICAgICAgIGZpbHRlcjogbm9uZTtcbiAgICB9XG4gICAgNTAlIHtcbiAgICAgICAgZmlsdGVyOiBodWUtcm90YXRlKDkwZGVnKTtcbiAgICB9XG4gICAgMTAwJSB7XG4gICAgICAgIGZpbHRlcjogbm9uZTtcbiAgICB9XG59Il19 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AppComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -1263,7 +1888,7 @@ AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCompo
                 templateUrl: './app.component.html',
                 styleUrls: ['./app.component.scss']
             }]
-    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }]; }, null); })();
+    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_3__["GameFieldStoreService"] }, { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }]; }, null); })();
 
 
 /***/ }),
@@ -1280,13 +1905,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser */ "jhN1");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app-routing.module */ "vY5A");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.component */ "Sy1n");
-/* harmony import */ var _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./chat-box/chat-box.component */ "8Yrd");
-/* harmony import */ var _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./self-player/self-player.component */ "3Hr+");
-/* harmony import */ var _card_card_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./card/card.component */ "mJ8H");
-/* harmony import */ var _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./other-player/other-player.component */ "OGS3");
-/* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./card-collection/card-collection.component */ "DBil");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app-routing.module */ "vY5A");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "Sy1n");
+/* harmony import */ var _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./chat-box/chat-box.component */ "8Yrd");
+/* harmony import */ var _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./self-player/self-player.component */ "3Hr+");
+/* harmony import */ var _card_card_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./card/card.component */ "mJ8H");
+/* harmony import */ var _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./other-player/other-player.component */ "OGS3");
+/* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./card-collection/card-collection.component */ "DBil");
+/* harmony import */ var _card_details_card_details_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./card-details/card-details.component */ "jXAV");
+/* harmony import */ var _modal_card_collection_modal_card_collection_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modal-card-collection/modal-card-collection.component */ "7u39");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _is_safe_url_pipe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./is-safe-url.pipe */ "GGrU");
+
+
+
+
+
 
 
 
@@ -1299,35 +1934,47 @@ __webpack_require__.r(__webpack_exports__);
 
 class AppModule {
 }
-AppModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({ type: AppModule, bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]] });
+AppModule.ɵmod = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineNgModule"]({ type: AppModule, bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]] });
 AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector"]({ factory: function AppModule_Factory(t) { return new (t || AppModule)(); }, providers: [], imports: [[
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-            _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"]
+            _angular_forms__WEBPACK_IMPORTED_MODULE_12__["FormsModule"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
+            _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"]
         ]] });
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
-        _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_4__["ChatBoxComponent"],
-        _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_5__["SelfPlayerComponent"],
-        _card_card_component__WEBPACK_IMPORTED_MODULE_6__["CardComponent"],
-        _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_7__["OtherPlayerComponent"],
-        _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_8__["CardCollectionComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-        _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"]] }); })();
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
+        _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_5__["ChatBoxComponent"],
+        _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_6__["SelfPlayerComponent"],
+        _card_card_component__WEBPACK_IMPORTED_MODULE_7__["CardComponent"],
+        _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_8__["OtherPlayerComponent"],
+        _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_9__["CardCollectionComponent"],
+        _card_details_card_details_component__WEBPACK_IMPORTED_MODULE_10__["CardDetailsComponent"],
+        _modal_card_collection_modal_card_collection_component__WEBPACK_IMPORTED_MODULE_11__["ModalCardCollectionComponent"],
+        _is_safe_url_pipe__WEBPACK_IMPORTED_MODULE_13__["IsSafeUrlPipe"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+        _angular_forms__WEBPACK_IMPORTED_MODULE_12__["FormsModule"],
+        _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
+        _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"]] }); })();
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](AppModule, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"],
         args: [{
                 declarations: [
-                    _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
-                    _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_4__["ChatBoxComponent"],
-                    _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_5__["SelfPlayerComponent"],
-                    _card_card_component__WEBPACK_IMPORTED_MODULE_6__["CardComponent"],
-                    _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_7__["OtherPlayerComponent"],
-                    _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_8__["CardCollectionComponent"]
+                    _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
+                    _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_5__["ChatBoxComponent"],
+                    _self_player_self_player_component__WEBPACK_IMPORTED_MODULE_6__["SelfPlayerComponent"],
+                    _card_card_component__WEBPACK_IMPORTED_MODULE_7__["CardComponent"],
+                    _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_8__["OtherPlayerComponent"],
+                    _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_9__["CardCollectionComponent"],
+                    _card_details_card_details_component__WEBPACK_IMPORTED_MODULE_10__["CardDetailsComponent"],
+                    _modal_card_collection_modal_card_collection_component__WEBPACK_IMPORTED_MODULE_11__["ModalCardCollectionComponent"],
+                    _is_safe_url_pipe__WEBPACK_IMPORTED_MODULE_13__["IsSafeUrlPipe"]
                 ],
                 imports: [
                     _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-                    _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"]
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_12__["FormsModule"],
+                    _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"],
+                    _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"]
                 ],
                 providers: [],
-                bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
+                bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
             }]
     }], null, null); })();
 
@@ -1346,6 +1993,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameFieldStoreService", function() { return GameFieldStoreService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
+
 
 
 
@@ -1359,8 +2008,10 @@ class GameFieldStoreService {
     init(f) {
         this.store.next(f);
     }
-    subscribe(handler) {
-        this.store.subscribe(x => {
+    subscribe(handler, destroy) {
+        this.store
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(destroy))
+            .subscribe(x => {
             if (x) {
                 handler(x);
             }
@@ -1370,6 +2021,99 @@ class GameFieldStoreService {
 GameFieldStoreService.ɵfac = function GameFieldStoreService_Factory(t) { return new (t || GameFieldStoreService)(); };
 GameFieldStoreService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: GameFieldStoreService, factory: GameFieldStoreService.ɵfac, providedIn: 'root' });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](GameFieldStoreService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return []; }, null); })();
+
+
+/***/ }),
+
+/***/ "jXAV":
+/*!********************************************************!*\
+  !*** ./src/app/card-details/card-details.component.ts ***!
+  \********************************************************/
+/*! exports provided: CardDetailsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CardDetailsComponent", function() { return CardDetailsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var _domain_game_field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../domain/game-field */ "BuRQ");
+/* harmony import */ var _hovered_card_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hovered-card.service */ "m6ay");
+
+
+
+
+
+class CardDetailsComponent {
+    constructor(hc) {
+        this.hc = hc;
+        this.destroy = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        this.current = new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["CardType"]('MRN', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/9/a9f9c279-e382-4feb-9575-196e7cf5d7dc.jpg?1562799139');
+        this.hc.subscribe(c => this.current = c.type, this.destroy);
+    }
+    ngOnInit() {
+    }
+    ngOnDestroy() {
+        this.destroy.next();
+    }
+}
+CardDetailsComponent.ɵfac = function CardDetailsComponent_Factory(t) { return new (t || CardDetailsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_hovered_card_service__WEBPACK_IMPORTED_MODULE_3__["HoveredCardService"])); };
+CardDetailsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: CardDetailsComponent, selectors: [["mrn-card-details"]], decls: 1, vars: 2, consts: [["id", "largeCard", "width", "240px", 3, "src", "title"]], template: function CardDetailsComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "img", 0);
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("src", ctx.current.img, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("title", ctx.current.name);
+    } }, styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjYXJkLWRldGFpbHMuY29tcG9uZW50LnNjc3MifQ== */"] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](CardDetailsComponent, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
+        args: [{
+                selector: 'mrn-card-details',
+                templateUrl: './card-details.component.html',
+                styleUrls: ['./card-details.component.scss']
+            }]
+    }], function () { return [{ type: _hovered_card_service__WEBPACK_IMPORTED_MODULE_3__["HoveredCardService"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "m6ay":
+/*!*****************************************!*\
+  !*** ./src/app/hovered-card.service.ts ***!
+  \*****************************************/
+/*! exports provided: HoveredCardService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HoveredCardService", function() { return HoveredCardService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "kU1M");
+
+
+
+
+class HoveredCardService {
+    constructor() {
+        this.store = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+    }
+    setCard(c) {
+        this.store.next(c);
+    }
+    subscribe(handler, destroy) {
+        this.store
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["takeUntil"])(destroy))
+            .subscribe(handler);
+    }
+}
+HoveredCardService.ɵfac = function HoveredCardService_Factory(t) { return new (t || HoveredCardService)(); };
+HoveredCardService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: HoveredCardService, factory: HoveredCardService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](HoveredCardService, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
         args: [{
                 providedIn: 'root'
@@ -1390,88 +2134,233 @@ GameFieldStoreService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵd
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CardComponent", function() { return CardComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var _domain_game_field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../domain/game-field */ "BuRQ");
+/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
+/* harmony import */ var _hovered_card_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../hovered-card.service */ "m6ay");
+/* harmony import */ var _card_action_mode_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../card-action-mode.service */ "9Lk1");
+/* harmony import */ var _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal-card-collection.service */ "F95V");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _is_safe_url_pipe__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../is-safe-url.pipe */ "GGrU");
 
 
 
 
-function CardComponent_a_3_Template(rf, ctx) { if (rf & 1) {
-    const _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_a_3_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r6); const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r5.gameField.tap(ctx_r5.card.id); });
+
+
+
+
+
+
+function CardComponent_img_2_Template(rf, ctx) { if (rf & 1) {
+    const _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "img", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("mouseover", function CardComponent_img_2_Template_img_mouseover_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r5); const m_r3 = ctx.$implicit; const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r4.hover(m_r3); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](1, "isSafeUrl");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const m_r3 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("title", m_r3.name);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("src", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](1, 2, m_r3.img), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
+} }
+function CardComponent_ng_container_6_a_1_Template(rf, ctx) { if (rf & 1) {
+    const _r18 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_1_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r18); const ctx_r17 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r17.gameField.myself.tap(ctx_r17.card.id); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "tappen");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-function CardComponent_a_4_Template(rf, ctx) { if (rf & 1) {
-    const _r8 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_a_4_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r8); const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r7.gameField.untap(ctx_r7.card.id); });
+function CardComponent_ng_container_6_a_2_Template(rf, ctx) { if (rf & 1) {
+    const _r20 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_2_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r20); const ctx_r19 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r19.gameField.myself.markAsBlocker(ctx_r19.card.id); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "als Blocker markieren");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
+function CardComponent_ng_container_6_a_3_Template(rf, ctx) { if (rf & 1) {
+    const _r22 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_3_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r22); const ctx_r21 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r21.gameField.myself.untap(ctx_r21.card.id); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "enttappen");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-function CardComponent_a_5_Template(rf, ctx) { if (rf & 1) {
-    const _r10 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_a_5_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r10); const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r9.gameField.putIntoPlay(ctx_r9.card.id); });
+function CardComponent_ng_container_6_a_4_Template(rf, ctx) { if (rf & 1) {
+    const _r24 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_4_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r24); const ctx_r23 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r23.gameField.myself.putIntoPlay(ctx_r23.card.id); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "ins Spiel bringen");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-function CardComponent_a_6_Template(rf, ctx) { if (rf & 1) {
-    const _r12 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_a_6_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r12); const ctx_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r11.gameField.putIntoPlayTapped(ctx_r11.card.id); });
+function CardComponent_ng_container_6_a_5_Template(rf, ctx) { if (rf & 1) {
+    const _r26 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_5_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r26); const ctx_r25 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r25.gameField.myself.putIntoPlayTapped(ctx_r25.card.id); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "getappt ins Spiel bringen");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-function CardComponent_a_7_Template(rf, ctx) { if (rf & 1) {
-    const _r14 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_a_7_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r14); const ctx_r13 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r13.gameField.putToGraveyard(ctx_r13.card.id); });
+function CardComponent_ng_container_6_a_6_Template(rf, ctx) { if (rf & 1) {
+    const _r28 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_6_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r28); const ctx_r27 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r27.modifyOtherCard(ctx_r27.card.id); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "auf andere Karte legen");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
+function CardComponent_ng_container_6_a_7_Template(rf, ctx) { if (rf & 1) {
+    const _r30 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_7_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r30); const ctx_r29 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r29.gameField.myself.putToGraveyard(ctx_r29.card.id); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "auf Friedhof legen");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
+function CardComponent_ng_container_6_a_8_Template(rf, ctx) { if (rf & 1) {
+    const _r32 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_8_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r32); const ctx_r31 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r31.gameField.myself.putToExile(ctx_r31.card.id); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "ganz aus dem Spiel nehmen");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
+function CardComponent_ng_container_6_a_9_Template(rf, ctx) { if (rf & 1) {
+    const _r34 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_9_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r34); const ctx_r33 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r33.gameField.myself.drawCard(ctx_r33.card.id); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "ziehen");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
+function CardComponent_ng_container_6_a_10_Template(rf, ctx) { if (rf & 1) {
+    const _r36 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_10_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r36); const ctx_r35 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r35.gameField.myself.putToHand(ctx_r35.card.id); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "zur\u00FCck auf die Hand nehmen");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
+function CardComponent_ng_container_6_a_11_Template(rf, ctx) { if (rf & 1) {
+    const _r38 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_6_a_11_Template_a_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r38); const ctx_r37 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](2); return ctx_r37.openStack(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "Einzelkarten auff\u00E4chern");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} }
+function CardComponent_ng_container_6_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CardComponent_ng_container_6_a_1_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CardComponent_ng_container_6_a_2_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, CardComponent_ng_container_6_a_3_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, CardComponent_ng_container_6_a_4_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, CardComponent_ng_container_6_a_5_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, CardComponent_ng_container_6_a_6_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, CardComponent_ng_container_6_a_7_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, CardComponent_ng_container_6_a_8_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](9, CardComponent_ng_container_6_a_9_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](10, CardComponent_ng_container_6_a_10_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](11, CardComponent_ng_container_6_a_11_Template, 2, 0, "a", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
+} if (rf & 2) {
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("TA") && !ctx_r1.card.tapped);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("BL") && ctx_r1.card.normal);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("UT") && !ctx_r1.card.normal);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("PL"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("PT"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("MO") && !ctx_r1.card.isModified);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("GR"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("EX"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("DR"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.act.includes("HA"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r1.card.isModified);
+} }
+function CardComponent_ng_container_7_Template(rf, ctx) { if (rf & 1) {
+    const _r40 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "a", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_ng_container_7_Template_a_click_1_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r40); const ctx_r39 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r39.modifyTargetSelected(ctx_r39.card.id); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "als Ziel ausw\u00E4hlen");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
+} }
 class CardComponent {
-    constructor(field) {
+    constructor(field, hc, mode, cdr, mcc) {
         this.field = field;
+        this.hc = hc;
+        this.mode = mode;
+        this.cdr = cdr;
+        this.mcc = mcc;
         this.act = '';
         this.large = false;
+        this.destroy = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        mode.subscribe(() => cdr.detectChanges(), this.destroy);
     }
     ngOnInit() {
+    }
+    ngOnDestroy() {
+        this.destroy.next();
     }
     get gameField() {
         return this.field.gameField;
     }
+    hover(c) {
+        this.hc.setCard(c);
+    }
+    modifyOtherCard(cardId) {
+        this.mode.selectForModify(cardId);
+    }
+    get isModifyMode() {
+        return this.mode.isModifyMode;
+    }
+    modifyTargetSelected(targetId) {
+        if (this.mode.savedId !== targetId) {
+            this.gameField.modifyOtherCard(this.mode.savedId, targetId);
+        }
+        this.mode.normalMode();
+    }
+    openStack() {
+        let cards = new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["CardBag"](this.card.modifiers);
+        this.mcc.show(cards, 'Kartendetails', this.intersectActions(['HA', 'GR', 'EX', 'PL']));
+    }
+    intersectActions(otherActions) {
+        return otherActions
+            .filter(s => this.act.indexOf(s) >= 0)
+            .join(',');
+    }
 }
-CardComponent.ɵfac = function CardComponent_Factory(t) { return new (t || CardComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_1__["GameFieldStoreService"])); };
-CardComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: CardComponent, selectors: [["mrn-card"]], inputs: { card: "card", act: "act" }, decls: 8, vars: 10, consts: [[1, "dropdown"], [1, "card", 3, "src", "click"], [1, "dropdown-content"], [3, "click", 4, "ngIf"], [3, "click"]], template: function CardComponent_Template(rf, ctx) { if (rf & 1) {
+CardComponent.ɵfac = function CardComponent_Factory(t) { return new (t || CardComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_3__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_hovered_card_service__WEBPACK_IMPORTED_MODULE_4__["HoveredCardService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_card_action_mode_service__WEBPACK_IMPORTED_MODULE_5__["CardActionModeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_modal_card_collection_service__WEBPACK_IMPORTED_MODULE_6__["ModalCardCollectionService"])); };
+CardComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: CardComponent, selectors: [["mrn-card"]], inputs: { card: "card", act: "act" }, decls: 8, vars: 11, consts: [[1, "dropdown"], [1, "cardStack"], ["class", "card", 3, "src", "title", "mouseover", 4, "ngFor", "ngForOf"], [1, "card", 3, "src", "title", "mouseover"], [1, "dropdown-content"], [4, "ngIf"], [3, "click", 4, "ngIf"], [3, "click"]], template: function CardComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "img", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function CardComponent_Template_img_click_1_listener() { return ctx.large = !ctx.large; });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CardComponent_img_2_Template, 2, 4, "img", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "img", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("mouseover", function CardComponent_Template_img_mouseover_3_listener() { return ctx.hover(ctx.card); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipe"](4, "isSafeUrl");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, CardComponent_a_3_Template, 2, 0, "a", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](4, CardComponent_a_4_Template, 2, 0, "a", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](5, CardComponent_a_5_Template, 2, 0, "a", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, CardComponent_a_6_Template, 2, 0, "a", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, CardComponent_a_7_Template, 2, 0, "a", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, CardComponent_ng_container_6_Template, 12, 11, "ng-container", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, CardComponent_ng_container_7_Template, 3, 0, "ng-container", 5);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("tapped", ctx.card.tapped)("large", ctx.large);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("src", ctx.card.img, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.act.includes("TA") && !ctx.card.tapped);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("tapped", ctx.card.tapped)("blocker", ctx.card.markedAsBlocker);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.act.includes("UT") && ctx.card.tapped);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.card.reversedModifiers);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.act.includes("PL"));
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("title", ctx.card.name);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("src", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](4, 9, ctx.card.img), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsanitizeUrl"]);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx.isModifyMode);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.act.includes("PT"));
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.act.includes("GR"));
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"]], styles: [".tapped[_ngcontent-%COMP%] {\n  transform: rotate(90deg);\n}\n\nimg.card[_ngcontent-%COMP%] {\n  width: 120px;\n}\n\nimg.card.large[_ngcontent-%COMP%] {\n  width: 240px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NhcmQuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSx3QkFBQTtBQUNKOztBQUVBO0VBQ0ksWUFBQTtBQUNKOztBQUVBO0VBQ0ksWUFBQTtBQUNKIiwiZmlsZSI6ImNhcmQuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudGFwcGVkIHtcbiAgICB0cmFuc2Zvcm06IHJvdGF0ZSg5MGRlZyk7XG59XG5cbmltZy5jYXJkIHtcbiAgICB3aWR0aDogMTIwcHg7XG59XG5cbmltZy5jYXJkLmxhcmdlIHtcbiAgICB3aWR0aDogMjQwcHg7XG59Il19 */"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.isModifyMode);
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_7__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgIf"]], pipes: [_is_safe_url_pipe__WEBPACK_IMPORTED_MODULE_8__["IsSafeUrlPipe"]], styles: [".tapped[_ngcontent-%COMP%] {\n  transform: rotate(90deg);\n}\n\n.blocker[_ngcontent-%COMP%] {\n  transform: rotate(30deg);\n}\n\nimg.card[_ngcontent-%COMP%] {\n  width: 120px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:nth-last-child(2) {\n  padding-left: 10px;\n  padding-bottom: 20px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:nth-last-child(3) {\n  padding-left: 20px;\n  padding-bottom: 40px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:nth-last-child(4) {\n  padding-left: 30px;\n  padding-bottom: 60px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:nth-last-child(5) {\n  padding-left: 40px;\n  padding-bottom: 80px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:nth-last-child(6) {\n  padding-left: 50px;\n  padding-bottom: 100px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:nth-last-child(7) {\n  padding-left: 60px;\n  padding-bottom: 120px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:nth-last-child(8) {\n  padding-left: 70px;\n  padding-bottom: 140px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:nth-last-child(9) {\n  padding-left: 80px;\n  padding-bottom: 160px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:nth-last-child(10) {\n  padding-left: 90px;\n  padding-bottom: 180px;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:first-child {\n  position: relative;\n}\n\n.cardStack[_ngcontent-%COMP%]   img[_ngcontent-%COMP%]:not(:first-child) {\n  position: absolute;\n  left: 0px;\n  bottom: 0px;\n}\n\n\n\n.dropdown[_ngcontent-%COMP%] {\n  position: relative;\n  display: inline-block;\n}\n\n\n\n.dropdown-content[_ngcontent-%COMP%] {\n  display: none;\n  position: absolute;\n  top: 10px;\n  left: 60px;\n  background-color: #f1f1f1;\n  min-width: 160px;\n  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);\n  z-index: 1;\n}\n\n\n\n.dropdown-content[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  color: black;\n  padding: 5px 5px;\n  text-decoration: none;\n  display: block;\n}\n\n\n\n.dropdown-content[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\n  background-color: #ddd;\n}\n\n\n\n.dropdown[_ngcontent-%COMP%]:hover   .dropdown-content[_ngcontent-%COMP%] {\n  display: block;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NhcmQuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSx3QkFBQTtBQUNKOztBQUVBO0VBQ0ksd0JBQUE7QUFDSjs7QUFFQTtFQUNJLFlBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0VBQ0Esb0JBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0VBQ0Esb0JBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0VBQ0Esb0JBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0VBQ0Esb0JBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0VBQ0EscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGtCQUFBO0FBQ0o7O0FBRUE7RUFDSSxrQkFBQTtFQUNBLFNBQUE7RUFDQSxXQUFBO0FBQ0o7O0FBRUEsa0VBQUE7O0FBQ0E7RUFDSSxrQkFBQTtFQUNBLHFCQUFBO0FBQ0o7O0FBQ0EseUNBQUE7O0FBQ0E7RUFDSSxhQUFBO0VBQ0Esa0JBQUE7RUFDQSxTQUFBO0VBQ0EsVUFBQTtFQUNBLHlCQUFBO0VBQ0EsZ0JBQUE7RUFDQSwrQ0FBQTtFQUNBLFVBQUE7QUFFSjs7QUFBQSw4QkFBQTs7QUFDQTtFQUNJLFlBQUE7RUFDQSxnQkFBQTtFQUNBLHFCQUFBO0VBQ0EsY0FBQTtBQUdKOztBQURBLDRDQUFBOztBQUNBO0VBQTJCLHNCQUFBO0FBSzNCOztBQUpBLG9DQUFBOztBQUNBO0VBQW1DLGNBQUE7QUFRbkMiLCJmaWxlIjoiY2FyZC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi50YXBwZWQge1xuICAgIHRyYW5zZm9ybTogcm90YXRlKDkwZGVnKTtcbn1cblxuLmJsb2NrZXIge1xuICAgIHRyYW5zZm9ybTogcm90YXRlKDMwZGVnKTtcbn1cblxuaW1nLmNhcmQge1xuICAgIHdpZHRoOiAxMjBweDtcbn1cblxuLmNhcmRTdGFjayBpbWc6bnRoLWxhc3QtY2hpbGQoMikge1xuICAgIHBhZGRpbmctbGVmdDogMTBweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogMjBweDtcbn1cblxuLmNhcmRTdGFjayBpbWc6bnRoLWxhc3QtY2hpbGQoMykge1xuICAgIHBhZGRpbmctbGVmdDogMjBweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogNDBweDtcbn1cblxuLmNhcmRTdGFjayBpbWc6bnRoLWxhc3QtY2hpbGQoNCkge1xuICAgIHBhZGRpbmctbGVmdDogMzBweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogNjBweDtcbn1cblxuLmNhcmRTdGFjayBpbWc6bnRoLWxhc3QtY2hpbGQoNSkge1xuICAgIHBhZGRpbmctbGVmdDogNDBweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogODBweDtcbn1cblxuLmNhcmRTdGFjayBpbWc6bnRoLWxhc3QtY2hpbGQoNikge1xuICAgIHBhZGRpbmctbGVmdDogNTBweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogMTAwcHg7XG59XG5cbi5jYXJkU3RhY2sgaW1nOm50aC1sYXN0LWNoaWxkKDcpIHtcbiAgICBwYWRkaW5nLWxlZnQ6IDYwcHg7XG4gICAgcGFkZGluZy1ib3R0b206IDEyMHB4O1xufVxuXG4uY2FyZFN0YWNrIGltZzpudGgtbGFzdC1jaGlsZCg4KSB7XG4gICAgcGFkZGluZy1sZWZ0OiA3MHB4O1xuICAgIHBhZGRpbmctYm90dG9tOiAxNDBweDtcbn1cblxuLmNhcmRTdGFjayBpbWc6bnRoLWxhc3QtY2hpbGQoOSkge1xuICAgIHBhZGRpbmctbGVmdDogODBweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogMTYwcHg7XG59XG5cbi5jYXJkU3RhY2sgaW1nOm50aC1sYXN0LWNoaWxkKDEwKSB7XG4gICAgcGFkZGluZy1sZWZ0OiA5MHB4O1xuICAgIHBhZGRpbmctYm90dG9tOiAxODBweDtcbn1cblxuLmNhcmRTdGFjayBpbWc6Zmlyc3QtY2hpbGQge1xuICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbn1cblxuLmNhcmRTdGFjayBpbWc6bm90KDpmaXJzdC1jaGlsZCkge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBsZWZ0OiAwcHg7XG4gICAgYm90dG9tOiAwcHg7XG59XG5cbi8qIFRoZSBjb250YWluZXIgPGRpdj4gLSBuZWVkZWQgdG8gcG9zaXRpb24gdGhlIGRyb3Bkb3duIGNvbnRlbnQgKi9cbi5kcm9wZG93biB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbn0gIFxuLyogRHJvcGRvd24gQ29udGVudCAoSGlkZGVuIGJ5IERlZmF1bHQpICovXG4uZHJvcGRvd24tY29udGVudCB7XG4gICAgZGlzcGxheTogbm9uZTtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAxMHB4O1xuICAgIGxlZnQ6IDYwcHg7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2YxZjFmMTtcbiAgICBtaW4td2lkdGg6IDE2MHB4O1xuICAgIGJveC1zaGFkb3c6IDBweCA4cHggMTZweCAwcHggcmdiYSgwLDAsMCwwLjIpO1xuICAgIHotaW5kZXg6IDE7XG59XG4vKiBMaW5rcyBpbnNpZGUgdGhlIGRyb3Bkb3duICovXG4uZHJvcGRvd24tY29udGVudCBhIHtcbiAgICBjb2xvcjogYmxhY2s7XG4gICAgcGFkZGluZzogNXB4IDVweDtcbiAgICB0ZXh0LWRlY29yYXRpb246IG5vbmU7XG4gICAgZGlzcGxheTogYmxvY2s7XG59XG4vKiBDaGFuZ2UgY29sb3Igb2YgZHJvcGRvd24gbGlua3Mgb24gaG92ZXIgKi9cbi5kcm9wZG93bi1jb250ZW50IGE6aG92ZXIge2JhY2tncm91bmQtY29sb3I6ICNkZGQ7fVxuLyogU2hvdyB0aGUgZHJvcGRvd24gbWVudSBvbiBob3ZlciAqL1xuLmRyb3Bkb3duOmhvdmVyIC5kcm9wZG93bi1jb250ZW50IHtkaXNwbGF5OiBibG9jazt9XG4iXX0= */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](CardComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -1479,7 +2368,7 @@ CardComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComp
                 templateUrl: './card.component.html',
                 styleUrls: ['./card.component.scss']
             }]
-    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_1__["GameFieldStoreService"] }]; }, { card: [{
+    }], function () { return [{ type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_3__["GameFieldStoreService"] }, { type: _hovered_card_service__WEBPACK_IMPORTED_MODULE_4__["HoveredCardService"] }, { type: _card_action_mode_service__WEBPACK_IMPORTED_MODULE_5__["CardActionModeService"] }, { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"] }, { type: _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_6__["ModalCardCollectionService"] }]; }, { card: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }], act: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
