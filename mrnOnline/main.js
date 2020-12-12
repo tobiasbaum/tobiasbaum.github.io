@@ -1110,6 +1110,7 @@ class SelfPlayer {
             this.sendNotification('legt ' + this.cardName(cardId) + ' oben auf die Bibliothek');
         }
         this.localLibrary.putOnTop(cardId);
+        this.cardCache.setDirty();
         this.db.put('librarySizes', this.name, this.library.size);
         this.subject.next();
     }
