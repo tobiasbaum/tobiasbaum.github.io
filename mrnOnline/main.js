@@ -186,7 +186,7 @@ class SelfPlayerComponent {
             this.gameField.myself.sendNotification('schließt die Bibliothek');
             subscr.unsubscribe();
         });
-        this.mcc.show(this.gameField.myself.library, 'Bibliothek', 'DR,PL,PT,GR');
+        this.mcc.show(() => this.gameField.myself.library, 'Bibliothek', 'DR,PL,PT,GR');
     }
     shuffleLibrary() {
         this.gameField.myself.shuffleLibrary();
@@ -248,9 +248,14 @@ SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalCardCollectionComponent", function() { return ModalCardCollectionComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modal-card-collection.service */ "F95V");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../card-collection/card-collection.component */ "DBil");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+/* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../card-collection/card-collection.component */ "DBil");
+/* harmony import */ var _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal-card-collection.service */ "F95V");
+/* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
+
+
+
 
 
 
@@ -270,26 +275,36 @@ function ModalCardCollectionComponent_div_0_Template(rf, ctx) { if (rf & 1) {
 } if (rf & 2) {
     const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("name", ctx_r0.service.name)("collection", ctx_r0.service.collection)("act", ctx_r0.service.act);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("name", ctx_r0.service.name)("collection", ctx_r0.service.collection())("act", ctx_r0.service.act);
 } }
 class ModalCardCollectionComponent {
-    constructor(service) {
+    constructor(service, field) {
         this.service = service;
-        service;
+        this.field = field;
+        this.destroy = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        field.subscribe((f) => f.myself.subscribeForUpdate(() => this.cc.collection = service.collection()), this.destroy);
     }
     ngOnInit() {
+    }
+    ngOnDestroy() {
+        this.destroy.next();
     }
     hide() {
         this.service.isShown = false;
         this.service.closed.next();
     }
 }
-ModalCardCollectionComponent.ɵfac = function ModalCardCollectionComponent_Factory(t) { return new (t || ModalCardCollectionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_modal_card_collection_service__WEBPACK_IMPORTED_MODULE_1__["ModalCardCollectionService"])); };
-ModalCardCollectionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ModalCardCollectionComponent, selectors: [["mrn-modal-card-collection"]], decls: 1, vars: 1, consts: [["class", "glass-pane", 4, "ngIf"], [1, "glass-pane"], [1, "content-pane"], [3, "click"], [3, "name", "collection", "act"]], template: function ModalCardCollectionComponent_Template(rf, ctx) { if (rf & 1) {
+ModalCardCollectionComponent.ɵfac = function ModalCardCollectionComponent_Factory(t) { return new (t || ModalCardCollectionComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_modal_card_collection_service__WEBPACK_IMPORTED_MODULE_3__["ModalCardCollectionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_4__["GameFieldStoreService"])); };
+ModalCardCollectionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ModalCardCollectionComponent, selectors: [["mrn-modal-card-collection"]], viewQuery: function ModalCardCollectionComponent_Query(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵviewQuery"](_card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_2__["CardCollectionComponent"], true);
+    } if (rf & 2) {
+        let _t;
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.cc = _t.first);
+    } }, decls: 1, vars: 1, consts: [["class", "glass-pane", 4, "ngIf"], [1, "glass-pane"], [1, "content-pane"], [3, "click"], [3, "name", "collection", "act"]], template: function ModalCardCollectionComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, ModalCardCollectionComponent_div_0_Template, 5, 3, "div", 0);
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.service.isShown);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["NgIf"], _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_3__["CardCollectionComponent"]], styles: ["div.glass-pane[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  z-index: 10;\n  position: fixed;\n  top: 0;\n  left: 0;\n  margin: 0;\n  padding: 0;\n  background: rgba(1, 1, 1, 0.6);\n  overflow: scroll;\n}\n\ndiv.content-pane[_ngcontent-%COMP%] {\n  padding: 20px 240px 20px 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL21vZGFsLWNhcmQtY29sbGVjdGlvbi5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLFdBQUE7RUFDQSxZQUFBO0VBQ0EsV0FBQTtFQUNBLGVBQUE7RUFDQSxNQUFBO0VBQ0EsT0FBQTtFQUNBLFNBQUE7RUFDQSxVQUFBO0VBQ0EsOEJBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBQ0ksNkJBQUE7QUFDSiIsImZpbGUiOiJtb2RhbC1jYXJkLWNvbGxlY3Rpb24uY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJkaXYuZ2xhc3MtcGFuZSB7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgaGVpZ2h0OiAxMDAlO1xuICAgIHotaW5kZXg6IDEwO1xuICAgIHBvc2l0aW9uOiBmaXhlZDtcbiAgICB0b3A6IDA7XG4gICAgbGVmdDogMDtcbiAgICBtYXJnaW46IDA7XG4gICAgcGFkZGluZzogMDtcbiAgICBiYWNrZ3JvdW5kOiByZ2JhKDEsIDEsIDEsIDAuNik7XG4gICAgb3ZlcmZsb3c6IHNjcm9sbDtcbn1cblxuZGl2LmNvbnRlbnQtcGFuZSB7XG4gICAgcGFkZGluZzogMjBweCAyNDBweCAyMHB4IDIwcHg7XG59Il19 */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"], _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_2__["CardCollectionComponent"]], styles: ["div.glass-pane[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n  z-index: 10;\n  position: fixed;\n  top: 0;\n  left: 0;\n  margin: 0;\n  padding: 0;\n  background: rgba(1, 1, 1, 0.6);\n  overflow: scroll;\n}\n\ndiv.content-pane[_ngcontent-%COMP%] {\n  padding: 20px 240px 20px 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL21vZGFsLWNhcmQtY29sbGVjdGlvbi5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLFdBQUE7RUFDQSxZQUFBO0VBQ0EsV0FBQTtFQUNBLGVBQUE7RUFDQSxNQUFBO0VBQ0EsT0FBQTtFQUNBLFNBQUE7RUFDQSxVQUFBO0VBQ0EsOEJBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBQ0ksNkJBQUE7QUFDSiIsImZpbGUiOiJtb2RhbC1jYXJkLWNvbGxlY3Rpb24uY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJkaXYuZ2xhc3MtcGFuZSB7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgaGVpZ2h0OiAxMDAlO1xuICAgIHotaW5kZXg6IDEwO1xuICAgIHBvc2l0aW9uOiBmaXhlZDtcbiAgICB0b3A6IDA7XG4gICAgbGVmdDogMDtcbiAgICBtYXJnaW46IDA7XG4gICAgcGFkZGluZzogMDtcbiAgICBiYWNrZ3JvdW5kOiByZ2JhKDEsIDEsIDEsIDAuNik7XG4gICAgb3ZlcmZsb3c6IHNjcm9sbDtcbn1cblxuZGl2LmNvbnRlbnQtcGFuZSB7XG4gICAgcGFkZGluZzogMjBweCAyNDBweCAyMHB4IDIwcHg7XG59Il19 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ModalCardCollectionComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -297,7 +312,10 @@ ModalCardCollectionComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__[
                 templateUrl: './modal-card-collection.component.html',
                 styleUrls: ['./modal-card-collection.component.scss']
             }]
-    }], function () { return [{ type: _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_1__["ModalCardCollectionService"] }]; }, null); })();
+    }], function () { return [{ type: _modal_card_collection_service__WEBPACK_IMPORTED_MODULE_3__["ModalCardCollectionService"] }, { type: _game_field_store_service__WEBPACK_IMPORTED_MODULE_4__["GameFieldStoreService"] }]; }, { cc: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"],
+            args: [_card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_2__["CardCollectionComponent"]]
+        }] }); })();
 
 
 /***/ }),
@@ -653,6 +671,13 @@ class LocalLibrary {
         this.store();
         return ret;
     }
+    removeIfContained(cardId) {
+        let idx = this.content.indexOf(cardId);
+        if (idx > 0) {
+            this.content.splice(idx, 1);
+            this.store();
+        }
+    }
     putOnTop(cardId) {
         this.content.unshift(cardId);
         this.store();
@@ -986,8 +1011,7 @@ class SelfPlayer {
             this.sendNotification('kann nicht ziehen');
             return;
         }
-        let c = this.cardCache.get().getOrCreateCard(cardId);
-        this.addToHand(c);
+        this.addToHand(cardId);
         this.db.put('librarySizes', this.name, this.library.size);
         this.sendNotification('zieht eine Karte');
         this.subject.next();
@@ -997,14 +1021,15 @@ class SelfPlayer {
         this.localLibrary.shuffle();
         this.cardCache.setDirty();
     }
-    addToHand(c) {
-        this.writeCardData(c.id, {
+    addToHand(cardId) {
+        this.writeCardData(cardId, {
             state: CardState.Normal,
             locationType: LocationType.LIBRARY_OR_HAND,
             locationPlayer: this.name,
             locationData: undefined,
             counter: undefined
         });
+        this.localLibrary.removeIfContained(cardId);
         this.db.put('handSizes', this.name, this.hand.size);
     }
     writeCardData(cardId, mcd) {
@@ -1034,6 +1059,7 @@ class SelfPlayer {
             locationData: this.graveyardCounter--,
             counter: undefined
         });
+        this.localLibrary.removeIfContained(card.id);
         if (card.type.token) {
             this.sendNotification('Token ' + card.name + ' verschwindet');
         }
@@ -1066,6 +1092,7 @@ class SelfPlayer {
             locationData: undefined,
             counter: undefined
         });
+        this.localLibrary.removeIfContained(cardId);
         this.sendNotification('spielt ' + this.cardName(cardId) + ' aus');
         this.subject.next();
     }
@@ -1080,17 +1107,12 @@ class SelfPlayer {
             locationData: undefined,
             counter: undefined
         });
+        this.localLibrary.removeIfContained(cardId);
         this.sendNotification('spielt ' + this.cardName(cardId) + ' getappt aus');
         this.subject.next();
     }
     putToHand(cardId) {
-        this.writeCardData(cardId, {
-            state: CardState.Normal,
-            locationType: LocationType.LIBRARY_OR_HAND,
-            locationPlayer: this.name,
-            locationData: undefined,
-            counter: undefined
-        });
+        this.addToHand(cardId);
         this.sendNotification('nimmt ' + this.cardName(cardId) + ' auf die Hand');
         this.subject.next();
     }
@@ -1148,6 +1170,7 @@ class SelfPlayer {
             locationData: undefined,
             counter: card.counter
         });
+        this.localLibrary.removeIfContained(card.id);
         this.subject.next();
     }
     tap(cardId) {
@@ -1328,12 +1351,19 @@ class GameField {
         this.myself.modifyCard(modifierCardId, targetId);
     }
     endGameForPlayer(nameOrId) {
-        this.allActivePlayers.forEach(p => {
+        [this.myself, ...this.others].forEach(p => {
             if (p.id === nameOrId || p.name === nameOrId) {
-                this.db.put('endedPlayers', p.name, true);
+                let oldState = this.db.get('endedPlayers', p.name);
+                if (oldState) {
+                    this.db.put('endedPlayers', p.name, false);
+                    this.sendGlobalNotification(p.name + ' tritt wieder ins Spiel ein');
+                }
+                else {
+                    this.db.put('endedPlayers', p.name, true);
+                    this.sendGlobalNotification(p.name + ' verlässt das Spiel');
+                }
             }
         });
-        this.sendGlobalNotification(nameOrId + ' verlässt das Spiel');
     }
 }
 function curTime() {
@@ -1520,7 +1550,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class ModalCardCollectionService {
     constructor() {
-        this.collection = new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["CardBag"]([]);
+        this.collection = () => new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["CardBag"]([]);
         this.name = 'coll';
         this.act = '';
         this.isShown = false;
@@ -2078,8 +2108,8 @@ function AppComponent_ng_container_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8, "W\u00FCrfel 6");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "button", 3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_1_Template_button_click_9_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r22); const ctx_r23 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r23.dice(20); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10, "W\u00FCrfel 20");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_1_Template_button_click_9_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r22); const ctx_r23 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r23.diceX(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10, "W\u00FCrfel X ...");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "button", 3);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function AppComponent_ng_container_1_Template_button_click_11_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r22); const ctx_r24 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r24.randomOpponent(); });
@@ -2222,6 +2252,12 @@ class AppComponent {
     }
     continueGame() {
         this.start(undefined, false);
+    }
+    diceX() {
+        let x = prompt('Anzahl Seiten', '20');
+        if (x) {
+            this.dice(parseInt(x));
+        }
     }
     dice(sides) {
         let n = Math.floor(Math.random() * sides) + 1;
@@ -2732,8 +2768,7 @@ class CardComponent {
         this.mode.normalMode();
     }
     openStack() {
-        let cards = new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["CardBag"](this.card.modifiers);
-        this.mcc.show(cards, 'Kartendetails', this.intersectActions(['HA', 'GR', 'EX', 'PL']));
+        this.mcc.show(() => new _domain_game_field__WEBPACK_IMPORTED_MODULE_2__["CardBag"](this.card.modifiers), 'Kartendetails', this.intersectActions(['HA', 'GR', 'EX', 'PL']));
     }
     intersectActions(otherActions) {
         return otherActions
