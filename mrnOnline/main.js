@@ -41,7 +41,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function SelfPlayerComponent_ng_container_6_Template(rf, ctx) { if (rf & 1) {
+function SelfPlayerComponent_ng_container_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "a", 56);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
@@ -64,30 +64,32 @@ function SelfPlayerComponent_ng_container_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("[", p_r5.lifes, "]");
 } }
-function SelfPlayerComponent_input_7_Template(rf, ctx) { if (rf & 1) {
+function SelfPlayerComponent_input_10_Template(rf, ctx) { if (rf & 1) {
     const _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "input", 58);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_input_7_Template_input_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r7); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r6.field.gameField.shuffleStartPlayer(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_input_10_Template_input_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r7); const ctx_r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r6.field.gameField.shuffleStartPlayer(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-function SelfPlayerComponent_input_8_Template(rf, ctx) { if (rf & 1) {
+function SelfPlayerComponent_input_11_Template(rf, ctx) { if (rf & 1) {
     const _r9 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "input", 59);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_input_8_Template_input_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r9); const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r8.field.gameField.nextPlayer(); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_input_11_Template_input_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r9); const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"](); return ctx_r8.field.gameField.nextPlayer(); });
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-function SelfPlayerComponent_mrn_card_collection_55_Template(rf, ctx) { if (rf & 1) {
+function SelfPlayerComponent_mrn_card_collection_58_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "mrn-card-collection", 60);
 } if (rf & 2) {
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx_r3.exile)("act", "GR")("collapsed", true);
 } }
-function SelfPlayerComponent_td_74_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "td", 61);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "mrn-other-player", 62);
+function SelfPlayerComponent_td_78_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "td");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "mrn-other-player", 61);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const p_r10 = ctx.$implicit;
+    const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate1"]("width: ", ctx_r4.gamefieldWidth, "px; ");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("me", p_r10);
 } }
@@ -141,6 +143,9 @@ class SelfPlayerComponent {
     }
     drawCard() {
         this.field.gameField.myself.drawCard();
+    }
+    discardAtRandom() {
+        this.field.gameField.myself.discardAtRandom();
     }
     decreaseLifes() {
         this.field.gameField.decreaseLifes();
@@ -236,16 +241,34 @@ class SelfPlayerComponent {
             this.field.gameField.connectToOtherPlayer(other);
         }
     }
-    get opponentTableWidth() {
-        return (this.field.gameField.allActivePlayers.length - 1) * 100;
-    }
     copyID() {
         navigator.clipboard.writeText(this.id);
-        alert('ID' + this.id + 'wurde in die Zwischenablage kopiert');
+        alert('ID ' + this.id + 'wurde in die Zwischenablage kopiert');
+    }
+    get tableWidth() {
+        return window.innerWidth - 22;
+    }
+    get tableHeight() {
+        return window.innerHeight - 1;
+    }
+    get headerWidth() {
+        return ((window.innerWidth - (250 + 502 + 222)) - 20);
+    }
+    get mainHeight() {
+        return window.innerHeight - 52;
+    }
+    get gamefieldWidth() {
+        return window.innerWidth - 272;
+    }
+    get gamefieldHeight() {
+        return (((window.innerHeight - 54) / 2) - 2);
+    }
+    get opponentTableWidth() {
+        return ((this.field.gameField.allActivePlayers.length - 1) * (window.innerWidth - 272));
     }
 }
 SelfPlayerComponent.ɵfac = function SelfPlayerComponent_Factory(t) { return new (t || SelfPlayerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_modal_card_collection_service__WEBPACK_IMPORTED_MODULE_3__["ModalCardCollectionService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"])); };
-SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: SelfPlayerComponent, selectors: [["mrn-self-player"]], decls: 80, vars: 21, consts: [["cellpadding", "0", "cellspacing", "0", "width", "100%", "height", "100%", 2, "border", "solid 1px #000000"], [1, "selfName"], [4, "ngFor", "ngForOf"], ["type", "button", "style", "width:32px; height:32px; margin-top: 3px; background-image:url('./assets/start_30x30.png')", "title", "zuf\u00E4lligen Startspieler bestimmen", 3, "click", 4, "ngIf"], ["type", "button", "style", "width:32px; height:32px; margin-top: 3px; background-image:url('./assets/end_turn_30x30.png')", "title", "Zug beenden", 3, "click", 4, "ngIf"], ["type", "button", "title", "mit 6er W\u00FCrfel w\u00FCrfeln", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/wuerfel_6_30x30.png')", 3, "click"], ["type", "button", "title", "mit Xer W\u00FCrfel w\u00FCrfeln", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/wuerfel_x_30x30.png')", 3, "click"], ["type", "button", "title", "zuf\u00E4lligen Gegner w\u00FCrfeln", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/wuerfel_gegner_30x30.png')", 3, "click"], ["type", "button", "title", "Spieler aus Spiel nehmen", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/drop_player_30x30.png')", 3, "click"], ["type", "button", "title", "erneut verbinden", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/reconnect_30x30.png')", 3, "click"], [2, "width", "4%"], ["valign", "bottom"], ["rowspan", "2", "height", "100%"], ["cellpadding", "0", "cellspacing", "0", 2, "width", "250px"], ["colspan", "6", 2, "text-align", "center"], ["valign", "top"], ["rowspan", "2", 2, "width", "63px", "font-size", "40px", "text-align", "center"], [2, "width", "58px", "height", "57px", "text-align", "center", "position", "absolute", "background-color", "#9df34c", "border", "solid 1px #000000", "margin-left", "2px"], ["title", "Anzahl Giftmarken", 2, "width", "60px", "text-align", "center", "position", "absolute", "margin-top", "6px"], [2, "width", "31px", "font-size", "20px", "text-align", "center"], ["type", "button", "title", "Giftmarken um 1 erh\u00F6hen", 2, "width", "27px", "height", "27px", "margin-left", "1px", "background-image", "url('./assets/add_life_25x25.png')", 3, "click"], ["type", "button", "title", "Giftmarken um X erh\u00F6hen", 2, "width", "27px", "height", "27px", "margin-left", "0px", "background-image", "url('./assets/add_x_life_25x25.png')", 3, "click"], ["rowspan", "2", 2, "width", "63px", "height", "64px", "font-size", "40px", "text-align", "center"], [2, "width", "58px", "height", "57px", "text-align", "center", "position", "absolute", "background-color", "#FFFFFF", "border", "solid 1px #000000", "margin-left", "2px"], ["title", "Lebenspunkte", 2, "width", "60px", "text-align", "center", "position", "absolute", "margin-top", "6px"], [2, "width", "31px", "height", "32px", "text-align", "center"], ["type", "button", "title", "Lebenspunkte um 1 erh\u00F6hen", 2, "width", "27px", "height", "27px", "margin-left", "1px", "background-image", "url('./assets/add_life_25x25.png')", 3, "click"], [2, "width", "31px", "text-align", "center"], ["type", "button", "title", "Lebenspunkte um X erh\u00F6hen", 2, "width", "27px", "height", "27px", "margin-left", "0px", "background-image", "url('./assets/add_x_life_25x25.png')", 3, "click"], ["type", "button", "title", "Giftmarken um 1 verringern", 2, "width", "27px", "height", "27px", "margin-left", "1px", "background-image", "url('./assets/drop_life_25x25.png')", 3, "click"], ["type", "button", "title", "Giftmarken um X verringern", 2, "width", "27px", "height", "27px", "margin-left", "0px", "background-image", "url('./assets/drop_x_life_25x25.png')", 3, "click"], [2, "width", "31px", "height", "32px", "font-size", "20px", "text-align", "center"], ["type", "button", "title", "Lebenspunkte um 1 verringern", 2, "width", "27px", "height", "27px", "margin-left", "1px", "background-image", "url('./assets/drop_life_25x25.png')", 3, "click"], ["type", "button", "title", "Lebenspunkte um X verringern", 2, "width", "27px", "height", "27px", "margin-left", "0px", "background-image", "url('./assets/drop_x_life_25x25.png')", 3, "click"], ["colspan", "3", 2, "width", "125px"], [2, "width", "120px", "height", "168px", "text-align", "center", "position", "relative", "background-color", "#C4C4C4", "margin-bottom", "0px", "margin-left", "2px"], [2, "width", "120px", "text-align", "center", "position", "absolute"], ["name", "Friedhof", 3, "collection", "act", "collapsed"], ["name", "Aus dem Spiel", 3, "collection", "act", "collapsed", 4, "ngIf"], [2, "width", "120px", "height", "168px", "position", "relative", "background-image", "url('./assets/magic_card_back.jpg')", "margin-bottom", "0px", "margin-left", "2px"], [2, "width", "120px", "position", "absolute", "color", "#FFFFFF"], ["type", "text", "readonly", "", 2, "width", "30px", "height", "30px", "margin-left", "27px", "margin-top", "100px", "padding", "0px", "position", "absolute", "color", "#00FF00", "text-align", "center", "font-weight", "bold", "font-size", "15px", "background-image", "url('./assets/card_count_30x30.png')", 3, "value", "title"], ["type", "button", "title", "Karte ziehen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "61px", "margin-top", "100px", "background-image", "url('./assets/draw_card_30x30.png')", 3, "click"], ["type", "button", "title", "Bibliothek durchsuchen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "27px", "margin-top", "66px", "background-image", "url('./assets/search_library_30x30.png')", 3, "click"], ["type", "button", "title", "Bibliothek mischen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "61px", "margin-top", "66px", "background-image", "url('./assets/shuffle_library_30x30.png')", 3, "click"], ["colspan", "6", 2, "height", "32px"], ["type", "button", "title", "Token erstellen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "154px", "background-image", "url('./assets/add_token_30x30.png')", 3, "click"], ["type", "button", "title", "Alles enttappen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "188px", "background-image", "url('./assets/untap_all_30x30.png')", 3, "click"], ["type", "button", "title", "ID kopieren", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "2px", "background-image", "url('./assets/copy_id_30x30.png')", 3, "click"], [2, "width", "max-content", "height", "32px", "position", "relative", "margin-left", "36px", "font-weight", "bold", "font-size", "12px", "line-height", "32px"], ["colspan", "2", "width", "100%", "height", "47%", 2, "background-color", "#FFFFFF"], ["width", "100%", 2, "height", "100%", "padding", "0px", "margin-bottom", "0px", "overflow-y", "auto", "border", "1px solid #000000", "overflow-x", "auto", "min-height", "0.01%"], ["cellpadding", "0", "cellspacing", "0", 3, "width"], ["width", "5000", 4, "ngFor", "ngForOf"], ["name", "Ausgelegt", 3, "collection", "act"], ["name", "Hand", 3, "collection", "act"], [1, "playerLink", 3, "href"], [2, "font-size", "11px"], ["type", "button", "title", "zuf\u00E4lligen Startspieler bestimmen", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/start_30x30.png')", 3, "click"], ["type", "button", "title", "Zug beenden", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/end_turn_30x30.png')", 3, "click"], ["name", "Aus dem Spiel", 3, "collection", "act", "collapsed"], ["width", "5000"], [3, "me"]], template: function SelfPlayerComponent_Template(rf, ctx) { if (rf & 1) {
+SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: SelfPlayerComponent, selectors: [["mrn-self-player"]], decls: 84, vars: 52, consts: [["cellpadding", "0", "cellspacing", "0"], [1, "selfName", 2, "width", "250px", "height", "46px", "font-size", "30px", "text-align", "center"], [4, "ngFor", "ngForOf"], [2, "width", "222px", "font-size", "12px"], ["type", "button", "style", "width:32px; height:32px; margin-top: 3px; background-image:url('./assets/start_30x30.png')", "title", "zuf\u00E4lligen Startspieler bestimmen", 3, "click", 4, "ngIf"], ["type", "button", "style", "width:32px; height:32px; margin-top: 3px; background-image:url('./assets/end_turn_30x30.png')", "title", "Zug beenden", 3, "click", 4, "ngIf"], ["type", "button", "title", "mit 6er W\u00FCrfel w\u00FCrfeln", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/wuerfel_6_30x30.png')", 3, "click"], ["type", "button", "title", "mit Xer W\u00FCrfel w\u00FCrfeln", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/wuerfel_x_30x30.png')", 3, "click"], ["type", "button", "title", "zuf\u00E4lligen Gegner w\u00FCrfeln", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/wuerfel_gegner_30x30.png')", 3, "click"], ["type", "button", "title", "Spieler aus Spiel nehmen", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/drop_player_30x30.png')", 3, "click"], ["type", "button", "title", "erneut verbinden", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/reconnect_30x30.png')", 3, "click"], [2, "width", "502px"], ["valign", "bottom"], ["rowspan", "2"], ["cellpadding", "0", "cellspacing", "0", 2, "width", "250px"], ["colspan", "6", 2, "text-align", "center"], ["valign", "top"], ["rowspan", "2", 2, "width", "63px", "font-size", "40px", "text-align", "center"], [2, "width", "58px", "height", "57px", "text-align", "center", "position", "absolute", "background-color", "#FFFFFF", "border", "solid 1px #000000", "background-image", "url('./assets/snake_grey_58x57.png')", "margin-left", "2px"], ["title", "Anzahl Giftmarken", 2, "width", "60px", "text-align", "center", "position", "absolute", "margin-top", "6px"], [2, "width", "31px", "font-size", "20px", "text-align", "center"], ["type", "button", "title", "Giftmarken um 1 erh\u00F6hen", 2, "width", "27px", "height", "27px", "margin-left", "1px", "background-image", "url('./assets/add_poison_25x25.png')", 3, "click"], ["type", "button", "title", "Giftmarken um X erh\u00F6hen", 2, "width", "27px", "height", "27px", "margin-left", "0px", "background-image", "url('./assets/add_x_poison_25x25.png')", 3, "click"], ["rowspan", "2", 2, "width", "63px", "height", "64px", "font-size", "40px", "text-align", "center"], [2, "width", "58px", "height", "57px", "text-align", "center", "position", "absolute", "background-color", "#FFFFFF", "border", "solid 1px #000000", "margin-left", "2px"], ["title", "Lebenspunkte", 2, "width", "60px", "text-align", "center", "position", "absolute", "margin-top", "6px"], [2, "width", "31px", "height", "32px", "text-align", "center"], ["type", "button", "title", "Lebenspunkte um 1 erh\u00F6hen", 2, "width", "27px", "height", "27px", "margin-left", "1px", "background-image", "url('./assets/add_life_25x25.png')", 3, "click"], [2, "width", "31px", "text-align", "center"], ["type", "button", "title", "Lebenspunkte um X erh\u00F6hen", 2, "width", "27px", "height", "27px", "margin-left", "0px", "background-image", "url('./assets/add_x_life_25x25.png')", 3, "click"], ["type", "button", "title", "Giftmarken um 1 verringern", 2, "width", "27px", "height", "27px", "margin-left", "1px", "background-image", "url('./assets/drop_poison_25x25.png')", 3, "click"], ["type", "button", "title", "Giftmarken um X verringern", 2, "width", "27px", "height", "27px", "margin-left", "0px", "background-image", "url('./assets/drop_x_poison_25x25.png')", 3, "click"], [2, "width", "31px", "height", "32px", "font-size", "20px", "text-align", "center"], ["type", "button", "title", "Lebenspunkte um 1 verringern", 2, "width", "27px", "height", "27px", "margin-left", "1px", "background-image", "url('./assets/drop_life_25x25.png')", 3, "click"], ["type", "button", "title", "Lebenspunkte um X verringern", 2, "width", "27px", "height", "27px", "margin-left", "0px", "background-image", "url('./assets/drop_x_life_25x25.png')", 3, "click"], ["colspan", "3", 2, "width", "125px"], [2, "width", "120px", "height", "168px", "text-align", "center", "position", "relative", "background-color", "#C4C4C4", "margin-bottom", "0px", "margin-left", "2px"], [2, "width", "120px", "text-align", "center", "position", "absolute"], ["name", "Friedhof", 3, "collection", "act", "collapsed"], ["name", "Aus dem Spiel", 3, "collection", "act", "collapsed", 4, "ngIf"], [2, "width", "120px", "height", "168px", "position", "relative", "background-image", "url('./assets/magic_card_back.jpg')", "margin-bottom", "0px", "margin-left", "2px"], [2, "width", "120px", "position", "absolute", "color", "#FFFFFF"], ["type", "text", "readonly", "", 2, "width", "30px", "height", "30px", "margin-left", "27px", "margin-top", "100px", "padding", "0px", "position", "absolute", "color", "#FFDF00", "text-align", "center", "font-weight", "bold", "font-size", "15px", "background-image", "url('./assets/card_count_30x30.png')", 3, "value", "title"], ["type", "button", "title", "Karte ziehen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "61px", "margin-top", "100px", "background-image", "url('./assets/draw_card_30x30.png')", 3, "click"], ["type", "button", "title", "Bibliothek durchsuchen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "27px", "margin-top", "66px", "background-image", "url('./assets/search_library_30x30.png')", 3, "click"], ["type", "button", "title", "Bibliothek mischen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "61px", "margin-top", "66px", "background-image", "url('./assets/shuffle_library_30x30.png')", 3, "click"], ["colspan", "6", 2, "height", "32px"], ["type", "button", "title", "Token erstellen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "171px", "margin-top", "2px", "background-image", "url('./assets/add_token_30x30.png')", 3, "click"], ["type", "button", "title", "Alles enttappen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "205px", "margin-top", "2px", "background-image", "url('./assets/untap_all_30x30.png')", 3, "click"], ["type", "button", "title", "ID kopieren", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "2px", "margin-top", "2px", "background-image", "url('./assets/copy_id_30x30.png')", 3, "click"], ["type", "button", "title", "Zuf\u00E4llige Karte von der Hand abwerfen", 2, "width", "32px", "height", "32px", "position", "absolute", "margin-left", "137px", "margin-top", "2px", "background-image", "url('./assets/drop_at_random_30x30.png')", 3, "click"], [2, "width", "max-content", "height", "32px", "position", "relative", "margin-left", "36px", "margin-top", "2px", "font-weight", "bold", "font-size", "12px", "line-height", "32px"], ["colspan", "3"], [3, "style", 4, "ngFor", "ngForOf"], ["name", "Ausgelegt", 3, "collection", "act"], ["name", "Hand", 3, "collection", "act"], [1, "playerLink", 3, "href"], [2, "font-size", "11px"], ["type", "button", "title", "zuf\u00E4lligen Startspieler bestimmen", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/start_30x30.png')", 3, "click"], ["type", "button", "title", "Zug beenden", 2, "width", "32px", "height", "32px", "margin-top", "3px", "background-image", "url('./assets/end_turn_30x30.png')", 3, "click"], ["name", "Aus dem Spiel", 3, "collection", "act", "collapsed"], [3, "me"]], template: function SelfPlayerComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "table", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "tr");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "td", 1);
@@ -254,172 +277,187 @@ SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "td");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](6, SelfPlayerComponent_ng_container_6_Template, 7, 7, "ng-container", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, SelfPlayerComponent_input_7_Template, 1, 0, "input", 3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](8, SelfPlayerComponent_input_8_Template, 1, 0, "input", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, SelfPlayerComponent_ng_container_7_Template, 7, 7, "ng-container", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "td", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9, " \u00A0 ");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "input", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_10_listener() { return ctx.dice(6); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](10, SelfPlayerComponent_input_10_Template, 1, 0, "input", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](11, SelfPlayerComponent_input_11_Template, 1, 0, "input", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](12, " \u00A0 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "input", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_13_listener() { return ctx.dice(6); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "input", 6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_11_listener() { return ctx.diceX(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "input", 7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_14_listener() { return ctx.diceX(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "input", 7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_12_listener() { return ctx.randomOpponent(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "input", 8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_15_listener() { return ctx.randomOpponent(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](13, " \u00A0 ");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "input", 8);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_14_listener() { return ctx.endGameForPlayer(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](16, " \u00A0 ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "input", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_17_listener() { return ctx.endGameForPlayer(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "input", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_15_listener() { return ctx.addConnection(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "td", 10);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](17, "mrn-chat-box");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "tr", 11);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](19, "td", 12);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](20, "table", 13);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "tr");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](22, "td", 14);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](23, "mrn-card-details");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "input", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_18_listener() { return ctx.addConnection(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](24, "tr", 15);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](25, "td", 16);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](26, "div", 17);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](27, "div", 18);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](19, "td", 11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](20, "mrn-chat-box");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "td", 19);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](30, "input", 20);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_30_listener() { return ctx.increasePoisonCount(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](31, "td", 19);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](32, "input", 21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_32_listener() { return ctx.multiPoisonIncrease(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "tr", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](22, "td", 13);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](23, "table", 14);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](24, "tr");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](25, "td", 15);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](26, "mrn-card-details");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](33, "td", 22);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](34, "div", 23);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](35, "div", 24);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](36);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](27, "tr", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](28, "td", 17);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "div", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](30, "div", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](31);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](37, "td", 25);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](38, "input", 26);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_38_listener() { return ctx.increaseLifes(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](32, "td", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](33, "input", 21);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_33_listener() { return ctx.increasePoisonCount(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](39, "td", 27);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](40, "input", 28);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_40_listener() { return ctx.multiLifeIncrease(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](34, "td", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](35, "input", 22);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_35_listener() { return ctx.multiPoisonIncrease(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](36, "td", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](37, "div", 24);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](38, "div", 25);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](39);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](41, "tr");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](42, "td", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](40, "td", 26);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](41, "input", 27);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_41_listener() { return ctx.increaseLifes(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](42, "td", 28);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](43, "input", 29);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_43_listener() { return ctx.decreasePoisonCount(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](44, "td", 19);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](45, "input", 30);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_45_listener() { return ctx.multiPoisonDecrease(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](46, "td", 31);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](47, "input", 32);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_47_listener() { return ctx.decreaseLifes(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](48, "td", 19);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](49, "input", 33);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_49_listener() { return ctx.multiLifeDecrease(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_43_listener() { return ctx.multiLifeIncrease(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](50, "tr");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](51, "td", 34);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](52, "div", 35);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](53, "div", 36);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](54, "mrn-card-collection", 37);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](55, SelfPlayerComponent_mrn_card_collection_55_Template, 1, 3, "mrn-card-collection", 38);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](44, "tr");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](45, "td", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](46, "input", 30);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_46_listener() { return ctx.decreasePoisonCount(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](47, "td", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](48, "input", 31);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_48_listener() { return ctx.multiPoisonDecrease(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](49, "td", 32);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](50, "input", 33);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_50_listener() { return ctx.decreaseLifes(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](51, "td", 20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](52, "input", 34);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_52_listener() { return ctx.multiLifeDecrease(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](56, "td", 34);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](57, "div", 39);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](58, "div", 40);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](59, "input", 41);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](60, "input", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_60_listener() { return ctx.drawCard(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](61, "input", 43);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_61_listener() { return ctx.openLibrary(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](62, "input", 44);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_62_listener() { return ctx.shuffleLibrary(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](53, "tr");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](54, "td", 35);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](55, "div", 36);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](56, "div", 37);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](57, "mrn-card-collection", 38);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](58, SelfPlayerComponent_mrn_card_collection_58_Template, 1, 3, "mrn-card-collection", 39);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](59, "td", 35);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](60, "div", 40);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](61, "div", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](62, "input", 42);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](63, "input", 43);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_63_listener() { return ctx.drawCard(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](64, "input", 44);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_64_listener() { return ctx.openLibrary(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](63, "tr", 15);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](64, "td", 45);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](65, "input", 46);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_65_listener() { return ctx.createToken(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](66, "input", 47);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_66_listener() { return ctx.untapAll(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](67, "input", 48);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_67_listener() { return ctx.copyID(); });
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](68, "div", 49);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](69);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](65, "input", 45);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_65_listener() { return ctx.shuffleLibrary(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](70, "td", 50);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](71, "div", 51);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](72, "table", 52);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](73, "tr", 15);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](74, SelfPlayerComponent_td_74_Template, 2, 1, "td", 53);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](66, "tr", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](67, "td", 46);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](68, "input", 47);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_68_listener() { return ctx.createToken(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](69, "input", 48);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_69_listener() { return ctx.untapAll(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](70, "input", 49);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_70_listener() { return ctx.copyID(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](71, "input", 50);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function SelfPlayerComponent_Template_input_click_71_listener() { return ctx.discardAtRandom(); });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](72, "div", 51);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](73);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](75, "tr");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](76, "td", 50);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](77, "div", 51);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](78, "mrn-card-collection", 54);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](79, "mrn-card-collection", 55);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](74, "td", 52);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](75, "div");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](76, "table", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](77, "tr", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](78, SelfPlayerComponent_td_78_Template, 2, 4, "td", 53);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](79, "tr");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](80, "td", 52);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](81, "div");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](82, "mrn-card-collection", 54);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](83, "mrn-card-collection", 55);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate2"]("width: ", ctx.tableWidth, "px; height: ", ctx.tableHeight, "px; ");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵclassProp"]("selfActive", ctx.isOwnTurn());
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.name);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.field.gameField.allActivePlayers);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate1"]("width:", ctx.headerWidth, "px; ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate1"]("white-space: nowrap; width:", ctx.headerWidth, "px; height: 46px; overflow-x: auto ; overflow-y: hidden; min-width: 0.01%;");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.field.gameField.allActivePlayers);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", !ctx.field.gameField.currentPlayerName);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.isOwnTurn());
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate1"]("height:", ctx.mainHeight, "px; ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](9);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.poisonCount, " ");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](8);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.lifes, " ");
@@ -430,17 +468,25 @@ SelfPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("value", ctx.librarySize());
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("title", "", ctx.librarySize(), " Karten in der Bibliothek");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](11);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.id);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("width", "", ctx.opponentTableWidth, "%");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate2"]("width: ", ctx.gamefieldWidth, "px; height: ", ctx.gamefieldHeight, "px ;");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate2"]("width: ", ctx.gamefieldWidth, "px; height: ", ctx.gamefieldHeight, "px; padding: 0px; margin-bottom: 0px; overflow-y: auto; border: 1px solid #000000;overflow-x: auto;min-height: 0.01%; background-color: #FFFFFF;");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate1"]("width: ", ctx.opponentTableWidth, "px");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.otherPlayers);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate2"]("width: ", ctx.gamefieldWidth, "px; height: ", ctx.gamefieldHeight, "px; ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate2"]("width: ", ctx.gamefieldWidth, "px; height: ", ctx.gamefieldHeight, "px; padding: 0px;margin-bottom: 0px;overflow-y: auto; border: 1px solid #000000;overflow-x: auto;min-height: 0.01%; background-color: #FFFFFF;");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.table)("act", "TA,UT,BL,GR,EX,HA,MO,CO,LI");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.hand)("act", "PL,PT,GR,EX,LI");
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"], _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_5__["ChatBoxComponent"], _card_details_card_details_component__WEBPACK_IMPORTED_MODULE_6__["CardDetailsComponent"], _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_7__["CardCollectionComponent"], _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_8__["OtherPlayerComponent"]], styles: ["legend.turn[_ngcontent-%COMP%] {\n  color: red;\n}\n\n.grid-parent[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-rows: 30px 1fr;\n  grid-template-columns: 1fr 250px;\n  width: 100%;\n  height: 100%;\n}\n\n.grid-top[_ngcontent-%COMP%] {\n  grid-row-start: 1;\n  grid-column-start: 1;\n}\n\n.grid-center[_ngcontent-%COMP%] {\n  grid-row-start: 2;\n  grid-column-start: 1;\n  overflow: scroll;\n}\n\n.grid-right[_ngcontent-%COMP%] {\n  grid-row-start: 1;\n  grid-row-end: span 2;\n  grid-column-start: 2;\n}\n\na.playerLink[_ngcontent-%COMP%] {\n  display: inline-block;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  margin-top: 3px;\n  margin-bottom: 3px;\n  border: solid 1px #000000;\n  padding: 3px;\n  color: white;\n  text-decoration: none;\n  font-size: 16px;\n  text-align: center;\n}\n\ntd.selfName[_ngcontent-%COMP%] {\n  font-size: 30px;\n  width: 10%;\n  height: 6%;\n  text-align: center;\n  color: white;\n}\n\ntd.selfName.selfActive[_ngcontent-%COMP%] {\n  color: red;\n}\n\na.activePlayer[_ngcontent-%COMP%] {\n  border: dashed 1px #000000;\n  animation-duration: 0.7s;\n  animation-name: showActive;\n  animation-iteration-count: 2;\n}\n\n@keyframes showActive {\n  0% {\n    filter: none;\n  }\n  50% {\n    filter: hue-rotate(90deg);\n  }\n  100% {\n    filter: none;\n  }\n}\n\nbutton[_ngcontent-%COMP%] {\n  background-color: #FFFFFF;\n  border: solid 1px #000000;\n}\n\nbutton[_ngcontent-%COMP%]:hover {\n  background-color: #C4C4C4;\n  cursor: pointer;\n}\n\ninput[_ngcontent-%COMP%] {\n  background-color: #FFFFFF;\n  border: solid 1px #000000;\n}\n\ninput[_ngcontent-%COMP%]:hover {\n  background-color: #C4C4C4;\n  cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NlbGYtcGxheWVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksVUFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLDRCQUFBO0VBQ0EsZ0NBQUE7RUFDQSxXQUFBO0VBQ0EsWUFBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxvQkFBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxvQkFBQTtFQUNBLGdCQUFBO0FBQ0o7O0FBRUE7RUFDSSxpQkFBQTtFQUNBLG9CQUFBO0VBQ0Esb0JBQUE7QUFDSjs7QUFFQTtFQUNJLHFCQUFBO0VBQ0EsMEJBQUE7RUFBQSx1QkFBQTtFQUFBLGtCQUFBO0VBQ0EsMkJBQUE7RUFBQSx3QkFBQTtFQUFBLG1CQUFBO0VBQ0EsZUFBQTtFQUNBLGtCQUFBO0VBQ0EseUJBQUE7RUFDQSxZQUFBO0VBQ0EsWUFBQTtFQUNBLHFCQUFBO0VBQ0EsZUFBQTtFQUNBLGtCQUFBO0FBQ0o7O0FBRUE7RUFDSSxlQUFBO0VBQ0EsVUFBQTtFQUNBLFVBQUE7RUFDQSxrQkFBQTtFQUNBLFlBQUE7QUFDSjs7QUFFQTtFQUNJLFVBQUE7QUFDSjs7QUFFQTtFQUNJLDBCQUFBO0VBQ0Esd0JBQUE7RUFDQSwwQkFBQTtFQUNBLDRCQUFBO0FBQ0o7O0FBRUE7RUFDSTtJQUNJLFlBQUE7RUFDTjtFQUNFO0lBQ0kseUJBQUE7RUFDTjtFQUNFO0lBQ0ksWUFBQTtFQUNOO0FBQ0Y7O0FBRUE7RUFDSSx5QkFBQTtFQUNBLHlCQUFBO0FBQUo7O0FBR0E7RUFDSSx5QkFBQTtFQUNBLGVBQUE7QUFBSjs7QUFHQTtFQUNJLHlCQUFBO0VBQ0EseUJBQUE7QUFBSjs7QUFHQTtFQUNJLHlCQUFBO0VBQ0EsZUFBQTtBQUFKIiwiZmlsZSI6InNlbGYtcGxheWVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsibGVnZW5kLnR1cm4ge1xuICAgIGNvbG9yOiByZWQ7XG59XG5cbi5ncmlkLXBhcmVudCB7XG4gICAgZGlzcGxheTogZ3JpZDtcbiAgICBncmlkLXRlbXBsYXRlLXJvd3M6IDMwcHggMS4wZnI7XG4gICAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOiAxLjBmciAyNTBweDtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBoZWlnaHQ6IDEwMCU7XG59XG5cbi5ncmlkLXRvcCB7XG4gICAgZ3JpZC1yb3ctc3RhcnQ6IDE7XG4gICAgZ3JpZC1jb2x1bW4tc3RhcnQ6IDE7XG59XG5cbi5ncmlkLWNlbnRlciB7XG4gICAgZ3JpZC1yb3ctc3RhcnQ6IDI7XG4gICAgZ3JpZC1jb2x1bW4tc3RhcnQ6IDE7XG4gICAgb3ZlcmZsb3c6IHNjcm9sbDtcbn1cblxuLmdyaWQtcmlnaHQge1xuICAgIGdyaWQtcm93LXN0YXJ0OiAxO1xuICAgIGdyaWQtcm93LWVuZDogc3BhbiAyO1xuICAgIGdyaWQtY29sdW1uLXN0YXJ0OiAyO1xufVxuXG5hLnBsYXllckxpbmsge1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgICB3aWR0aDpmaXQtY29udGVudDtcbiAgICBoZWlnaHQ6Zml0LWNvbnRlbnQ7XG4gICAgbWFyZ2luLXRvcDogM3B4O1xuICAgIG1hcmdpbi1ib3R0b206IDNweDtcbiAgICBib3JkZXI6IHNvbGlkIDFweCAjMDAwMDAwO1xuICAgIHBhZGRpbmc6IDNweDtcbiAgICBjb2xvcjogd2hpdGU7XG4gICAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xuICAgIGZvbnQtc2l6ZTogMTZweDtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbnRkLnNlbGZOYW1lIHtcbiAgICBmb250LXNpemU6IDMwcHg7IFxuICAgIHdpZHRoOjEwJTtcbiAgICBoZWlnaHQ6NiU7XG4gICAgdGV4dC1hbGlnbjpjZW50ZXI7XG4gICAgY29sb3I6IHdoaXRlO1xufVxuXG50ZC5zZWxmTmFtZS5zZWxmQWN0aXZlIHtcbiAgICBjb2xvcjogcmVkO1xufVxuXG5hLmFjdGl2ZVBsYXllciB7XG4gICAgYm9yZGVyOiBkYXNoZWQgMXB4ICMwMDAwMDA7XG4gICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAwLjdzO1xuICAgIGFuaW1hdGlvbi1uYW1lOiBzaG93QWN0aXZlO1xuICAgIGFuaW1hdGlvbi1pdGVyYXRpb24tY291bnQ6IDI7XG59XG5cbkBrZXlmcmFtZXMgc2hvd0FjdGl2ZSB7XG4gICAgMCUge1xuICAgICAgICBmaWx0ZXI6IG5vbmU7XG4gICAgfVxuICAgIDUwJSB7XG4gICAgICAgIGZpbHRlcjogaHVlLXJvdGF0ZSg5MGRlZyk7XG4gICAgfVxuICAgIDEwMCUge1xuICAgICAgICBmaWx0ZXI6IG5vbmU7XG4gICAgfVxufVxuXG5idXR0b24ge1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNGRkZGRkY7XG4gICAgYm9yZGVyOiBzb2xpZCAxcHggIzAwMDAwMDtcbn1cblxuYnV0dG9uOmhvdmVyIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjQzRDNEM0O1xuICAgIGN1cnNvcjogcG9pbnRlcjsgXG59XG5cbmlucHV0IHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjRkZGRkZGO1xuICAgIGJvcmRlcjogc29saWQgMXB4ICMwMDAwMDA7XG59XG5cbmlucHV0OmhvdmVyIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjQzRDNEM0O1xuICAgIGN1cnNvcjogcG9pbnRlcjsgXG59Il19 */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"], _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_5__["ChatBoxComponent"], _card_details_card_details_component__WEBPACK_IMPORTED_MODULE_6__["CardDetailsComponent"], _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_7__["CardCollectionComponent"], _other_player_other_player_component__WEBPACK_IMPORTED_MODULE_8__["OtherPlayerComponent"]], styles: ["legend.turn[_ngcontent-%COMP%] {\n  color: red;\n}\n\n.grid-parent[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-rows: 30px 1fr;\n  grid-template-columns: 1fr 250px;\n  width: 100%;\n  height: 100%;\n}\n\n.grid-top[_ngcontent-%COMP%] {\n  grid-row-start: 1;\n  grid-column-start: 1;\n}\n\n.grid-center[_ngcontent-%COMP%] {\n  grid-row-start: 2;\n  grid-column-start: 1;\n  overflow: scroll;\n}\n\n.grid-right[_ngcontent-%COMP%] {\n  grid-row-start: 1;\n  grid-row-end: span 2;\n  grid-column-start: 2;\n}\n\na.playerLink[_ngcontent-%COMP%] {\n  display: inline-block;\n  width: -webkit-fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  margin-top: 3px;\n  margin-bottom: 3px;\n  border: solid 1px #000000;\n  padding: 3px;\n  color: white;\n  text-decoration: none;\n  font-size: 16px;\n  text-align: center;\n}\n\ntd.selfName[_ngcontent-%COMP%] {\n  color: white;\n}\n\ntd.selfName.selfActive[_ngcontent-%COMP%] {\n  color: red;\n}\n\na.activePlayer[_ngcontent-%COMP%] {\n  border: dashed 1px #000000;\n  animation-duration: 0.7s;\n  animation-name: showActive;\n  animation-iteration-count: 2;\n}\n\n@keyframes showActive {\n  0% {\n    filter: none;\n  }\n  50% {\n    filter: hue-rotate(90deg);\n  }\n  100% {\n    filter: none;\n  }\n}\n\nbutton[_ngcontent-%COMP%] {\n  background-color: #FFFFFF;\n  border: solid 1px #000000;\n}\n\nbutton[_ngcontent-%COMP%]:hover {\n  background-color: #C4C4C4;\n  cursor: pointer;\n}\n\ninput[_ngcontent-%COMP%] {\n  background-color: #FFFFFF;\n  border: solid 1px #000000;\n}\n\ninput[_ngcontent-%COMP%]:hover {\n  background-color: #C4C4C4;\n  cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NlbGYtcGxheWVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksVUFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLDRCQUFBO0VBQ0EsZ0NBQUE7RUFDQSxXQUFBO0VBQ0EsWUFBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxvQkFBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxvQkFBQTtFQUNBLGdCQUFBO0FBQ0o7O0FBRUE7RUFDSSxpQkFBQTtFQUNBLG9CQUFBO0VBQ0Esb0JBQUE7QUFDSjs7QUFFQTtFQUNJLHFCQUFBO0VBQ0EsMEJBQUE7RUFBQSx1QkFBQTtFQUFBLGtCQUFBO0VBQ0EsMkJBQUE7RUFBQSx3QkFBQTtFQUFBLG1CQUFBO0VBQ0EsZUFBQTtFQUNBLGtCQUFBO0VBQ0EseUJBQUE7RUFDQSxZQUFBO0VBQ0EsWUFBQTtFQUNBLHFCQUFBO0VBQ0EsZUFBQTtFQUNBLGtCQUFBO0FBQ0o7O0FBRUE7RUFDSSxZQUFBO0FBQ0o7O0FBRUE7RUFDSSxVQUFBO0FBQ0o7O0FBRUE7RUFDSSwwQkFBQTtFQUNBLHdCQUFBO0VBQ0EsMEJBQUE7RUFDQSw0QkFBQTtBQUNKOztBQUVBO0VBQ0k7SUFDSSxZQUFBO0VBQ047RUFDRTtJQUNJLHlCQUFBO0VBQ047RUFDRTtJQUNJLFlBQUE7RUFDTjtBQUNGOztBQUVBO0VBQ0kseUJBQUE7RUFDQSx5QkFBQTtBQUFKOztBQUdBO0VBQ0kseUJBQUE7RUFDQSxlQUFBO0FBQUo7O0FBR0E7RUFDSSx5QkFBQTtFQUNBLHlCQUFBO0FBQUo7O0FBR0E7RUFDSSx5QkFBQTtFQUNBLGVBQUE7QUFBSiIsImZpbGUiOiJzZWxmLXBsYXllci5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImxlZ2VuZC50dXJuIHtcbiAgICBjb2xvcjogcmVkO1xufVxuXG4uZ3JpZC1wYXJlbnQge1xuICAgIGRpc3BsYXk6IGdyaWQ7XG4gICAgZ3JpZC10ZW1wbGF0ZS1yb3dzOiAzMHB4IDEuMGZyO1xuICAgIGdyaWQtdGVtcGxhdGUtY29sdW1uczogMS4wZnIgMjUwcHg7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgaGVpZ2h0OiAxMDAlO1xufVxuXG4uZ3JpZC10b3Age1xuICAgIGdyaWQtcm93LXN0YXJ0OiAxO1xuICAgIGdyaWQtY29sdW1uLXN0YXJ0OiAxO1xufVxuXG4uZ3JpZC1jZW50ZXIge1xuICAgIGdyaWQtcm93LXN0YXJ0OiAyO1xuICAgIGdyaWQtY29sdW1uLXN0YXJ0OiAxO1xuICAgIG92ZXJmbG93OiBzY3JvbGw7XG59XG5cbi5ncmlkLXJpZ2h0IHtcbiAgICBncmlkLXJvdy1zdGFydDogMTtcbiAgICBncmlkLXJvdy1lbmQ6IHNwYW4gMjtcbiAgICBncmlkLWNvbHVtbi1zdGFydDogMjtcbn1cblxuYS5wbGF5ZXJMaW5rIHtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gICAgd2lkdGg6Zml0LWNvbnRlbnQ7XG4gICAgaGVpZ2h0OmZpdC1jb250ZW50O1xuICAgIG1hcmdpbi10b3A6IDNweDtcbiAgICBtYXJnaW4tYm90dG9tOiAzcHg7XG4gICAgYm9yZGVyOiBzb2xpZCAxcHggIzAwMDAwMDtcbiAgICBwYWRkaW5nOiAzcHg7XG4gICAgY29sb3I6IHdoaXRlO1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICBmb250LXNpemU6IDE2cHg7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG50ZC5zZWxmTmFtZSB7XG4gICAgY29sb3I6IHdoaXRlO1xufVxuXG50ZC5zZWxmTmFtZS5zZWxmQWN0aXZlIHtcbiAgICBjb2xvcjogcmVkO1xufVxuXG5hLmFjdGl2ZVBsYXllciB7XG4gICAgYm9yZGVyOiBkYXNoZWQgMXB4ICMwMDAwMDA7XG4gICAgYW5pbWF0aW9uLWR1cmF0aW9uOiAwLjdzO1xuICAgIGFuaW1hdGlvbi1uYW1lOiBzaG93QWN0aXZlO1xuICAgIGFuaW1hdGlvbi1pdGVyYXRpb24tY291bnQ6IDI7XG59XG5cbkBrZXlmcmFtZXMgc2hvd0FjdGl2ZSB7XG4gICAgMCUge1xuICAgICAgICBmaWx0ZXI6IG5vbmU7XG4gICAgfVxuICAgIDUwJSB7XG4gICAgICAgIGZpbHRlcjogaHVlLXJvdGF0ZSg5MGRlZyk7XG4gICAgfVxuICAgIDEwMCUge1xuICAgICAgICBmaWx0ZXI6IG5vbmU7XG4gICAgfVxufVxuXG5idXR0b24ge1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNGRkZGRkY7XG4gICAgYm9yZGVyOiBzb2xpZCAxcHggIzAwMDAwMDtcbn1cblxuYnV0dG9uOmhvdmVyIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjQzRDNEM0O1xuICAgIGN1cnNvcjogcG9pbnRlcjsgXG59XG5cbmlucHV0IHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjRkZGRkZGO1xuICAgIGJvcmRlcjogc29saWQgMXB4ICMwMDAwMDA7XG59XG5cbmlucHV0OmhvdmVyIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjQzRDNEM0O1xuICAgIGN1cnNvcjogcG9pbnRlcjsgXG59Il19 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](SelfPlayerComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -586,8 +632,8 @@ function ChatBoxComponent_div_7_ng_container_2_Template(rf, ctx) { if (rf & 1) {
 } }
 function ChatBoxComponent_div_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ChatBoxComponent_div_7_ng_container_1_Template, 3, 3, "ng-container", 7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, ChatBoxComponent_div_7_ng_container_2_Template, 4, 4, "ng-container", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ChatBoxComponent_div_7_ng_container_1_Template, 3, 3, "ng-container", 8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, ChatBoxComponent_div_7_ng_container_2_Template, 4, 4, "ng-container", 8);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const m_r1 = ctx.$implicit;
@@ -646,7 +692,7 @@ class ChatBoxComponent {
     }
 }
 ChatBoxComponent.ɵfac = function ChatBoxComponent_Factory(t) { return new (t || ChatBoxComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"])); };
-ChatBoxComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ChatBoxComponent, selectors: [["mrn-chat-box"]], decls: 8, vars: 5, consts: [["cellpadding", "0", "cellspacing", "0", 2, "width", "500px", "margin-top", "3px", "margin-bottom", "3px", "background-color", "#FFFFFF", "border", "solid 1px #000000"], ["valign", "top"], [2, "width", "max-content"], ["type", "button", "title", "chatten", 1, "chatButton", 3, "click"], ["type", "button", "id", "chatboxButton", 1, "chatboxButton", 3, "click"], ["id", "chatbox", 1, "chatbox"], [4, "ngFor", "ngForOf"], [4, "ngIf"]], template: function ChatBoxComponent_Template(rf, ctx) { if (rf & 1) {
+ChatBoxComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ChatBoxComponent, selectors: [["mrn-chat-box"]], decls: 8, vars: 5, consts: [["cellpadding", "0", "cellspacing", "0", 2, "width", "500px", "margin-top", "3px", "margin-bottom", "3px", "float", "right", "background-color", "#FFFFFF", "border", "solid 1px #000000"], ["valign", "top"], [2, "width", "34px"], ["type", "button", "title", "chatten", 1, "chatButton", 3, "click"], ["type", "button", "id", "chatboxButton", 1, "chatboxButton", 3, "click"], [2, "width", "466px"], ["id", "chatbox", 1, "chatbox"], [4, "ngFor", "ngForOf"], [4, "ngIf"]], template: function ChatBoxComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "table", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "tr", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "td", 2);
@@ -657,9 +703,9 @@ ChatBoxComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ChatBoxComponent_Template_input_click_4_listener() { return ctx.toggleHeight(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "td");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ChatBoxComponent_div_7_Template, 3, 2, "div", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "td", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 6);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](7, ChatBoxComponent_div_7_Template, 3, 2, "div", 7);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -802,7 +848,7 @@ class CardType {
             this.img = img;
         }
         else {
-            this.img = 'data:image/svg+xml;base64,' + btoa(this.createSvg(name.replace(/[^a-zA-Z0-9 ]/, '')));
+            this.img = 'http://tobias-wustrack.de/token.php?token_data=' + name.replace(/[^a-zA-Z0-9 §]/, '');
         }
     }
     createSvg(title) {
@@ -1165,6 +1211,7 @@ class SelfPlayer {
         this.localLibrary = localLibrary;
         if (clean) {
             this.db.put('librarySizes', this.name, this.library.size);
+            this.db.put('handSizes', this.name, this.hand.size);
             this.db.put('lifes', this.name, 20);
             this.db.put('poisonCount', this.name, 0);
             let h = Math.floor(Math.random() * 72) * 5;
@@ -1294,6 +1341,15 @@ class SelfPlayer {
         this.addToGraveyard(this.cardCache.get().getOrCreateCard(cardId));
         this.subject.next();
     }
+    discardAtRandom() {
+        let h = this.hand;
+        if (h.size == 0) {
+            return;
+        }
+        let card = h.cards[Math.floor(Math.random() * h.size)];
+        this.addToGraveyard(card);
+        this.subject.next();
+    }
     addToGraveyard(card) {
         card.modifiers.forEach(m => this.addToGraveyard(m));
         this.writeCardData(card.id, {
@@ -1337,6 +1393,7 @@ class SelfPlayer {
             counter: undefined
         });
         this.localLibrary.removeIfContained(cardId);
+        this.db.put('handSizes', this.name, this.hand.size);
         this.sendNotification('spielt ' + this.cardName(cardId) + ' aus');
         this.subject.next();
     }
@@ -1352,6 +1409,7 @@ class SelfPlayer {
             counter: undefined
         });
         this.localLibrary.removeIfContained(cardId);
+        this.db.put('handSizes', this.name, this.hand.size);
         this.sendNotification('spielt ' + this.cardName(cardId) + ' getappt aus');
         this.subject.next();
     }
@@ -1377,6 +1435,7 @@ class SelfPlayer {
         }
         this.localLibrary.putOnTop(cardId);
         this.cardCache.setDirty();
+        this.db.put('handSizes', this.name, this.hand.size);
         this.db.put('librarySizes', this.name, this.library.size);
         this.subject.next();
     }
@@ -1540,6 +1599,7 @@ class GameField {
     registerPlayerChangeHandler(handler) {
         this.db.on('add', 'currentPlayer', true, handler);
         this.db.on('update', 'currentPlayer', false, handler);
+        this.db.on('add', 'playerData', true, handler);
     }
     connectToOtherPlayer(id) {
         this.db.connectToNode(id);
@@ -2113,11 +2173,95 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
 /* harmony import */ var _game_field_store_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game-field-store.service */ "c3lu");
 /* harmony import */ var _card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../card-collection/card-collection.component */ "DBil");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "ofXK");
 
 
 
 
 
+
+function OtherPlayerComponent_div_16_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 21);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 22);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r0.lifes, " ");
+} }
+function OtherPlayerComponent_div_17_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 21);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 23);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 24);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](4, "img", 25);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r1.lifes, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r1.poisonCount, " ");
+} }
+function OtherPlayerComponent_div_22_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 27);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 28);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("title", "", ctx_r2.handSize, " Karten auf der Hand");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r2.handSize, " ");
+} }
+function OtherPlayerComponent_div_23_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 29);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 28);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("title", "", ctx_r3.handSize, " Karten auf der Hand");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r3.handSize, " ");
+} }
+function OtherPlayerComponent_div_24_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 30);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 28);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("title", "", ctx_r4.handSize, " Karten auf der Hand");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r4.handSize, " ");
+} }
+function OtherPlayerComponent_div_25_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 31);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 28);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+} if (rf & 2) {
+    const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("title", "", ctx_r5.handSize, " Karten auf der Hand");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx_r5.handSize, " ");
+} }
 class OtherPlayerComponent {
     constructor(field, cdr, ngz) {
         this.field = field;
@@ -2140,6 +2284,9 @@ class OtherPlayerComponent {
     get lifes() {
         return this.me.lifes;
     }
+    get color() {
+        return this.me.color;
+    }
     get poisonCount() {
         return this.me.poisonCount;
     }
@@ -2161,69 +2308,88 @@ class OtherPlayerComponent {
     isCurrentPlayer() {
         return this.field.gameField.currentPlayerName === this.me.name;
     }
+    get gamefieldWidth() {
+        return window.innerWidth - 274;
+    }
 }
 OtherPlayerComponent.ɵfac = function OtherPlayerComponent_Factory(t) { return new (t || OtherPlayerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_game_field_store_service__WEBPACK_IMPORTED_MODULE_2__["GameFieldStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"])); };
-OtherPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: OtherPlayerComponent, selectors: [["mrn-other-player"]], inputs: { me: "me" }, decls: 26, vars: 9, consts: [["cellpadding", "0", "cellspacing", "0", "width", "100%", 3, "id"], ["valign", "top"], ["rowspan", "2", 2, "text-align", "right"], [2, "width", "250px", "float", "right"], ["cellpadding", "0", "cellspacing", "0", 2, "width", "250px", "border", "solid 1px #000000", "background-color", "#00FF00"], ["width", "125", "colspan", "2"], [2, "width", "120px", "height", "168px", "text-align", "center", "position", "relative", "background-color", "#C4C4C4", "margin-top", "0px", "margin-left", "2px"], [2, "width", "120px", "text-align", "center", "position", "absolute"], ["name", "Friedhof", 3, "collection", "collapsed"], ["width", "62", "height", "65", 2, "width", "62px", "height", "65px", "text-align", "center", "font-size", "40px"], ["colspan", "2", "width", "125", "height", "65", 2, "text-align", "center"], [2, "width", "125px", "height", "65px", "font-size", "30px", "line-height", "65px", "overflow-x", "hidden"], ["name", "Ausgelegt", 3, "collection"]], template: function OtherPlayerComponent_Template(rf, ctx) { if (rf & 1) {
+OtherPlayerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: OtherPlayerComponent, selectors: [["mrn-other-player"]], inputs: { me: "me" }, decls: 28, vars: 23, consts: [["cellpadding", "0", "cellspacing", "0", 3, "id"], ["valign", "top"], ["rowspan", "2"], [2, "width", "250px", "float", "right"], ["cellpadding", "0", "cellspacing", "0"], ["colspan", "2", 2, "width", "125px"], [2, "width", "120px", "height", "168px", "position", "relative", "text-align", "left", "background-image", "url('./assets/magic_card_back.jpg')", "margin-top", "2px", "margin-left", "2px"], [2, "width", "120px", "position", "absolute", "color", "#FFFFFF"], ["type", "text", "readonly", "", 2, "width", "30px", "height", "30px", "margin-left", "45px", "margin-top", "76px", "padding", "0px", "position", "absolute", "color", "#FFDF00", "text-align", "center", "font-weight", "bold", "font-size", "15px", "background-image", "url('./assets/card_count_30x30.png')", 3, "value", "title"], [2, "width", "120px", "height", "168px", "text-align", "center", "position", "relative", "background-color", "#C4C4C4", "margin-top", "2px", "margin-left", "2px"], [2, "width", "120px", "text-align", "center", "position", "absolute"], ["name", "Friedhof", 3, "collection", "collapsed"], ["width", "62", "height", "65", 2, "width", "62px", "height", "65px", "text-align", "center"], ["style", "width: 58px; height: 57px; text-align: center; position: relative; background-color: #FFFFFF;border: solid 1px #000000; margin-left: 2px; margin-top:3px; ", 4, "ngIf"], ["colspan", "2", "width", "125", "height", "65", 2, "text-align", "center"], [2, "width", "125px", "height", "65px", "font-size", "30px", "line-height", "65px", "color", "#FFFFFF", "overflow-x", "hidden"], ["style", "width: 58px; height: 57px; text-align: center; position: relative; background-color: #FFFFFF; background-image: url('./assets/hand_58x57.png'); border: solid 1px #000000; margin-right: 2px; margin-top:3px; ", 4, "ngIf"], ["style", "width: 58px; height: 57px; text-align: center; position: relative; background-color: #FFFFFF; background-image: url('./assets/hand_2_58x57.png'); border: solid 1px #000000; margin-right: 2px; margin-top:3px; ", 4, "ngIf"], ["style", "width: 58px; height: 57px; text-align: center; position: relative; background-color: #FFFFFF; background-image: url('./assets/hand_1_58x57.png'); border: solid 1px #000000; margin-right: 2px; margin-top:3px; ", 4, "ngIf"], ["style", "width: 58px; height: 57px; text-align: center; position: relative; background-color: #FFFFFF; background-image: url('./assets/hand_0_58x57.png'); border: solid 1px #000000; margin-right: 2px; margin-top:3px; ", 4, "ngIf"], ["name", "Ausgelegt", 3, "collection"], [2, "width", "58px", "height", "57px", "text-align", "center", "position", "relative", "background-color", "#FFFFFF", "border", "solid 1px #000000", "margin-left", "2px", "margin-top", "3px"], ["title", "Lebenspunkte", 2, "width", "60px", "text-align", "center", "font-size", "40px", "position", "absolute", "line-height", "58px"], ["title", "Lebenspunkte", 2, "width", "60px", "text-align", "center", "font-size", "30px", "position", "absolute", "line-height", "36px"], ["title", "Lebenspunkte", 2, "width", "60px", "text-align", "center", "margin-top", "32px", "position", "absolute"], ["src", "./assets/snake_grey_20x20.png"], ["title", "Lebenspunkte", 2, "width", "60px", "text-align", "center", "margin-top", "32px", "font-weight", "bold", "font-size", "16px", "line-height", "22px", "position", "absolute", "color", "#FF0000"], [2, "width", "58px", "height", "57px", "text-align", "center", "position", "relative", "background-color", "#FFFFFF", "background-image", "url('./assets/hand_58x57.png')", "border", "solid 1px #000000", "margin-right", "2px", "margin-top", "3px"], [2, "width", "60px", "text-align", "center", "font-size", "30px", "color", "#FFDF00", "position", "absolute", "line-height", "58px", 3, "title"], [2, "width", "58px", "height", "57px", "text-align", "center", "position", "relative", "background-color", "#FFFFFF", "background-image", "url('./assets/hand_2_58x57.png')", "border", "solid 1px #000000", "margin-right", "2px", "margin-top", "3px"], [2, "width", "58px", "height", "57px", "text-align", "center", "position", "relative", "background-color", "#FFFFFF", "background-image", "url('./assets/hand_1_58x57.png')", "border", "solid 1px #000000", "margin-right", "2px", "margin-top", "3px"], [2, "width", "58px", "height", "57px", "text-align", "center", "position", "relative", "background-color", "#FFFFFF", "background-image", "url('./assets/hand_0_58x57.png')", "border", "solid 1px #000000", "margin-right", "2px", "margin-top", "3px"]], template: function OtherPlayerComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "table", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "tr", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "td", 2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](3, "div", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "table", 4);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "tr");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "tr", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "td", 5);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "div", 6);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "div", 7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9, " Bibliothek:");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](10, "br");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](11);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](9, "input", 8);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "td", 5);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](13, "div", 6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "div", 7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](15, "mrn-card-collection", 8);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "tr");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "td", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](18);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](19, "td", 10);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](20, "div", 11);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](22, "td", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "td", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "div", 9);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "div", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](13, "mrn-card-collection", 11);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](24);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](25, "mrn-card-collection", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "tr", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "td", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](16, OtherPlayerComponent_div_16_Template, 3, 1, "div", 13);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](17, OtherPlayerComponent_div_17_Template, 7, 2, "div", 13);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "td", 14);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](19, "div", 15);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](20);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "td", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](22, OtherPlayerComponent_div_22_Template, 3, 2, "div", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](23, OtherPlayerComponent_div_23_Template, 3, 2, "div", 17);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](24, OtherPlayerComponent_div_24_Template, 3, 2, "div", 18);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](25, OtherPlayerComponent_div_25_Template, 3, 2, "div", 19);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](26);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](27, "mrn-card-collection", 20);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate1"]("width:", ctx.gamefieldWidth, "px; ");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("id", ctx.id);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](11);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.librarySize, " Karten ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate1"]("width:", ctx.gamefieldWidth, "px; text-align:right");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleMapInterpolate1"]("width:250px; margin-top: 1px; border: solid 1px #000000; background-color: ", ctx.color, ";");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate"]("value", ctx.librarySize);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpropertyInterpolate1"]("title", "", ctx.librarySize, " Karten in der Bibliothek");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.graveyard)("collapsed", true);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.lifes);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.poisonCount == 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.poisonCount > 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.name);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.name, " ");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.poisonCount);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.handSize > 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.handSize == 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.handSize == 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.handSize == 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.handSize, " Handkarten ");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("collection", ctx.table);
-    } }, directives: [_card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_3__["CardCollectionComponent"]], styles: ["legend.turn[_ngcontent-%COMP%] {\n  color: red;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL290aGVyLXBsYXllci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLFVBQUE7QUFDSiIsImZpbGUiOiJvdGhlci1wbGF5ZXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJsZWdlbmQudHVybiB7XG4gICAgY29sb3I6IHJlZDtcbn1cbiJdfQ== */"] });
+    } }, directives: [_card_collection_card_collection_component__WEBPACK_IMPORTED_MODULE_3__["CardCollectionComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"]], styles: ["legend.turn[_ngcontent-%COMP%] {\n  color: red;\n}\n\ninput[_ngcontent-%COMP%] {\n  background-color: #FFFFFF;\n  border: solid 1px #000000;\n}\n\ninput[_ngcontent-%COMP%]:hover {\n  background-color: #C4C4C4;\n  cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL290aGVyLXBsYXllci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLFVBQUE7QUFDSjs7QUFFQTtFQUNJLHlCQUFBO0VBQ0EseUJBQUE7QUFDSjs7QUFFQTtFQUNJLHlCQUFBO0VBQ0EsZUFBQTtBQUNKIiwiZmlsZSI6Im90aGVyLXBsYXllci5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImxlZ2VuZC50dXJuIHtcbiAgICBjb2xvcjogcmVkO1xufVxuXG5pbnB1dCB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI0ZGRkZGRjtcbiAgICBib3JkZXI6IHNvbGlkIDFweCAjMDAwMDAwO1xufVxuXG5pbnB1dDpob3ZlciB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI0M0QzRDNDtcbiAgICBjdXJzb3I6IHBvaW50ZXI7IFxufSJdfQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](OtherPlayerComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
