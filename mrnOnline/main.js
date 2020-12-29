@@ -327,7 +327,7 @@ class SelfPlayerComponent {
             this.gameField.myself.sendNotification('schließt die Bibliothek');
             subscr.unsubscribe();
         });
-        this.mcc.show(() => this.gameField.myself.library, 'Bibliothek', 'DR,PL,PT,GR');
+        this.mcc.show(() => this.gameField.myself.library, 'Bibliothek', 'DR,PL,PT,GR,EX');
     }
     shuffleLibrary() {
         this.gameField.myself.shuffleLibrary();
@@ -1441,7 +1441,7 @@ class SelfPlayer {
             counter: undefined
         });
         this.localLibrary.removeIfContained(cardId);
-        this.db.put('handSizes', this.name, this.hand.size);
+        this.updateHandAndLibrarySize();
     }
     getCardController(cardId) {
         let icd = this.db.get('cards', cardId);
@@ -1495,6 +1495,7 @@ class SelfPlayer {
             counter: undefined
         });
         this.localLibrary.removeIfContained(card.id);
+        this.updateHandAndLibrarySize();
         if (card.type.token) {
             this.sendNotification('Token ' + card.name + ' verschwindet');
         }
@@ -1511,6 +1512,8 @@ class SelfPlayer {
             locationData: undefined,
             counter: undefined
         });
+        this.localLibrary.removeIfContained(card.id);
+        this.updateHandAndLibrarySize();
         if (card.type.token) {
             this.sendNotification('Token ' + card.name + ' verschwindet');
         }
@@ -1528,9 +1531,13 @@ class SelfPlayer {
             counter: undefined
         });
         this.localLibrary.removeIfContained(cardId);
-        this.db.put('handSizes', this.name, this.hand.size);
+        this.updateHandAndLibrarySize();
         this.sendNotification('spielt ' + this.cardName(cardId) + ' aus');
         this.subject.next();
+    }
+    updateHandAndLibrarySize() {
+        this.db.put('handSizes', this.name, this.hand.size);
+        this.db.put('librarySizes', this.name, this.library.size);
     }
     cardName(cardId) {
         return this.db.get('cards', cardId).type.name;
@@ -1544,7 +1551,7 @@ class SelfPlayer {
             counter: undefined
         });
         this.localLibrary.removeIfContained(cardId);
-        this.db.put('handSizes', this.name, this.hand.size);
+        this.updateHandAndLibrarySize();
         this.sendNotification('spielt ' + this.cardName(cardId) + ' getappt aus');
         this.subject.next();
     }
@@ -1570,8 +1577,7 @@ class SelfPlayer {
         }
         this.localLibrary.putOnTop(cardId);
         this.cardCache.setDirty();
-        this.db.put('handSizes', this.name, this.hand.size);
-        this.db.put('librarySizes', this.name, this.library.size);
+        this.updateHandAndLibrarySize();
         this.subject.next();
     }
     modifyCard(modifierCardId, toModifyCardId) {
