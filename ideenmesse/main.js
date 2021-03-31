@@ -830,7 +830,14 @@ class AppComponent {
     }
     createPeer(s) {
         //var peer = new Peer(undefined, {host: 'localhost', port: 9000, key: 'peerjs', debug: 2});
-        var peer = new Peer(undefined, {});
+        var peer = new Peer(undefined, {
+            config: {
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'turn:v2202012136631136755.bestsrv.de', username: 'ideenmesse', credential: 'clarifying-behind-anchoring-storyboard' }
+                ]
+            }
+        });
         peer.on('error', (err) => {
             console.log(err);
             alert('' + err);
