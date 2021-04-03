@@ -12,6 +12,88 @@ module.exports = __webpack_require__(/*! /home/ich/ideenmesse/src/main.ts */"zUn
 
 /***/ }),
 
+/***/ "4Oyq":
+/*!******************************************************!*\
+  !*** ./src/app/peer-status/peer-status.component.ts ***!
+  \******************************************************/
+/*! exports provided: PeerStatusComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PeerStatusComponent", function() { return PeerStatusComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+
+
+class PeerStatusComponent {
+    constructor() { }
+    ngOnInit() {
+    }
+    get peerId() {
+        if (this.peer) {
+            return this.peer.id;
+        }
+        else {
+            return '';
+        }
+    }
+    get statusString() {
+        if (!this.peer) {
+            return 'missing';
+        }
+        else if (this.peer.destroyed) {
+            return 'destroyed';
+        }
+        else if (this.peer.disconnected) {
+            return 'disconnected';
+        }
+        else {
+            return 'connected';
+        }
+    }
+    get openConnections() {
+        return this.getConnections(true);
+    }
+    get closedConnections() {
+        return this.getConnections(false);
+    }
+    getConnections(open) {
+        if (!this.peer) {
+            return [];
+        }
+        let ret = [];
+        Object.keys(this.peer.connections).forEach(key => {
+            let conn = this.peer.connections[key][0];
+            if ((conn && conn.open) === open) {
+                ret.push(key);
+            }
+        });
+        return ret;
+    }
+}
+PeerStatusComponent.ɵfac = function PeerStatusComponent_Factory(t) { return new (t || PeerStatusComponent)(); };
+PeerStatusComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: PeerStatusComponent, selectors: [["ideenmesse-peer-status"]], inputs: { peer: "peer" }, decls: 2, vars: 6, consts: [[1, "peerStatus"]], template: function PeerStatusComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate6"](" Peer Status: ID=", ctx.peerId, ", ", ctx.statusString, ", Open connections: ", ctx.openConnections.length, " (", ctx.openConnections.join(", "), "), Closed connections: ", ctx.closedConnections.length, " (", ctx.closedConnections.join(", "), ")\n");
+    } }, styles: ["div.peerStatus[_ngcontent-%COMP%] {\n  font-size: 8pt;\n  color: gray;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3BlZXItc3RhdHVzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0MsY0FBQTtFQUNBLFdBQUE7QUFDRCIsImZpbGUiOiJwZWVyLXN0YXR1cy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImRpdi5wZWVyU3RhdHVzIHtcbiBmb250LXNpemU6IDhwdDtcbiBjb2xvcjogZ3JheTsgICBcbn0iXX0= */"] });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PeerStatusComponent, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
+        args: [{
+                selector: 'ideenmesse-peer-status',
+                templateUrl: './peer-status.component.html',
+                styleUrls: ['./peer-status.component.scss']
+            }]
+    }], function () { return []; }, { peer: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }] }); })();
+
+
+/***/ }),
+
 /***/ "8Yrd":
 /*!************************************************!*\
   !*** ./src/app/chat-box/chat-box.component.ts ***!
@@ -128,7 +210,7 @@ class ChatBoxComponent {
     }
 }
 ChatBoxComponent.ɵfac = function ChatBoxComponent_Factory(t) { return new (t || ChatBoxComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_participant_store_service__WEBPACK_IMPORTED_MODULE_2__["ParticipantStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"])); };
-ChatBoxComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ChatBoxComponent, selectors: [["ideenmesse-chat-box"]], inputs: { devName: "devName" }, decls: 5, vars: 6, consts: [["id", "chatbox", 1, "chatbox"], [4, "ngFor", "ngForOf"], ["type", "text", "placeholder", "Diskussionsbeitrag", 3, "ngModel", "ngModelChange", "keyup.enter"], ["title", "chatten", 1, "chatButton", 3, "click"], ["title", "Chat-Fenster vergr\u00F6\u00DFern", "id", "chatboxButton", 1, "chatboxButton", 3, "click"], [4, "ngIf"]], template: function ChatBoxComponent_Template(rf, ctx) { if (rf & 1) {
+ChatBoxComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ChatBoxComponent, selectors: [["ideenmesse-chat-box"]], inputs: { devName: "devName" }, decls: 5, vars: 6, consts: [["id", "chatbox", 1, "chatbox"], [4, "ngFor", "ngForOf"], ["type", "text", "placeholder", "Diskussionsbeitrag", "size", "100", 3, "ngModel", "ngModelChange", "keyup.enter"], ["title", "chatten", 1, "chatButton", 3, "click"], ["title", "Chat-Fenster vergr\u00F6\u00DFern", "id", "chatboxButton", 1, "chatboxButton", 3, "click"], [4, "ngIf"]], template: function ChatBoxComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ChatBoxComponent_div_1_Template, 3, 2, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -316,8 +398,15 @@ class DistributedDatabaseSystem {
     }
     connectToNode(id) {
         console.log(this.ownPeerId + ' connects to ' + id);
+        this.reconnectIfDisconnected();
         var conn = this.peer.connect(id, { reliable: true });
         this.addNode(conn);
+    }
+    reconnectIfDisconnected() {
+        if (this.peer.disconnected) {
+            console.log(this.ownPeerId + ' was disconnected and tries to reconnect');
+            this.peer.reconnect();
+        }
     }
     addNode(conn) {
         if (this.others.indexOf(conn) >= 0) {
@@ -391,6 +480,7 @@ class DistributedDatabaseSystem {
         this.put(listDb, this.ownPeerId + this.time, data);
     }
     put(database, id, data) {
+        this.reconnectIfDisconnected();
         var packet = {
             src: this.ownPeerId,
             t: this.time++,
@@ -500,7 +590,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
-/* harmony import */ var _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./chat-box/chat-box.component */ "8Yrd");
+/* harmony import */ var _peer_status_peer_status_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./peer-status/peer-status.component */ "4Oyq");
+/* harmony import */ var _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./chat-box/chat-box.component */ "8Yrd");
+
 
 
 
@@ -657,13 +749,13 @@ function AppComponent_ng_container_2_div_16_a_5_Template(rf, ctx) { if (rf & 1) 
 } }
 function AppComponent_ng_container_2_div_16_ng_container_12_div_1_Template(rf, ctx) { if (rf & 1) {
     const _r42 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 14);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "b");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "br");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "i");
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "span", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "span", 15);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](6);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "a", 4);
@@ -689,8 +781,8 @@ function AppComponent_ng_container_2_div_16_ng_container_12_div_1_Template(rf, c
 } }
 function AppComponent_ng_container_2_div_16_ng_container_12_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, AppComponent_ng_container_2_div_16_ng_container_12_div_1_Template, 11, 5, "div", 11);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "ideenmesse-chat-box", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, AppComponent_ng_container_2_div_16_ng_container_12_div_1_Template, 11, 5, "div", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "ideenmesse-chat-box", 13);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
 } if (rf & 2) {
     const d_r27 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]().$implicit;
@@ -700,7 +792,7 @@ function AppComponent_ng_container_2_div_16_ng_container_12_Template(rf, ctx) { 
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("devName", d_r27.name);
 } }
 function AppComponent_ng_container_2_div_16_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 11);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "b");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -760,6 +852,7 @@ function AppComponent_ng_container_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15, "Letzter Nachricht");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](16, AppComponent_ng_container_2_div_16_Template, 13, 7, "div", 9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](17, "ideenmesse-peer-status", 10);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementContainerEnd"]();
 } if (rf & 2) {
     const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
@@ -771,6 +864,8 @@ function AppComponent_ng_container_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" Teilnehmer: ", ctx_r2.fieldService.participant.allParticipants().join(", "), "");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](8);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx_r2.fieldService.participant.allDevelopers());
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("peer", ctx_r2.peer);
 } }
 class AppComponent {
     constructor(fieldService, http, cdr, ngz) {
@@ -830,7 +925,7 @@ class AppComponent {
     }
     createPeer(s) {
         //var peer = new Peer(undefined, {host: 'localhost', port: 9000, key: 'peerjs', debug: 2});
-        var peer = new Peer(undefined, {
+        this.peer = new Peer(undefined, {
             config: {
                 iceServers: [
                     { urls: 'stun:stun.l.google.com:19302' },
@@ -838,13 +933,11 @@ class AppComponent {
                 ]
             }
         });
-        peer.on('error', (err) => {
+        this.peer.on('error', (err) => {
             console.log(err);
-            alert('' + err);
         });
-        peer.on('open', (id) => {
-            //alert('My peer ID is: ' + id);
-            this.ngz.run(() => this.loadDeckAndInitGame(peer, s));
+        this.peer.on('open', (id) => {
+            this.ngz.run(() => this.loadDeckAndInitGame(this.peer, s));
         });
     }
     askForIdeas() {
@@ -920,17 +1013,17 @@ class AppComponent {
     }
 }
 AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_participant_store_service__WEBPACK_IMPORTED_MODULE_3__["ParticipantStoreService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"])); };
-AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 3, vars: 3, consts: [[4, "ngIf"], ["type", "text", "name", "ownName", 3, "ngModel", "ngModelChange"], [3, "click", 4, "ngIf"], ["type", "text", "name", "meetingID", 3, "ngModel", "ngModelChange"], [3, "click"], [2, "vertical-align", "top"], ["placeholder", "Titel", "size", "100", "required", "", 3, "ngModel", "ngModelChange"], ["placeholder", "Beschreibung", 3, "ngModel", "ngModelChange"], [3, "href"], [3, "ngClass", 4, "ngFor", "ngForOf"], [3, "ngClass"], ["class", "idea", 4, "ngFor", "ngForOf"], [3, "devName"], [1, "idea"], [3, "title"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
+AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 3, vars: 3, consts: [[4, "ngIf"], ["type", "text", "name", "ownName", 3, "ngModel", "ngModelChange"], [3, "click", 4, "ngIf"], ["type", "text", "name", "meetingID", 3, "ngModel", "ngModelChange"], [3, "click"], [2, "vertical-align", "top"], ["placeholder", "Titel", "size", "100", "required", "", 3, "ngModel", "ngModelChange"], ["placeholder", "Beschreibung", "rows", "4", "cols", "150", 3, "ngModel", "ngModelChange"], [3, "href"], [3, "ngClass", 4, "ngFor", "ngForOf"], [3, "peer"], [3, "ngClass"], ["class", "idea", 4, "ngFor", "ngForOf"], [3, "devName"], [1, "idea"], [3, "title"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, AppComponent_ng_container_0_Template, 13, 6, "ng-container", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, AppComponent_ng_container_1_Template, 25, 6, "ng-container", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, AppComponent_ng_container_2_Template, 17, 4, "ng-container", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, AppComponent_ng_container_2_Template, 18, 5, "ng-container", 0);
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.state === "initial");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.state === "ideas");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.state === "joined");
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgForm"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgModel"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["RequiredValidator"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgForOf"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgClass"], _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_7__["ChatBoxComponent"]], styles: ["div.devVoted[_ngcontent-%COMP%] {\n  background-color: gray;\n  padding: 5px;\n  margin-top: 5px;\n  margin-bottom: 10px;\n}\n\ndiv.devNotVoted[_ngcontent-%COMP%] {\n  background-color: yellow;\n  padding: 5px;\n  margin-top: 5px;\n  margin-bottom: 10px;\n}\n\ndiv.idea[_ngcontent-%COMP%] {\n  background-color: #dddddd;\n  border: 1px solid black;\n  margin: 3px;\n  padding: 3px;\n}\n\na[_ngcontent-%COMP%] {\n  text-decoration: underline;\n  cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHNCQUFBO0VBQ0EsWUFBQTtFQUNBLGVBQUE7RUFDQSxtQkFBQTtBQUNKOztBQUNBO0VBQ0ksd0JBQUE7RUFDQSxZQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0FBRUo7O0FBQUE7RUFDSSx5QkFBQTtFQUNBLHVCQUFBO0VBQ0EsV0FBQTtFQUNBLFlBQUE7QUFHSjs7QUFEQTtFQUNJLDBCQUFBO0VBQ0EsZUFBQTtBQUlKIiwiZmlsZSI6ImFwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImRpdi5kZXZWb3RlZCB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogZ3JheTtcbiAgICBwYWRkaW5nOiA1cHg7XG4gICAgbWFyZ2luLXRvcDogNXB4O1xuICAgIG1hcmdpbi1ib3R0b206IDEwcHg7XG59XG5kaXYuZGV2Tm90Vm90ZWQge1xuICAgIGJhY2tncm91bmQtY29sb3I6IHllbGxvdztcbiAgICBwYWRkaW5nOiA1cHg7XG4gICAgbWFyZ2luLXRvcDogNXB4O1xuICAgIG1hcmdpbi1ib3R0b206IDEwcHg7XG59XG5kaXYuaWRlYSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2RkZGRkZDtcbiAgICBib3JkZXI6IDFweCBzb2xpZCBibGFjaztcbiAgICBtYXJnaW46IDNweDtcbiAgICBwYWRkaW5nOiAzcHg7XG59XG5hIHtcbiAgICB0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59Il19 */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgForm"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgModel"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["RequiredValidator"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgForOf"], _peer_status_peer_status_component__WEBPACK_IMPORTED_MODULE_7__["PeerStatusComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgClass"], _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_8__["ChatBoxComponent"]], styles: ["div.devVoted[_ngcontent-%COMP%] {\n  background-color: #aaaaaa;\n  padding: 5px;\n  margin-top: 5px;\n  margin-bottom: 10px;\n}\n\ndiv.devNotVoted[_ngcontent-%COMP%] {\n  background-color: yellow;\n  padding: 5px;\n  margin-top: 5px;\n  margin-bottom: 10px;\n}\n\ndiv.idea[_ngcontent-%COMP%] {\n  background-color: #dddddd;\n  border: 1px solid black;\n  margin: 3px;\n  padding: 3px;\n}\n\na[_ngcontent-%COMP%] {\n  text-decoration: underline;\n  cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHlCQUFBO0VBQ0EsWUFBQTtFQUNBLGVBQUE7RUFDQSxtQkFBQTtBQUNKOztBQUNBO0VBQ0ksd0JBQUE7RUFDQSxZQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0FBRUo7O0FBQUE7RUFDSSx5QkFBQTtFQUNBLHVCQUFBO0VBQ0EsV0FBQTtFQUNBLFlBQUE7QUFHSjs7QUFEQTtFQUNJLDBCQUFBO0VBQ0EsZUFBQTtBQUlKIiwiZmlsZSI6ImFwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImRpdi5kZXZWb3RlZCB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2FhYWFhYTtcbiAgICBwYWRkaW5nOiA1cHg7XG4gICAgbWFyZ2luLXRvcDogNXB4O1xuICAgIG1hcmdpbi1ib3R0b206IDEwcHg7XG59XG5kaXYuZGV2Tm90Vm90ZWQge1xuICAgIGJhY2tncm91bmQtY29sb3I6IHllbGxvdztcbiAgICBwYWRkaW5nOiA1cHg7XG4gICAgbWFyZ2luLXRvcDogNXB4O1xuICAgIG1hcmdpbi1ib3R0b206IDEwcHg7XG59XG5kaXYuaWRlYSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2RkZGRkZDtcbiAgICBib3JkZXI6IDFweCBzb2xpZCBibGFjaztcbiAgICBtYXJnaW46IDNweDtcbiAgICBwYWRkaW5nOiAzcHg7XG59XG5hIHtcbiAgICB0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59Il19 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AppComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -959,6 +1052,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.component */ "Sy1n");
 /* harmony import */ var _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./chat-box/chat-box.component */ "8Yrd");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _peer_status_peer_status_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./peer-status/peer-status.component */ "4Oyq");
+
 
 
 
@@ -975,7 +1070,8 @@ AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector
             _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"]
         ]] });
 (function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsetNgModuleScope"](AppModule, { declarations: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
-        _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_4__["ChatBoxComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+        _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_4__["ChatBoxComponent"],
+        _peer_status_peer_status_component__WEBPACK_IMPORTED_MODULE_6__["PeerStatusComponent"]], imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
         _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormsModule"],
         _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"]] }); })();
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵsetClassMetadata"](AppModule, [{
@@ -983,7 +1079,8 @@ AppModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjector
         args: [{
                 declarations: [
                     _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
-                    _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_4__["ChatBoxComponent"]
+                    _chat_box_chat_box_component__WEBPACK_IMPORTED_MODULE_4__["ChatBoxComponent"],
+                    _peer_status_peer_status_component__WEBPACK_IMPORTED_MODULE_6__["PeerStatusComponent"]
                 ],
                 imports: [
                     _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
