@@ -408,15 +408,17 @@ class DistributedDatabaseSystem {
             console.log(this.ownPeerId + ' was disconnected and tries to reconnect');
             this.peer.reconnect();
         }
+    }
+    checkConnections() {
         let aliveConns = this.others.filter(conn => conn.open || !this.onceOpened.includes(conn.peer));
         if (aliveConns.length != this.others.length) {
             console.log('connections were closed, cleaning up');
             this.others = aliveConns;
             this.otherNames = aliveConns.map(conn => conn.peer);
-            if (this.others.length == 0 && this.onceOpened.length > 0) {
-                // if all connections were lost, try a random one that once worked
-                this.connectToNode(this.onceOpened[Math.floor(Math.random() * this.onceOpened.length)]);
-            }
+        }
+        if (this.others.length == 0 && this.onceOpened.length > 0) {
+            // if all connections were lost, try a random one that once worked
+            this.connectToNode(this.onceOpened[Math.floor(Math.random() * this.onceOpened.length)]);
         }
     }
     addNode(conn) {
@@ -501,6 +503,7 @@ class DistributedDatabaseSystem {
     }
     put(database, id, data) {
         this.reconnectIfDisconnected();
+        this.checkConnections();
         var packet = {
             src: this.ownPeerId,
             t: this.time++,
