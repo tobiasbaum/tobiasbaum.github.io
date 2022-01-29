@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Interval Estimator Training</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="calibration.js"></script>
+</head>
+<body>
+<h1>Interval Estimator Training</h1>
+<p>For techniques like <a href="https://en.wikipedia.org/wiki/Applied_information_economics">Applied Information Economics</a>, the range of various values needs
+	to be estimated. To do so properly, the people that perform the estimation should have been "calibrated", that is trained
+	in estimating their own uncertainty. On this website, you can train yourself as an estimator.</p>
+
+<div id="start">
+	<button onclick="startCalibration()">Start calibration</button><br/>
+</div>
+
+<div id="estimation" style="display:none;">
+	<div id="question">Question</div>
+	<div>Please estimate a range of which you are 90% sure that the correct value lies within:</div>
+	<form onsubmit="enterEstimate(); return false;">
+		Lower bound: <input id="lower" type="number" title="A value of which you are 95% sure that the correct value is greater or equal" /> - Upper bound: <input id="upper" type="number" title="A value of which you are 95% sure that the correct value is less or equal" /><br/>
+		<button type="submit">Enter estimate</button>
+	</form>
+</div>
+
+<div id="output" style="display:none;">
+Result:<br/>
+You estimated <span id="correctEstimates">x</span> of 10 questions correctly. In the ideal case, you should have gotten 9 of 10 correct.
+<div id="bad" style="background-color: red;">You seem to be overconfident in your estimates. Read the tips below and try again to improve your calibration.</div>
+<div id="ok" style="background-color: yellow;">This is OK, but perhaps you are still slightly overconfident in your estimates. You can try again with a bit more conservative estimates.</div>
+<div id="perfect" style="background-color: green;">Your result is perfect. You seem to be pretty well calibrated. But feel free to try again to check whether this was just luck.</div>
+<div id="underconfident" style="background-color: yellow;">This is not bad, but perhaps you did not take enough risks when choosing your ranges. Please try again.</div>
+<br/><div id="resultTable"></div><br/>
+TODO Tips
+<button onclick="startCalibration()">Try again</button><br/>
+</div>
+
+</body>
+</html>
