@@ -9,37 +9,35 @@
 	<script type="text/javascript" src="calibration.js"></script>
 </head>
 <body>
-<h1>Interval Estimator Training</h1>
-<p>For techniques like <a href="https://en.wikipedia.org/wiki/Applied_information_economics">Applied Information Economics</a>, the range of various values needs
-	to be estimated. To do so properly, the people that perform the estimation should have been "calibrated", that is trained
-	in estimating their own uncertainty. On this website, you can train yourself as an estimator.</p>
+<h1>Intervallschätzer-Training</h1>
+<p>Für Techniken wie <a href="https://en.wikipedia.org/wiki/Applied_information_economics">Applied Information Economics</a> müssen Konfidenzintervalle für diverse Werte geschätzt werden. Voraussetzung dafür ist, dass die Schätzer "kalibriert" sind, d.h. trainiert, um ihre eigene Schätzsicherheit besser einschätzen zu können. Mit dieser Webseite kann dieses Training durchgeführt werden.</p>
 
 <div id="start">
-	<button onclick="startCalibration()">Start calibration</button><br/>
+	<button onclick="startCalibration()">Kalibrierung starten</button><br/>
 </div>
 
 <div id="estimation" style="display:none;">
-	<div id="question">Question</div>
-	<div>Please estimate a range of which you are 90% sure that the correct value lies within:</div>
+	<div id="question">Frage</div>
+	<div>Bitte schätze einen Bereich ab, von dem du dir 90% sicher bist, dass der korrekte Wert darin liegt:</div>
 	<form onsubmit="enterEstimate(); return false;">
-		Lower bound: <input id="lower" type="number" step="any" title="A value of which you are 95% sure that the correct value is greater or equal" /> - Upper bound: <input id="upper" type="number" step="any" title="A value of which you are 95% sure that the correct value is less or equal" /><br/>
-		<button type="submit">Enter estimate</button>
+		Untere Grenze: <input id="lower" type="number" step="any" title="Ein Wert, bei dem du dir 95% sicher bist, dass der korrekte Wert gleich ist oder darüber liegt" /> - Upper bound: <input id="upper" type="number" step="any" title="Ein Wert, bei dem du dir 95% sicher bist, dass der korrekte Wert gleich ist oder darunter liegt" /><br/>
+		<button type="submit">Schätzung eintragen</button>
 	</form>
 </div>
 
 <div id="output" style="display:none;">
-Result:<br/>
-You estimated <span id="correctEstimates">x</span> of 10 questions correctly. In the ideal case, you should have gotten 9 of 10 correct.
-<div id="bad" style="background-color: red;">You seem to be overconfident in your estimates. Read the tips below and try again to improve your calibration.</div>
-<div id="ok" style="background-color: yellow;">This is OK, but perhaps you are still slightly overconfident in your estimates. You can try again with a bit more conservative estimates.</div>
-<div id="perfect" style="background-color: green;">Your result is perfect. You seem to be pretty well calibrated. But feel free to try again to check whether this was just luck.</div>
-<div id="underconfident" style="background-color: yellow;">This is not bad, but perhaps you did not take enough risks when choosing your ranges. Please try again.</div>
+Ergebnis:<br/>
+Du hast <span id="correctEstimates">x</span> von 10 Fragen richtig beantwortet. Im Idealfall sollten 9 von 10 Antworten richtig sein.
+<div id="bad" style="background-color: red;">Du scheinst zu zuversichtlich zu sein, was deine Schätzungen angeht. Probier mit den Tipps unten deine Schätzungen zu verbessern und probier es nochmal!</div>
+<div id="ok" style="background-color: yellow;">Das Ergebnis ist OK, aber vielleicht bist du noch ein bisschen zu zuversichtlich in deinen Schätzungen. Probier noch ein bisschen konservativer zu schätzen.</div>
+<div id="perfect" style="background-color: green;">Das Ergebnis ist perfekt. Du scheinst gut kalibriert zu sein. Aber wenn du möchtest probier es trotzdem nochmal, um zu prüfen, wie viel Glück dabei war.</div>
+<div id="underconfident" style="background-color: yellow;">Das Ergebnis ist nicht schlecht, aber vielleicht bist du nicht genug Risiken beim Schätzen eingegangen. Probier es nochmal.</div>
 <br/><div id="resultTable"></div><br/>
-<button onclick="startCalibration()">Try again</button><br/>
-<h2>Tips for Estimation</h2>
+<button onclick="startCalibration()">Nochmal probieren</button><br/>
+<h2>Tipps fürs Schätzen</h2>
 <ul>
-	<li>Start with an unrealistically large interval. Then think about facts you know that help you shrink it.</li>
-	<li>Try to image a lottery in which you have a 1 in 10 chance to win. You could bet 100 Euro on this lottery or on your interval estimate being correct. Try to select an interval so that you are not sure whether you would prefer to lottery or the bet on your estimate. If you would for sure take your interval, it is too wide. If you would for sure take the lottery, the interval is too small.</li>
+	<li>Beginne mit einem unrealistisch großen Intervall. Dann denk darüber nach, welche Fakten du kennst, mit denen du es verkleinern kannst.</li>
+	<li>Stell dir ein Glücksrad vor, bei dem du bei 9 von 10 Feldern die Chance hast, zu gewinnen. Du kannst entweder 100 Euro auf dieses Glücksrad setzen oder darauf, dass deine Schätzung richtig ist. Versuche die Schätzung so zu wählen, dass du dich zwischen diesen beiden Varianten nicht entscheiden kannst. Wenn du eher das Glückrad wählen würdest, ist der geschätzte Bereich zu klein. Wenn du eher auf deine Schätzung setzen würdest, ist der geschätzte Bereich zu groß.</li>
 </ul>
 </div>
 
