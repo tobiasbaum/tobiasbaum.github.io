@@ -1,7 +1,7 @@
 var questions = [
 	{q: 'Wie lang ist ein Airbus A380-800 in m?', a: 72.7},
 	{q: 'Wie hoch ist der Mount Everest in m?', a: 8848},
-	{q: 'In welchem Jahr wurde der FC Bayern München das Erste mal Meister der 1. Fußball-Bundesliga?', a: 1969},
+	{q: 'In welchem Jahr wurde der FC Bayern München das erste Mal Meister der 1. Fußball-Bundesliga?', a: 1969},
 	{q: 'In welchem Jahr hat Boris Becker das erste das Finale in Wimbledon gewonnen?', a: 1985},
 	{q: 'In welchem Jahr wurde Alan Turing geboren?', a: 1912},
 	{q: 'Wie groß ist die Fläche der Stadt Paris, in Quadratkilometern?', a: 105.34},
@@ -36,6 +36,19 @@ var questions = [
 	{q: 'Welches ist die maximale Größe des \'data content\' eines IPv4-Pakets in Byte?', a: 65515},
 	{q: 'Welches ist die maximale Größe eines Ethernet-Pakets (MTU + Header) in Bytes?', a: 1518},
 	{q: 'Wie groß ist der Header eines IPv6-Pakets in Bytes?', a: 40},
+	{q: 'Wie viele Milliliter Duschgel enthält eine handelsübliche Packung \'Nivea Men Sport\'?', a: 250},
+	{q: 'Wie viele Gramm Fett sind in 100g Butter enthalten?', a: 81},
+	{q: 'Wie viele Kinder und Jugendliche unter 18 Jahren lebten im Dezember 2020 in Deutschland (in Millionen)?', a: 13.75},
+	{q: 'Wie viel Volumenprozent Alkohol enthält Herrenhäuser Pilsener?', a: 4.9},
+	{q: 'Wie viele Versicherungsunternehmen (unter Bundesaufsicht) gab es 2020 in Deutschland?', a: 523},
+	{q: 'Wie viele Seiten hat das Buch \'Herr Lehmann\' von Sven Regener (Taschenbuch, 2003, 29. Auflage)?', a: 285},
+	{q: 'Wie viele Richter sind am Landgericht Frankfurt am Main beschäftigt?', a: 140},
+	{q: 'Wie viele Opern komponierte Wolfgang Amadeus Mozart?', a: 21},
+	{q: 'Wie viele Minuten dauert die Kinofassung des Films \'Der Herr der Ringe: Die Gefährten\'?', a: 171},
+	{q: 'Wie hoch, in US-Dollar, waren die Produktionskosten des Films \'Bohemian Rhapsody\' (2018)?', a: 52000000},
+	{q: 'Wie viele Zähne hat ein Hund?', a: 42},
+	{q: 'Wie viel Euro Pfand müssen für eine 1 Liter PET-Mehrwegflasche Limonade gezahlt werden?', a: 0.15},
+	{q: 'Wie viele Gramm Zucker sind in einem Liter Coca-Cola enthalten?', a: 106},
 ];
 var lowerAnswers;
 var upperAnswers;
