@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="validPostboxOrigins.js"></script>
+<script>
+function init() {
+  console.log('called with fragment ' + document.location.hash);
+  let p = new URLSearchParams(document.location.hash.substring(1));
+  let state = p.get('state');
+  let realCallback = p.get('realCallback');
+  if (realCallback.includes('?')) {
+    return;
+  }
+  let realForward = p.get('realForward');
+  if (realForward.includes('?')) {
+    return;
+  }
+
+  let cbOrigin = new URL(realCallback).origin;
+  if (validPostboxDocservers.indexOf(cbOrigin) < 0
+      && validPostboxKeyservers.indexOf(cbOrigin) < 0) {
+    console.log('invalid url ' + realCallback);
+    return;
+  }
+
+  window.sessionStorage.setItem('postboxCallback' + state, realCallback);
+  p.delete('realCallback');
+  p.delete('realForward');
+  document.location.replace(realForward + '?' + p.toString());
+}
+</script>
+</head>
+<body onload="init()">
+</body>
+</html>

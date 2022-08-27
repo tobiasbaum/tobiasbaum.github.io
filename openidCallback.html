@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="validPostboxOrigins.js"></script>
+<script>
+function init() {
+  let p = new URLSearchParams(document.location.search);
+  let state = p.get('state');
+  let newUrl = window.sessionStorage.getItem('postboxCallback' + state);
+  if (!newUrl) {
+    return;
+  }
+  if (newUrl.includes('?')) {
+    return;
+  }
+
+  let cbOrigin = new URL(newUrl).origin;
+  if (validPostboxDocservers.indexOf(cbOrigin) < 0
+    && validPostboxKeyservers.indexOf(cbOrigin) < 0) {
+    console.log('invalid url ' + newUrl);
+    return;
+  }
+
+  document.location.replace(newUrl + '?' + p.toString());
+}
+</script>
+</head>
+<body onload="init()">
+</body>
+</html>
