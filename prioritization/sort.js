@@ -28,8 +28,31 @@ function continueRanking() {
 		var copy = currentSortFunction(items, cmp);
 		showResults(copy);
 	} catch (err) {
+        updateMissingComparisonCount();
 		askForNextComparison();
 	}
+}
+
+function updateMissingComparisonCount() {
+    let missingCount = 0;
+    let knownFakeComparisons = {};
+    let fakeCmp = (a, b) => {
+        if (a == b) {
+            return 0;
+        }
+        var key = toKey(a, b);
+        if (key in knownComparisons) {
+            return knownComparisons[key];
+        }
+        if (key in knownFakeComparisons) {
+            return knownFakeComparisons[key];
+        }
+        knownFakeComparisons[key] = 1;
+        missingCount++;
+        return 1;
+    }
+    currentSortFunction(items, fakeCmp);
+    $("#remaining").text(missingCount);
 }
 
 function showResults(sortedItems) {
@@ -81,17 +104,24 @@ function choseCmp(adjustment) {
 	} else {
 		knownComparisons[t2 + "\n" + t1] = 1 * adjustment;
 	}
+    backupComparisons();
 	continueRanking();
+}
+
+function backupComparisons() {
+    let str = "";
+    for (item of Object.keys(knownComparisons)) {
+        str += item + "\n"
+        str += knownComparisons[item] + "\n";
+    }
+    localStorage.setItem("prio.backup", str);
 }
 
 function cmp(a, b) {
 	if (a == b) {
 		return 0;
 	}
-	if (b < a) {
-		return -cmp(b, a);
-	}
-	var key = a + "\n" + b;
+	var key = toKey(a, b);
 	if (key in knownComparisons) {
 		return knownComparisons[key];
 	}
@@ -111,7 +141,7 @@ function toKey(a, b) {
 
 function fullSort(arr, comparator) {
 	var copy = items.slice();
-	copy.sort(cmp);
+	copy.sort(comparator);
 	return copy;
 }
 
