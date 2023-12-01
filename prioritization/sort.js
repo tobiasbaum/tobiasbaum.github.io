@@ -41,13 +41,13 @@ function updateMissingComparisonCount() {
             return 0;
         }
         var key = toKey(a, b);
-        if (key in knownComparisons) {
-            return knownComparisons[key];
+        if (key.k in knownComparisons) {
+            return key.m * knownComparisons[key.k];
         }
-        if (key in knownFakeComparisons) {
-            return knownFakeComparisons[key];
+        if (key.k in knownFakeComparisons) {
+            return key.m * knownFakeComparisons[key.k];
         }
-        knownFakeComparisons[key] = 1;
+        knownFakeComparisons[key.k] = 1;
         missingCount++;
         return 1;
     }
@@ -122,20 +122,20 @@ function cmp(a, b) {
 		return 0;
 	}
 	var key = toKey(a, b);
-	if (key in knownComparisons) {
-		return knownComparisons[key];
+	if (key.k in knownComparisons) {
+		return key.m * knownComparisons[key.k];
 	}
-	if (!missingComparisons.includes(key)) {
-		missingComparisons.push(key);
+	if (!missingComparisons.includes(key.k)) {
+		missingComparisons.push(key.k);
 	}
 	throw "comparison missing";
 }
 
 function toKey(a, b) {
 	if (a < b) {
-		return a + "\n" + b;
+		return {k: a + "\n" + b, m: 1};
 	} else {
-		return b + "\n" + a;
+		return {k: b + "\n" + a, m: -1};
 	}
 }
 
@@ -150,7 +150,7 @@ function doubleOutSort(arr, comparator) {
 		return [];
 	}
 	console.log("start double out " + arr);
-    var currentWinnerBracket = arr;
+    var currentWinnerBracket = arr.slice();
 	var currentLoserBracket = [];
 	var result = [];
 	while (currentWinnerBracket.length > 1) {
