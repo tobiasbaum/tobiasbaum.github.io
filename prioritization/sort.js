@@ -197,10 +197,10 @@ function playMatches(arr, comparator, winnerBuffer, loserBuffer) {
 			playMatch(arr[i], arr[arr.length - i - 1], comparator, winnerBuffer, loserBuffer);
 		}
 	} else {
-		winnerBuffer.push(arr[0]);
 	    for (var i = 1; i <= arr.length / 2; i++) {
 			playMatch(arr[i], arr[arr.length - i], comparator, winnerBuffer, loserBuffer);
 		}
+		winnerBuffer.push(arr[0]);
 	}
 }
 
