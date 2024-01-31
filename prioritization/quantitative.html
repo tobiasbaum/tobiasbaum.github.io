@@ -100,9 +100,14 @@
 	}
 	
 	var items = [];
+	var itemsUncompared = [];
+	var ben1 = "x";
+	var ben2 = "y";
 	var comparisonCount = 0;
 	
 	function start() {
+		ben1 = $("#benennung1").val();
+		ben2 = $("#benennung2").val();
 		let text = $("#itemInput").val();
 		let itemsRaw = text.split("\n");
 		
@@ -115,6 +120,7 @@
 			}
 		}
 		items = itemNames.map(n => new Item(n));
+		itemsUncompared = [];
 		showRandomComparison();
 		print(items);
 		$('#log').val('');
@@ -127,34 +133,40 @@
 		if (items.length <= 1) {
 			return;
 		}
-		let index1 = Math.floor(Math.random() * items.length);
-		let index2 = Math.floor(Math.random() * items.length);
-		if (index1 == index2) {
-			if (index1 == 0) {
-				index1 = 1;
-			} else {
-				index1 = index2 - 1;
-			}
+		if (itemsUncompared.length <= 1) {
+			itemsUncompared = items.slice();
+			shuffle(itemsUncompared);
 		}
-		let item1 = items[index1];
-		let item2 = items[index2];
+		let item1 = itemsUncompared.pop();
+		let item2 = itemsUncompared.pop();
+		let index1 = items.indexOf(item1);
+		let index2 = items.indexOf(item2);
 		let html = '<center>Vergleiche<br/><b>';
 		html += item1.name + "</b> und <b>" + item2.name + "</b><br/><br/>";
 		let short1 = shorten(item1.name);
 		let short2 = shorten(item2.name);
-		html += "<button onclick='addOtherFactor(" + index1 + ", " + index2 + ")'>" + short1 + "<br/>ist ...-fach<br/>wichtiger</button>";
-		html += "<button onclick='addComparisonResult(" + index1 + ", " + index2 + ", 4.0)'>" + short1 + "<br/>ist 4-fach<br/>wichtiger</button>";
-		html += "<button onclick='addComparisonResult(" + index1 + ", " + index2 + ", 2.0)'>" + short1 + "<br/>ist 2-fach<br/>wichtiger</button>";
-		html += "<button onclick='addComparisonResult(" + index1 + ", " + index2 + ", 1.5)'>" + short1 + "<br/>ist 50%<br/>wichtiger</button>";
-		html += "<button onclick='addComparisonResult(" + index1 + ", " + index2 + ", 1.0)'>gleich wichtig</button>";
-		html += "<button onclick='addComparisonResult(" + index2 + ", " + index1 + ", 1.5)'>" + short2 + "<br/>ist 50%<br/>wichtiger</button>";
-		html += "<button onclick='addComparisonResult(" + index2 + ", " + index1 + ", 2.0)'>" + short2 + "<br/>ist 2-fach<br/>wichtiger</button>";
-		html += "<button onclick='addComparisonResult(" + index2 + ", " + index1 + ", 4.0)'>" + short2 + "<br/>ist 4-fach<br/>wichtiger</button>";
-		html += "<button onclick='addOtherFactor(" + index2 + ", " + index1 + ")'>" + short2 + "<br/>ist ...-fach<br/>wichtiger</button>";
+		html += "<button onclick='addOtherFactor(" + index1 + ", " + index2 + ")'>" + short1 + "<br/>ist ...-fach<br/>" + ben1 + "</button>";
+		html += "<button onclick='addComparisonResult(" + index1 + ", " + index2 + ", 4.0)'>" + short1 + "<br/>ist 4-fach<br/>" + ben1 + "</button>";
+		html += "<button onclick='addComparisonResult(" + index1 + ", " + index2 + ", 2.0)'>" + short1 + "<br/>ist 2-fach<br/>" + ben1 + "</button>";
+		html += "<button onclick='addComparisonResult(" + index1 + ", " + index2 + ", 1.5)'>" + short1 + "<br/>ist 50%<br/>" + ben1 + "</button>";
+		html += "<button onclick='addComparisonResult(" + index1 + ", " + index2 + ", 1.0)'>" + ben2 + "</button>";
+		html += "<button onclick='addComparisonResult(" + index2 + ", " + index1 + ", 1.5)'>" + short2 + "<br/>ist 50%<br/>" + ben1 + "</button>";
+		html += "<button onclick='addComparisonResult(" + index2 + ", " + index1 + ", 2.0)'>" + short2 + "<br/>ist 2-fach<br/>" + ben1 + "</button>";
+		html += "<button onclick='addComparisonResult(" + index2 + ", " + index1 + ", 4.0)'>" + short2 + "<br/>ist 4-fach<br/>" + ben1 + "</button>";
+		html += "<button onclick='addOtherFactor(" + index2 + ", " + index1 + ")'>" + short2 + "<br/>ist ...-fach<br/>" + ben1 + "</button>";
 		html += "</center>";
 		$('#comparison').html(html);
 	}
-	
+
+	function shuffle(array) {
+		for (var i = array.length - 1; i > 0; i--) {
+			var j = Math.floor(Math.random() * (i + 1));
+			var temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
+	}
+
 	function shorten(name) {
 		if (name.length > 20) {
 			return name.substring(0, 20) + "...";
@@ -276,6 +288,7 @@
 <h1>Online Quantitative Pairwise Ranking</h1>
 <p>Zu bewertende Einträge (einer pro Zeile):<br/>
 <textarea id="itemInput" cols="100"></textarea><br/>
+Benennung: <input id="benennung1" value="wichtiger"></input><input id="benennung2" value="gleich wichtig"></input><br/>
 <button onclick="start()">Ranking starten >></button>
 </div>
 
