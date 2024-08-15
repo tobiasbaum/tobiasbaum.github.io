@@ -1,0 +1,579 @@
+<html>
+<head>
+<title>Regentonnen-Rechner</title>
+<script>
+function berechnen(
+	dachflaeche, 
+	beetflaeche, 
+	groesseTonne, 
+	fuellungAnfang, 
+	abflussbeiwert, 
+	ertragSammler, 
+	niederschlag, 
+	giessbedarf) {
+  let fuellstandAktuell = fuellungAnfang;
+  let verlustUeberlauf = 0;
+  let verlustSammler = 0;
+  let nutzungRegen = 0;
+  let nutzungLeitung = 0;
+  for (let tag = 1; tag <= 365; tag++) {
+    let gb = (giessbedarf[tag] ?? 0) * beetflaeche;
+    let ni = (niederschlag[tag] ?? 0) * dachflaeche * abflussbeiwert;
+    // vereinfacht: es wird immer erst gegossen und dann regnet es
+    // giessen
+    if (gb < fuellstandAktuell) {
+      // Giessbedarf entnehmen
+      nutzungRegen += gb;
+      fuellstandAktuell -= gb;
+    } else {
+      // komplett entleeren und Rest aus Leitung beziehen
+      nutzungRegen += fuellstandAktuell;
+      nutzungLeitung += (gb - fuellstandAktuell);
+      fuellstandAktuell = 0;
+    }
+    // Niederschlag auffangen
+    let niEff = ni * ertragSammler;
+    verlustSammler += (ni - niEff);
+    if (fuellstandAktuell + niEff > groesseTonne) {
+      verlustUeberlauf += (fuellstandAktuell + niEff - groesseTonne);
+      fuellstandAktuell = groesseTonne;
+    } else {
+      fuellstandAktuell += niEff;
+    }
+  }
+  return {
+    nutzungRegen,
+    nutzungLeitung,
+    verlustUeberlauf,
+    verlustSammler,
+    fuellstandEnde: fuellstandAktuell
+  }
+}
+
+function parseNumberField(name) {
+  return parseFloat(document.getElementsByName(name)[0].value);
+}
+
+function parseNumberFlex(str) {
+  if (str.includes(',')) {
+    return parseFloat(str.replace('.', '').replace(',', '.'));
+  } else {
+    return parseFloat(str);
+  }
+}
+
+function parseTable(name) {
+  let rawText = document.getElementsByName(name)[0].value;
+  let lines = rawText.split("\n");
+  let regex = /([0-9]+)[^0-9]+([0-9.,]+)/;
+  let result = [];
+  for (let line of lines) {
+    if (line.trim() === '') {
+      continue;
+    }
+    let parts = line.trim().match(regex);
+    result[parseInt(parts[1])] = parseNumberFlex(parts[2]);
+  }
+  return result;
+}
+
+function berechnenUndAnzeigen() {
+  alert(JSON.stringify(berechnen(
+    parseNumberField("dachflaeche"), 
+    parseNumberField("beetflaeche"), 
+    parseNumberField("volumen"), 
+    parseNumberField("fuellung_initial"), 
+    parseNumberField("abflussbeiwert"), 
+    parseNumberField("ertrag_sammler") / 100, 
+    parseTable("niederschlag"), 
+    parseTable("giessbedarf")
+  )));
+}
+</script>
+</head>
+<body>
+<h1>Regentonnen-Rechner</h1>
+
+<h2>Benötigte Parameter</h2>
+<table>
+<tr><td>Überdachte Grundfläche</td><td><input name="dachflaeche" type="number" value="20" min="0"></input> m²</td></tr>
+<tr><td>Zu bewässernde Fläche</td><td><input name="beetflaeche" type="number" value="10" min="0"></input> m²</td></tr>
+<tr><td>Inhalt Regentonne</td><td><input name="volumen" type="number" value="500" min="0"></input> l</td></tr>
+</table>
+
+<h2>Weitere Parameter</h2>
+<table>
+<tr><td>Füllung Jahresanfang</td><td><input name="fuellung_initial" type="number" value="0" min="0"></input> l</td></tr>
+<tr><td>Abflussbeiwert</td><td>
+  <input name="abflussbeiwert" type="number" list="beiwerte" min="0" max="1" step="0.1"></input>
+  <datalist id="beiwerte">
+    <option value="1.0">1,0 - Steildach fest</option>
+    <option value="0.9">0,9 - Flachdach fest</option>
+    <option value="0.7">0,7 - Flachdach Kies</option>
+    <option value="0.4">0,4 - Gründach</option>
+  </datalist>
+</td></tr>
+<tr><td>Ertrag Regensammler</td><td><input name="ertrag_sammler" type="number" value="60" min="0" max="100"></input> %</td></tr>
+</table><br/>
+Regen pro m² und Tag (Tag des Jahres;Niederschlag in l):<br/>
+<textarea name="niederschlag">
+1	0,1
+2	1,6
+3	0,1
+4	1,3
+5	0,8
+6	0,7
+7	0,0
+8	1,5
+9	7,0
+10	7,0
+11	6,3
+12	8,1
+13	0,5
+14	0,0
+15	0,0
+16	0,0
+17	0,0
+18	0,0
+19	14,6
+20	7,3
+21	12,4
+22	5,3
+23	30,4
+24	5,5
+25	20,0
+26	0,3
+27	0,3
+28	0,0
+29	9,0
+30	0,0
+31	0,7
+32	1,8
+33	21,4
+34	1,8
+35	3,3
+36	1,5
+37	4,6
+38	0,0
+39	0,0
+40	0,0
+41	0,0
+42	0,0
+43	0,1
+44	1,4
+45	0,6
+46	0,9
+47	0,0
+48	0,0
+49	0,0
+50	0,0
+51	0,0
+52	0,8
+53	4,4
+54	15,7
+55	1,0
+56	0,1
+57	4,9
+58	0,0
+59	0,0
+60	0,0
+61	0,0
+62	1,8
+63	0,0
+64	0,5
+65	0,9
+66	4,1
+67	0,0
+68	11,5
+69	0,1
+70	14,9
+71	6,2
+72	0,0
+73	4,4
+74	0,4
+75	3,3
+76	9,0
+77	0,7
+78	0,0
+79	0,0
+80	16,4
+81	2,5
+82	1,6
+83	4,4
+84	0,4
+85	0,0
+86	1,9
+87	0,1
+88	0,0
+89	0,0
+90	0,0
+91	0,0
+92	0,0
+93	0,0
+94	0,0
+95	1,3
+96	4,1
+97	0,0
+98	0,0
+99	0,0
+100	0,0
+101	0,0
+102	0,3
+103	0,0
+104	1,3
+105	0,0
+106	3,6
+107	1,4
+108	0,0
+109	0,0
+110	0,0
+111	0,8
+112	0,0
+113	12,8
+114	3,1
+115	6,0
+116	0,1
+117	0,0
+118	11,8
+119	0,7
+120	1,2
+121	0,0
+122	1,4
+123	17,6
+124	0,1
+125	1,9
+126	6,3
+127	0,2
+128	0,0
+129	6,6
+130	0,0
+131	0,1
+132	0,0
+133	0,0
+134	0,0
+135	0,0
+136	0,3
+137	3,1
+138	0,8
+139	3,2
+140	3,2
+141	5,5
+142	0,0
+143	0,0
+144	0,0
+145	0,5
+146	7,0
+147	1,6
+148	0,1
+149	0,0
+150	0,0
+151	0,0
+152	0,0
+153	0,0
+154	0,0
+155	0,0
+156	3,5
+157	0,3
+158	0,1
+159	0,0
+160	0,0
+161	0,0
+162	0,0
+163	0,0
+164	0,0
+165	0,0
+166	0,0
+167	0,0
+168	0,2
+169	0,0
+170	0,1
+171	18,0
+172	1,5
+173	18,5
+174	4,8
+175	0,0
+176	7,1
+177	0,4
+178	0,0
+179	0,0
+180	2,7
+181	16,5
+182	10,3
+183	0,1
+184	0,9
+185	0,0
+186	0,0
+187	1,6
+188	0,0
+189	0,0
+190	0,0
+191	0,0
+192	0,0
+193	2,7
+194	0,7
+195	0,7
+196	0,0
+197	0,3
+198	8,0
+199	0,1
+200	9,5
+201	19,4
+202	0,9
+203	0,0
+204	2,3
+205	0,0
+206	0,0
+207	0,0
+208	0,0
+209	0,0
+210	5,4
+211	0,0
+212	37,4
+213	22,3
+214	4,7
+215	4,4
+216	0,1
+217	4,9
+218	0,0
+219	4,7
+220	0,0
+221	0,0
+222	1,6
+223	29,1
+224	3,3
+225	19,1
+226	0,0
+227	0,0
+228	6,5
+229	2,1
+230	0,1
+231	0,0
+232	0,0
+233	0,0
+234	14,5
+235	0,0
+236	9,7
+237	0,0
+238	1,8
+239	1,0
+240	41,9
+241	0,1
+242	0,0
+243	0,0
+244	0,0
+245	1,0
+246	0,0
+247	0,6
+248	0,0
+249	0,0
+250	0,0
+251	0,0
+252	5,1
+253	1,1
+254	0,0
+255	0,0
+256	0,0
+257	0,0
+258	4,1
+259	8,4
+260	0,2
+261	0,0
+262	0,3
+263	0,0
+264	0,0
+265	0,0
+266	0,0
+267	0,0
+268	14,5
+269	0,0
+270	1,8
+271	0,0
+272	0,0
+273	8,4
+274	0,0
+275	0,0
+276	0,0
+277	0,0
+278	0,0
+279	0,0
+280	0,0
+281	0,0
+282	0,0
+283	0,0
+284	0,0
+285	3,7
+286	50,5
+287	6,7
+288	0,0
+289	0,0
+290	0,0
+291	0,2
+292	1,4
+293	0,0
+294	0,0
+295	0,6
+296	0,3
+297	0,0
+298	0,0
+299	0,0
+300	0,0
+301	0,0
+302	0,0
+303	0,1
+304	0,0
+305	0,0
+306	0,0
+307	4,2
+308	0,0
+309	2,1
+310	0,1
+311	2,3
+312	3,5
+313	11,4
+314	0,1
+315	9,7
+316	2,2
+317	19,1
+318	1,0
+319	0,0
+320	1,3
+321	0,0
+322	19,9
+323	1,9
+324	17,5
+325	1,9
+326	0,5
+327	0,3
+328	0,2
+329	18,2
+330	1,1
+331	10,8
+332	4,3
+333	0,0
+334	2,1
+335	2,6
+336	0,7
+337	0,0
+338	0,0
+339	3,3
+340	5,1
+341	1,0
+342	0,8
+343	5,7
+344	1,1
+345	10,0
+346	20,2
+347	0,0
+348	9,2
+349	3,0
+350	3,5
+351	0,0
+352	0,0
+353	3,5
+354	9,9
+355	4,6
+356	0,5
+357	0,0
+358	11,1
+359	1,7
+360	1,6
+361	5,8
+362	12,0
+363	1,4
+364	1,5
+365	0,0
+</textarea><br/><br/>
+Gießbedarf pro m² und Tag (Tag des Jahres;Gießmenge in l):<br/>
+Ermittlung z.B. über <a href="https://www.alb-bayern.de/app">Bewässerungs-App der ALB Bayern e.V.</a><br/>
+<textarea name="giessbedarf">
+138;0.67
+140;0.67
+142;0.67
+149;10
+150;1
+153;1.33
+157;2
+158;10
+162;2
+165;2
+166;10
+168;2
+171;2
+173;10
+177;10
+192;2
+193;2
+194;2
+195;2
+197;2
+198;2
+199;2
+201;2
+202;2
+204;2
+227;2
+231;2
+232;2
+234;2
+235;2
+237;2
+238;2
+242;2
+246;2
+248;2
+250;2
+251;2
+252;2
+253;2
+255;2
+</textarea><br/><br/>
+<!-- Brokkoli:
+177;30
+Karotten (Saat 15.03.):
+28.05.;30
+06.06.;30
+14.06.;30
+21.06.;30
+15.07.;30
+Gurken (Saat 15.05.):
+17.05.;2
+19.05.;2
+21.05.;2
+29.05.;3
+01.06.;4
+05.06.;6
+10.06.;6
+13.06.;6
+16.06.;6
+19.06.;6
+10.07.
+11.07.
+12.07.
+13.
+15.
+16.
+17.
+19.
+20.
+22.
+14.08.
+18.
+19.
+21.
+22.
+24.
+25.
+29.
+02.09.
+04.
+06.
+07.
+08.
+09.
+11.
+-->
+<h2>Ergebnis</h2>
+<button onclick="berechnenUndAnzeigen()">Ergebnis berechnen</button>
+
+</body>
+</html>
