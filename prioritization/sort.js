@@ -33,6 +33,18 @@ function continueRanking() {
 	}
 }
 
+function restart() {
+    let ok = confirm("Really discard all results and restart?");
+    if (ok) {
+        items = [];
+        knownComparisons = {};
+        missingComparisons = [];
+        $("#output").hide();
+        $("#comparison").hide();
+        $("#input").show();
+    }
+}
+
 function updateMissingComparisonCount() {
     let missingCount = 0;
     let knownFakeComparisons = {};
