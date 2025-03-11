@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+   <!--- basic page needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>Kleinstaaterei, Imperium oder Föderation: Wie sieht eine zukunftsfähige Architektur für Dokumentenportale aus?</title>
+	<meta name="description" content="Kleinstaaterei, Imperium oder Föderation: Wie sieht eine zukunftsfähige Architektur für Dokumentenportale aus?">  
+	<meta name="author" content="Tobias Baum">
+
+   <!-- mobile specific metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+ 	<!-- CSS
+   ================================================== -->
+   <style>
+   /* Allgemeine Einstellungen */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+/* Überschriften */
+h1, h2, h3 {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #007bff;
+}
+
+h2 {
+    font-size: 2em;
+    color: #0056b3;
+}
+
+h3 {
+    font-size: 1.75em;
+    color: #003f7f;
+}
+
+/* Absätze */
+p {
+    margin-bottom: 10px;
+}
+
+/* Listen und Aufzählungen */
+ul {
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+/* Links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+   </style>
+
+   <!-- favicons
+	================================================== -->
+	<link rel="shortcut icon" href="favicon.png" >
+
+</head>
+
+<body style="max-width: 1200px; margin: auto">
+
+<a href="http://tobias-baum.de">Zurück zu tobias-baum.de</a>
+
+<h1>Kleinstaaterei, Imperium oder Föderation: Wie sieht eine zukunftsfähige Architektur für Dokumentenportale aus?</h1>
+
+<p>Die digitale Zustellung von Dokumenten von Unternehmen an ihre Kunden und Partner gewinnt zunehmend an Bedeutung, während die klassische Briefpost immer mehr an Relevanz verliert.
+Zwei gängige Methoden der digitalen Zustellung sind E-Mail und Dokumentenportale. Während E-Mails zwar weit verbreitet sind, sind sie mit einigen gravierenden Schwächen behaftet, die
+ihre Funktion als zuverlässiges Mittel der Dokumentenzustellung stark einschränken:</p>
+<img src="pb_email.jpg" align="right" alt="Die E-Mail-Standards sind historisch gewachsen"/>
+<ul>
+<li>E-Mail ist unverschlüsselt (es gibt zwar verschiedene Ansätze für verschlüsselte Mails, diese sind aber in der breiten Praxis de facto gescheitert)</li>
+<li>E-Mail hat keine Zustellgarantie</li>
+<li>E-Mail leidet an Spam / Information Overload. Alles per E-Mail zu verschicken, von "Quasi-Chat" bis zu sehr wichtigen Dokumenten, führt zu einer Verwischung von Anwendungsfällen.</li>
+</ul>
+<p>Gerade wegen der weiten Verbreitung von E-Mail ist unwahrscheinlich, dass die architekturellen Probleme gelöst werden.
+Dokumentenportale sind für wichtige Dokumente deshalb das Mittel der Wahl. Momentan allerdings eher eine Notlösung, denn es gibt mit bisherigen Architekturansätzen für Dokumentenportale einige Probleme,
+wenn man sie bis zur logischen Konsequenz "alle wichtigen Dokumente aller Bürger werden über Dokumentenportalen zugestellt" durchdenkt.
+Im Folgenden möchte ich genauer beschreiben, weshalb ich die bisherige Architekturansätzen (<a href="#kleinstaaterei">"Kleinstaaterei"</a> und <a href="#imperium">"Imperium"</a>) nicht als erstrebenswert ansehe und weshalb eine Zukunft ohne
+physischen Brief einem dritten Ansatz (<a href="#foederation">"Föderation"</a>) folgen sollte!</p>
+
+<br clear="all"/>
+<h2 id="kleinstaaterei">Jeder entwickelt sein eigenes Portal &mdash; Der Ansatz "Kleinstaaterei"</h2>
+<img src="pb_kleinstaaterei.jpg" align="right" alt="Kleinstaaterei - Vielfalt im positiven und negativen Sinne"/>
+
+<p>Ein heute weit verbreiteter Ansatz ist, dass jede Bank, Versicherung oder jedes Unternehmen ihr eigenes Dokumentenportal entwickelt und betreibt. Dies führt übergreifend betrachtet zu einem Nebeneinander unabhängiger Systeme: Kleinstaaterei.</p>
+<p><b>Vorteile:</b></p>
+<ul>
+<li>Der Betreiber behält die volle Kontrolle über die Daten und den Kundenkontaktpunkt.</li>
+<li>Volle Flexibilität für den Betreiber.</li>
+<li>Kein Vertrauen in Dritte nötig, da nur zwei Parteien an der Kommunikation beteiligt sind.</li>
+</ul>
+
+<p><b>Nachteile:</b></p>
+<ul>
+<li>Unbequemer Zugriff aufgrund vieler unterschiedlicher Login-Daten.</li>
+<li>Wildwuchs und viele unterschiedliche UI-Konzepte mit schwankender Qualität.</li>
+<li>Fehlende Synergie; Lernen von den besten Lösungen erfolgt eher langsam.</li>
+</ul>
+
+<p>Die Vorteile liegen hier insgesamt also eher im Bereich Datenschutz/Sicherheit und auf Seiten der Absender-Unternehmen.</p>
+
+<br clear="all"/>
+<h2 id="imperium">Ein zentrales Portal für alle &mdash; Der Ansatz "Imperium"</h2>
+<img src="pb_imperium.jpg" align="right" alt="Imperium - Single Point of Failure"/>
+
+<p>Verschiedene Anbieter haben immer wieder versucht (und tun dies teilweise noch heute), sich als zentrales Dokumentenportal für alle Dokumente zu etablieren, meist als SaaS-Lösung. Dies führt übergreifend betrachtet zu einer zentralen Instanz, die alle Dokumente verwaltet und kontrolliert – ein "Dokumenten-Imperium". In einigen Ländern, insbesondere im skandinavischen Raum, ist dieser Ansatz erfolgreicher als in Deutschland.</p>
+<p><b>Vorteile:</b></p>
+<ul>
+<li>Einheitlichkeit.</li>
+<li>Zentraler Zugang und zentrales Login.</li>
+<li>Kein Betriebsaufwand für einzelne Unternehmen, da SaaS-Lösung.</li>
+</ul>
+
+<p><b>Nachteile:</b></p>
+<ul>
+<li>Große Macht für den Betreiber, ob Staat oder Unternehmen.</li>
+<li>Single Point of Attack, wie nach dem Beispiel Dänemark zu sehen. Die Wahrscheinlichkeit für Angriffe steigt angesichts der weltpolitischen Lage eher noch.</li>
+<li>Single Point of Failure.</li>
+</ul>
+
+<p>Die Vorteile liegen hier insgesamt eher im Bereich Usability aus Nutzersicht, jedoch gibt es große Fragezeichen in Bezug auf Resilienz.</p>
+
+
+<br clear="all"/>
+<h2 id="foederation">Gemeinsame Nutzerschnittstelle bei eigener Datenhaltung &mdash; Der Ansatz "(browserbasierte) Föderation"</h2>
+<img src="pb_foederation.jpg" align="right" width="30%" alt="Föderation - Zusammenschluss unabhängiger Systeme"/>
+<p>Die Klassifizierung von Dokumentenportal-Architekturen kann nach zwei Hauptaspekten erfolgen: (1) Wie die Speicherung der Dokumente global über alle Absender hinweg erfolgt und (2) wie die Schnittstelle aus Benutzersicht
+gestaltet ist. Im derzeit verbreiteten Ansatz der "Kleinstaaterei" sind sowohl die Speicherung als auch die Benutzer-Schnittstelle über verschiedene Systeme hinweg verteilt und fragmentiert. Das "Imperium"-Modell hingegen
+zentralisiert beides – die Speicherung und die Benutzer-Schnittstelle – in einem einzigen System.</p>
+
+<center><img src="pb_matrix.png" style="margin:20px"/></center>
+<p>Ein zukunftsweisender dritter Weg erlaubt es diesen beiden Aspekten, sich unabhängig zu bewegen: Eine verteilte Speicherung der Dokumente bei gleichzeitig konsolidierter Schnittstelle aus Benutzersicht.
+Dies bedeutet eigenständige Dokumentenportale, die sich zu einem kooperierenden System zusammenschließen – eine "Dokumentenportal-Föderation".</p>
+
+<img src="pb_browser.png" align="right" alt="Browserbasierte Föderation nutzt den Web-Browser als Zusammenfassungskomponente"/>
+<p>Eine Föderation, sei es in Star Trek, der Politik oder der IT, ist stets ein Zusammenschluss selbstständiger Einheiten, die nach außen hin einheitlich auftreten. In der IT erfordert dies eine Zusammenfassungs-Komponente,
+die den gemeinsamen Zugriff für Nutzer auf die einzelnen Einheiten innerhalb der Föderation ermöglicht. Wenn diese Zusammenfassungs-Komponente beispielsweise per JavaScript in einem Web-Browser auf dem Client betrieben
+wird und somit ohne zentrale Komponenten auskommt, handelt es sich um eine "browserbasierte Föderation". Diese hat den Vorteil, keine Installation beim Client zu benötigen und keinen Single Point of Attack oder Failure
+zu bieten.</p>
+
+<p>Die Föderation für Dokumentenportale setzt sich aus zwei zentralen Aspekten zusammen: Föderierte Identität/Login mit OpenID als etabliertem Standard und eine föderierte Postfach-Übersicht, die einen zusammengefassten
+Blick auf alle Dokumente von allen Absendern ermöglicht. Die POSY-Postbox (<a href="https://set.de/postbox">https://set.de/postbox</a>) bietet für beide Aspekte eine Lösung.</p>
+
+<p><b>Vorteile der „Dokumentenportal-Föderation“:</b></p>
+<ul>
+<li>Der Betreiber behält die volle Kontrolle über die Daten und den Kundenkontaktpunkt.</li>
+<li>Der Betreiber behält Flexibilität bei der Gestaltung und Anpassung des Systems.</li>
+<li>Es ist kein Vertrauen in Dritte notwendig, da nur zwei Parteien an der Kommunikation beteiligt sind.</li>
+<li>Synergien zwischen den verschiedenen Teilnehmer-Portalen können besser genutzt werden.</li>
+<li>Einfacher, einheitlicher Zugang für die Endnutzer.</li>
+</ul>
+
+<p><b>Nachteile:</b></p>
+<ul>
+<li>Es ist ein gewisses Maß an Standardisierung und Zusammenarbeit unter den verschiedenen beteiligten Parteien erforderlich.</li>
+</ul>
+
+<p>Dieser Ansatz vereint das Beste aus den anderen Modellen: Er bietet eine gute Usability für die Nutzer, während gleichzeitig hoher Datenschutz, Resilienz und Erweiterbarkeit für die Betreiber gewährleistet sind.
+Die Dokumentenportal-Föderation stellt somit ein fortschrittliches und nachhaltiges Architekturmodell für die Zustellung wichtiger Dokumente dar, das den Anforderungen und Herausforderungen der digitalen Zukunft gerecht wird.</p>
+
+<br clear="all"/>
+<h2>Weitere Gedanken...</h2>
+
+<h3>Ist E-Mail Föderation?</h3>
+<p>In gewisser Weise stellt auch das E-Mail-System einen Föderationsansatz dar: Die Datenhaltung erfolgt verteilt, da jeder Empfänger seinen eigenen Mailserver betreiben oder einen Anbieter frei wählen kann. Zudem ist die
+Nutzerschnittstelle standardisiert und je Benutzer zentralisierbar, da alle Dokumente aller Absender in einem einzigen Mail-Client verfügbar sind.</p>
+
+<p>Doch abgesehen von den "historisch gewachsenen" Schwächen des E-Mail-Systems gibt es insbesondere einen entscheidenden Unterschied zur Föderationsarchitektur für Dokumentenportale: die Zuständigkeit für die Speicherung
+der Dokumente und den Betrieb der zugehörigen Server. Bei E-Mail liegt diese Aufgabe bei den Empfängern, während bei der Föderationsarchitektur für Dokumentenportale die Absender-Unternehmen dafür zuständig sind.</p>
+
+<p>Gerade im Kontext der Kommunikation zwischen Unternehmen und ihren Kunden/Partnern führt dies zu einem Ungleichgewicht: Unternehmen verfügen in der Regel über mehr IT-Expertise und Ressourcen als ihre Kunden.
+Wenn die Empfänger die Server betreiben müssen, bleibt ihnen häufig keine andere Wahl, als auf Drittanbieter zurückzugreifen, wie es im E-Mail-Bereich auch üblich ist. Dadurch wird erneut eine dritte Partei in die
+Kommunikation eingebunden, was wiederum die genannten Nachteile mit sich bringt.</p>
+
+<p>Bei der Kommunikation zwischen Privatpersonen stellt sich die Situation anders dar: Hier verfügen beide Seiten der Kommunikation im Durchschnitt über keine besondere IT-Expertise. Der Betrieb durch den Absender
+würde somit ähnliche Probleme verursachen wie der Betrieb durch den Empfänger.</p>
+
+<p>Die Föderationsarchitektur für Dokumentenportale überwindet diese Herausforderung, indem sie die Verantwortung für die Speicherung und den Serverbetrieb den Absender-Unternehmen überträgt und
+gleichzeitig eine einheitliche Nutzerschnittstelle bietet. Auf diese Weise werden die Vorteile einer föderierten Struktur genutzt, ohne die Nachteile durch Einbindung einer dritten Partei entstehen zu lassen.</p>
+
+<h3>Was ist mit Secure-Mail-Anbietern?</h3>
+
+<p>Secure-Mail-Anbieter preisen ihre Dienste oft als die verlässliche Lösung für die sichere digitale Kommunikation zwischen Unternehmen und ihren Kunden an. Häufig werden diese Anbieter als die sichere Alternative
+zu traditionellen E-Mail-Diensten positioniert. Doch wenn wir diese Dienstleistungen genauer betrachten, sehen wir, dass sie nach der oben genannten Klassifikation nichts anderes sind als
+zentrale Dokumentenportale – also ein "Imperium" im digitalen Raum.</p>
+
+<p>Obwohl diese Secure-Mail-Dienste attraktive Features wie verschlüsselte Nachrichten und eine nahtlose Integration in bestehende E-Mail-Workflows bieten, bringen sie auch die typischen Probleme eines zentralen
+Systems mit sich. Diese zentralisierten Ansätze bündeln die Kontrolle und Verwaltung der Dokumente an einer einzigen Stelle, wodurch der Betreiber signifikante Macht erlangt. Das führt zu den bekannten Risiken
+eines Single Points of Attack und Failure – eine Schwachstelle, die besonders in Zeiten zunehmender Cyberangriffe und geopolitischer Spannungen brisant ist.</p>
+
+<p>So wie bei herkömmlichen zentralisierten Dokumentenportalen, stehen auch bei Secure-Mail-Anbietern die Fragen im Raum: Wer soll diese Macht innehaben? Ist es der Staat, der diese Schlüsselrolle übernehmen sollte,
+oder ein privates Unternehmen? Unabhängig von der Antwort bleibt die Tatsache bestehen, dass die zentrale Bündelung der Daten eine attraktive Zielscheibe für Angreifer darstellt und die Widerstandsfähigkeit des
+Systems erheblich beeinträchtigen kann.</p>
+
+<p>Zusammengefasst treten die Probleme, die wir bei traditionellen zentralen Dokumentenportalen sehen, auch bei Secure-Mail-Anbietern auf. Die Versprechungen von Sicherheit und Effizienz müssen daher kritisch
+hinterfragt werden, besonders wenn Alternativen wie föderierte Architekturen existieren, die sowohl die Sicherheit als auch die Flexibilität und Resilienz wesentlich verbessern können.</p>
+
+
+<h3>Welches Interesse haben Unternehmen an der Föderationsarchitektur?</h3>
+
+<p>Während die Vorteile der Föderationsarchitektur auf den ersten Blick hauptsächlich beim Empfänger liegen, können auch Unternehmen erheblich davon profitieren. Im Zuge des digitalen Wandels versprechen sich
+Unternehmen vom Wechsel von physischer Zustellung zu Dokumentenportalen vor allem zwei Dinge: geringere Kosten und einen zusätzlichen Touch-Point mit dem Kunden. Letzteres ist besonders wichtig, um die Kundenbindung
+zu stärken und weitere Geschäftsmöglichkeiten zu eröffnen.</p>
+
+<center><img src="pb_nutzen.png" width="70%" alt="Der Nutzen von Föderation für Unternehmen liegt in mehr Registrierungen und mehr regelmäßigen Nutzern"/></center>
+<p>Damit diese Vorteile zur Geltung kommen, muss das Dokumentenportal auch tatsächlich von den Kunden genutzt werden. Dies betrifft sowohl die Registrierung neuer Nutzer als auch die regelmäßige Nutzung des Portals.
+Hierbei kann die Föderationsarchitektur entscheidend helfen. Sie baut Hemmschwellen für die Registrierung ab, indem sie einfachere und konsolidierte Zugänge ermöglicht. Darüber hinaus fördert sie den Aufbau einer
+Gewohnheit zum regelmäßigen Abruf der Dokumente, da die Nutzer von einem benutzerfreundlichen und einheitlichen Zugang für alle ihre Dokumente profitieren.</p>
+
+<p>Die positiven Auswirkungen dieses Ansatzes werden durch Ergebnisse der SDP-2-Studie untermauert (<a href="https://mds-it.de/sdp-2">https://mds-it.de/sdp-2</a>). Ein beispielhafter Business Case zeigt für ein Unternehmen mit 3.000.000 Kunden
+einen Zuwachs von 660.000 registrierten Kunden und 350.000 zusätzlichen regelmäßigen Nutzungen. Dies führt zu einem potenziellen Nutzen von insgesamt 1,8 Millionen Euro pro Jahr im Optimalfall und immer noch rund
+800.000 Euro pro Jahr unter pessimistischeren Annahmen.</p>
+
+<p>Diese Zahlen verdeutlichen, dass die Föderationsarchitektur nicht nur den Komfort und die Sicherheit für die Endnutzer erhöht, sondern auch erhebliche wirtschaftliche Vorteile für Unternehmen bietet. Durch die
+erleichterte Registrierung und erhöhte Nutzungsfrequenz können Unternehmen ihre Betriebskosten senken und gleichzeitig eine engere Beziehung zum Kunden aufbauen. So schafft die Föderationsarchitektur eine Win-Win-Situation
+für alle Beteiligten und stellt ein zukunftsweisendes Modell für die digitale Dokumentenzustellung dar.</p>
+
+<br clear="all"/>
+<h2>Mein Fazit</h2>
+
+<p>Alle bisherigen Ansätze zur Ablösung des physischen Briefs haben inakzeptable Schwächen: E-Mail ist unsicher, verschlüsselte E-Mail ist unpraktisch, "Kleinstaaterei" mit Dokumentenportalen ist gegenüber
+dem physischen Briefkasten ein deutlicher Rückschritt für den Empfänger und zentrale Dokumentenportale sehen auf den ersten Blick gut aus, bergen aber untragbare Risiken in Bezug auf Datenschutz und Sicherheit.
+Der einzige Ansatz, bei dem ich bisher keine gravierenden Schwächen sehe, ist die oben beschriebene browserbasierte Föderationsarchitektur. Deshalb arbeite ich mit meinen Kollegen bei der <a href="https://set.de">SET</a> daran, diesen
+Wirklichkeit werden zu lassen. Seht ihr Schwächen, die ich übersehen habe? Habt ihr Fragen oder andere Anmerkungen? Meldet euch gerne bei mir!</p>
+
+<a href="http://tobias-baum.de">Zurück zu tobias-baum.de</a>
+
+</body>
+
+</html>
