@@ -4,6 +4,15 @@ var missingComparisons;
 var currentSortFunction;
 var showResultsSorted = true;
 
+// Cache für Offline-Modus aktivieren
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./worker.js').then((registration) => {
+    console.log('Service Worker registered with scope:', registration.scope);
+  }).catch((error) => {
+    console.log('Service Worker registration failed:', error);
+  });
+}
+
 function startRanking(rankFunction) {
 	var text = $("#itemInput").val();
 	var itemsRaw = text.split("\n");
