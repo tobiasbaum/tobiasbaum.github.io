@@ -170,63 +170,133 @@ function doubleOutSort(arr, comparator) {
     if (arr.length == 0) {
 		return [];
 	}
+    if (arr.length == 1) {
+        return arr.slice();
+    }
 	console.log("start double out " + arr);
     var currentWinnerBracket = arr.slice();
 	var currentLoserBracket = [];
-	var result = [];
+    var rankingData = [];
+    var round = 1;
+    var playedOpponents = {};
 	while (currentWinnerBracket.length > 1) {
-		console.log("new round " + currentWinnerBracket + "; " + currentLoserBracket);
+		console.log("new round " + round + " " + currentWinnerBracket + "; " + currentLoserBracket);
 		var nextWinnerBracket = [];
 		var nextLoserBracket = [];
 		
-		playMatches(currentWinnerBracket, comparator, nextWinnerBracket, nextLoserBracket);
+		playMatches(currentWinnerBracket, comparator, playedOpponents, nextWinnerBracket, nextLoserBracket);
 		console.log("after winner bracket " + nextWinnerBracket + "; " + nextLoserBracket);
 		currentWinnerBracket = nextWinnerBracket;
 
 		var outInCurrentRound = [];
 		do {
-			playMatches(currentLoserBracket, comparator, nextLoserBracket, outInCurrentRound);
+			playMatches(currentLoserBracket, comparator, playedOpponents, nextLoserBracket, outInCurrentRound);
 			console.log("after loser bracket " + nextWinnerBracket + "; " + nextLoserBracket);
 			currentLoserBracket = nextLoserBracket;
 			nextLoserBracket = [];
 		} while (currentLoserBracket.length > currentWinnerBracket.length);
-		
-		//sort shall be stable, therefore select items in order of input array
-		for (var i = arr.length - 1; i >= 0; i--) {
-			if (outInCurrentRound.includes(arr[i])) {
-				result.unshift(arr[i]);
-			}
-		}
+        for (var i = 0; i < outInCurrentRound.length; i++) {
+            rankingData.push(initRankingData(outInCurrentRound[i], round));
+        }
+        round++;
 	}
-    if (currentLoserBracket.length == 0) {
-		result.unshift(currentWinnerBracket[0]);
-	} else {
-		if (comparator(currentWinnerBracket[0], currentLoserBracket[0]) < 0) {
-			result.unshift(currentLoserBracket[0]);
-			result.unshift(currentWinnerBracket[0]);
-		} else {
-			result.unshift(currentWinnerBracket[0]);
-			result.unshift(currentLoserBracket[0]);
-		}
-	}
-	return result;
+    // Finale: Gewinner Winner-Bracket gegen Gewinner Loser-Bracket
+    if (comparator(currentWinnerBracket[0], currentLoserBracket[0]) < 0) {
+        rankingData.push(initRankingData(currentLoserBracket[0], round++));
+        rankingData.push(initRankingData(currentWinnerBracket[0], round++));
+    } else {
+        rankingData.push(initRankingData(currentWinnerBracket[0], round++));
+        rankingData.push(initRankingData(currentLoserBracket[0], round++));
+    }
+    // Gewinne im direkten Vergleich ermitteln
+    for (var i = 0; i < rankingData.length; i++) {
+        let ri = rankingData[i];
+        for (var j = i + 1; j < rankingData.length; j++) {
+            let rj = rankingData[j];
+            if (ri.r == rj.r) {
+                if (playedOpponents[ri.name].indexOf(rj.name) >= 0) {
+                    if (comparator(ri.name, rj.name) < 0) {
+                        ri.d = ri.d + 1;
+                    } else {
+                        rj.d = rj.d + 1;
+                    }
+                }
+            }
+        }
+    }
+    // Buchholz-Zahlen ermitteln
+    for (var i = 0; i < rankingData.length; i++) {
+        let ri = rankingData[i];
+        let opponents = playedOpponents[ri.name];
+        for (let j = 0; j < opponents.length; j++) {
+            let oppR = findRankingData(rankingData, opponents[j]);
+            ri.b += oppR.r;
+        }
+    }    
+    // Buchholz-Buchholz-Zahlen ermitteln
+    for (var i = 0; i < rankingData.length; i++) {
+        let ri = rankingData[i];
+        let opponents = playedOpponents[ri.name];
+        for (let j = 0; j < opponents.length; j++) {
+            let oppR = findRankingData(rankingData, opponents[j]);
+            ri.bb += oppR.b;
+        }
+    }    
+    // Ergebnis mit Feinwertung ermitteln
+    rankingData.sort(function(r1, r2) {
+        if (r1.r != r2.r) {
+            return r2.r - r1.r;
+        }
+        if (r1.d != r2.d) {
+            return r2.d - r1.d;
+        }
+        if (r1.b != r2.b) {
+            return r2.b - r1.b;
+        }
+        if (r1.bb != r2.bb) {
+            return r2.bb - r1.bb;
+        }
+        return arr.indexOf(r1.name) - arr.indexOf(r2.name);
+    });
+	return rankingData.map(function(r) { return r.name; });
 }
 
-function playMatches(arr, comparator, winnerBuffer, loserBuffer) {
+function findRankingData(list, name) {
+    for (let i = 0; i < list.length; i++) {
+        if (list[i].name === name) {
+            return list[i];
+        }
+    }
+    throw "should not happen";
+}
+
+function initRankingData(name, round) {
+    return {
+        name: name,
+        r: round,
+        d: 0,
+        b: 0,
+        bb: 0
+    }
+}
+
+function playMatches(arr, comparator, playedOpponents, winnerBuffer, loserBuffer) {
     if (arr.length % 2 == 0) {
 	    for (var i = 0; i < arr.length / 2; i++) {
-			playMatch(arr[i], arr[arr.length - i - 1], comparator, winnerBuffer, loserBuffer);
+			playMatch(arr[i], arr[arr.length - i - 1], comparator, playedOpponents, winnerBuffer, loserBuffer);
 		}
 	} else {
 	    for (var i = 1; i <= arr.length / 2; i++) {
-			playMatch(arr[i], arr[arr.length - i], comparator, winnerBuffer, loserBuffer);
+			playMatch(arr[i], arr[arr.length - i], comparator, playedOpponents, winnerBuffer, loserBuffer);
 		}
 		winnerBuffer.push(arr[0]);
 	}
 }
 
-function playMatch(a, b, comparator, winnerBuffer, loserBuffer) {
+function playMatch(a, b, comparator, playedOpponents, winnerBuffer, loserBuffer) {
 	console.log("playing " + a + " vs " + b);
+    addToSet(playedOpponents, a, b);
+    addToSet(playedOpponents, b, a);
 	if (comparator(a, b) <= 0) {
 		winnerBuffer.push(a);
 		loserBuffer.push(b);
@@ -234,4 +304,14 @@ function playMatch(a, b, comparator, winnerBuffer, loserBuffer) {
 		winnerBuffer.push(b);
 		loserBuffer.push(a);
 	}
+}
+
+function addToSet(map, a, b) {
+    if (!map[a]) {
+        map[a] = [];
+    }
+    let idx = map[a].indexOf(b);
+    if (idx < 0) {
+        map[a].push(b);
+    }
 }

@@ -23,8 +23,13 @@ QUnit.test( "double out three items", function( assert ) {
 QUnit.test( "double out four items", function( assert ) {
   assert.deepEqual( doubleOutSort([1, 2, 3, 4], stdCmp), [1, 2, 3, 4], "Passed!" );
 });
-QUnit.test( "double out four items is stable", function( assert ) {
-  assert.deepEqual( doubleOutSort([4, 3, 2, 1], stdCmp), [1, 2, 4, 3], "Passed!" );
+QUnit.test( "double out four items is uses direct comparison", function( assert ) {
+  knownComparisons = {}
+  knownComparisons["1\n4"] = -1;
+  knownComparisons["2\n3"] = -1;
+  knownComparisons["1\n2"] = -1;
+  knownComparisons["3\n4"] = -1;
+  assert.deepEqual( doubleOutSort([4, 3, 2, 1], cmp), [1, 2, 3, 4], "Passed!" );
 });
 QUnit.test( "double out five items", function( assert ) {
   assert.deepEqual( doubleOutSort([1, 2, 3, 4, 5], stdCmp), [1, 2, 3, 4, 5], "Passed!" );
@@ -34,8 +39,14 @@ QUnit.test( "double out five items", function( assert ) {
   assert.deepEqual( doubleOutSort([2, 3, 4, 5, 1], stdCmp), [1, 2, 3, 4, 5], "Passed!" );
 });
 QUnit.test( "double out eight items", function( assert ) {
-  assert.deepEqual( doubleOutSort([1, 2, 3, 4, 5, 6, 7, 8], stdCmp), [1, 2, 3, 4, 5, 6, 7, 8], "Passed!" );
+  assert.deepEqual( doubleOutSort([1, 2, 3, 4, 5, 6, 7, 8], stdCmp), [1, 2, 3, 4, 5, 6, 8, 7], "Passed!" );
+});
+QUnit.test( "double out eight items with Buchholz", function( assert ) {
+  assert.deepEqual( doubleOutSort([8, 7, 6, 5, 4, 3, 2, 1], stdCmp), [1, 2, 3, 4, 5, 6, 8, 7], "Passed!" );
+});
+QUnit.test( "double out eight items with Buchholz 2", function( assert ) {
+  assert.deepEqual( doubleOutSort([4, 8, 7, 3, 2, 1, 6, 5], stdCmp), [1, 2, 3, 4, 7, 6, 5, 8], "Passed!" );
 });
 QUnit.test( "double out nine items", function( assert ) {
-  assert.deepEqual( doubleOutSort([1, 2, 3, 4, 5, 6, 7, 8, 9], stdCmp), [1, 2, 3, 4, 5, 6, 7, 8, 9], "Passed!" );
+  assert.deepEqual( doubleOutSort([1, 2, 3, 4, 5, 6, 7, 8, 9], stdCmp), [1, 2, 3, 4, 5, 7, 6, 9, 8], "Passed!" );
 });
