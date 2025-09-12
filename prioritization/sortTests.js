@@ -50,3 +50,31 @@ QUnit.test( "double out eight items with Buchholz 2", function( assert ) {
 QUnit.test( "double out nine items", function( assert ) {
   assert.deepEqual( doubleOutSort([1, 2, 3, 4, 5, 6, 7, 8, 9], stdCmp), [1, 2, 3, 4, 5, 7, 6, 9, 8], "Passed!" );
 });
+
+
+QUnit.test( "quickselect 1-element array", function( assert ) {
+  assert.deepEqual( quickselect([1], stdCmp, 1), [1], "Passed!" );
+  assert.deepEqual( quickselect([1], stdCmp, 2), [1], "Passed!" );
+});
+QUnit.test( "quickselect 2-element array", function( assert ) {
+  assert.deepEqual( quickselect([1, 2], stdCmp, 1), [1, 2], "Passed!" );
+  assert.deepEqual( quickselect([2, 1], stdCmp, 1), [1, 2], "Passed!" );
+  assert.deepEqual( quickselect([1, 2], stdCmp, 2), [1, 2], "Passed!" );
+  assert.deepEqual( quickselect([2, 1], stdCmp, 2), [2, 1], "Passed!" );
+});
+QUnit.test( "quickselect 3-element array", function( assert ) {
+  assert.deepEqual( quickselect([1, 2, 3], stdCmp, 1), [1, 2, 3], "Passed!" );
+  assert.deepEqual( quickselect([3, 2, 1], stdCmp, 1), [1, 2, 3], "Passed!" );
+  assert.deepEqual( quickselect([2, 3, 1], stdCmp, 1), [1, 3, 2], "Passed!" );
+  assert.deepEqual( quickselect([1, 2, 3], stdCmp, 2), [1, 2, 3], "Passed!" );
+  assert.deepEqual( quickselect([3, 2, 1], stdCmp, 2), [1, 2, 3], "Passed!" );
+  assert.deepEqual( quickselect([2, 3, 1], stdCmp, 2), [1, 2, 3], "Passed!" );
+});
+QUnit.test( "quickselect longer array", function( assert ) {
+  assert.deepEqual( quickselect([1, 2, 3, 4, 5, 6], stdCmp, 3), [1, 2, 3, 4, 6, 5], "Passed!" );
+  assert.deepEqual( quickselect([1, 2, 3, 4, 5, 6, 7, 8, 9], stdCmp, 1), [1, 3, 4, 5, 6, 7, 8, 2, 9], "Passed!" );
+  assert.deepEqual( quickselect([9, 8, 7, 6, 5, 4, 3, 2, 1], stdCmp, 1), [1, 7, 6, 5, 4, 3, 2, 8, 9], "Passed!" );
+  assert.deepEqual( quickselect([1, 2, 3, 4, 5, 6, 7, 8, 9], stdCmp, 3), [1, 2, 3, 7, 8, 4, 6, 5, 9], "Passed!" );
+  assert.deepEqual( quickselect([9, 8, 7, 6, 5, 4, 3, 2, 1], stdCmp, 3), [1, 2, 3, 4, 5, 6, 8, 9, 7], "Passed!" );
+  assert.deepEqual( quickselect([3, 3, 3, 2, 2, 2, 1, 1, 1], stdCmp, 3), [1, 1, 1, 2, 2, 2, 3, 3, 3], "Passed!" );
+});

@@ -161,7 +161,7 @@ function toKey(a, b) {
 }
 
 function fullSort(arr, comparator) {
-	var copy = items.slice();
+	var copy = arr.slice();
 	copy.sort(comparator);
 	return copy;
 }
@@ -315,3 +315,78 @@ function addToSet(map, a, b) {
         map[a].push(b);
     }
 }
+
+function topN(arr, comparator) {
+    let n = parseInt($("#topCount").val());
+	return quickselect(arr, comparator, n);
+}
+
+function quickselect(arr, comparator, count) {
+    console.log('quickselect ' + count + ': ' + JSON.stringify(arr) + " with " + JSON.stringify(knownComparisons));
+	let copy = arr.slice();
+	quickselectRec(copy, comparator, count, 0, copy.length);
+    //TODO: Feinsortierung auf Basis der vorhandenen Vergleiche
+	return copy;
+}
+
+function quickselectRec(arr, comparator, count, from, to) {
+    if (count <= from || count >= to) {
+        return;
+    }
+
+    console.log('quickselect start ' + count + ', ' + from + ', ' + to + ': ' + JSON.stringify(arr));
+
+    // pivot ermitteln
+    let p1 = arr[from];
+    let p2 = arr[Math.floor((from + to) / 2)];
+    let p3 = arr[to - 1];
+    let pivot;
+    if (comparator(p1, p2) < 0) {
+        if (comparator(p1, p3) < 0) {
+            pivot = p1;
+        } else {
+            pivot = p3;
+        }
+    } else {
+        if (comparator(p2, p3) < 0) {
+            pivot = p2;
+        } else {
+            pivot = p3;
+        }
+    }
+    
+    // an pivot teilen
+    let lessTo = from;
+    let greaterFrom = to;
+    let i = from;
+    while(i < greaterFrom) {
+        let cmp = comparator(arr[i], pivot);
+        if (cmp < 0) {
+            // aktuelles Element ist kleiner als pivot
+            swap(arr, lessTo, i);
+            lessTo++;
+            i++;
+        } else if (cmp > 0) {
+            // aktuelles Element ist größer als pivot
+            swap(arr, greaterFrom - 1, i);
+            greaterFrom--;
+        } else {
+            // aktuelles Element ist gleich pivot
+            i++;
+        }
+    }
+    
+    //prüfen, in welchem Bereich die Grenze liegt, und entsprechend absteigen
+    if (count < lessTo) {
+        quickselectRec(arr, comparator, count, from, lessTo);
+    } else if (count > greaterFrom) {
+        quickselectRec(arr, comparator, count, greaterFrom, to);
+    }
+}
+
+function swap(arr, i1, i2) {
+    let tmp = arr[i1];
+    arr[i1] = arr[i2]; 
+    arr[i2] = tmp;
+}
+

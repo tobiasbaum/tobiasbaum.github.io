@@ -12,12 +12,13 @@
 <body>
 <div id="input">
 <h1>Online Prioritization Tool</h1>
-<p>To act effectively, it is often needed to rank a set of of items by importance. In many other situations, too, sorting or ranking items is useful. Psychological research shows that humans are better at comparing items than at estimating their importance one by one. Therefore, this tool lets you compare pairs of items to determine their order. There are two variants: <i>Double-out prioritization</i> is more efficient when you are mainly interested in the top items of the ranking, whereas <i>full sorting</i> needs more comparisons but gives equal weight to all parts of the ranking. Just paste your items in the textbox below and click the respective button to start.</p>
+<p>To act effectively, it is often needed to rank a set of of items by importance. In many other situations, too, sorting or ranking items is useful. Psychological research shows that humans are better at comparing items than at estimating their importance one by one. Therefore, this tool lets you compare pairs of items to determine their order. There are two variants: <i>Double-out prioritization</i> is more efficient when you are mainly interested in the top items of the ranking, whereas <i>full sorting</i> needs more comparisons but gives equal weight to all parts of the ranking. <i>Top-N selection</i> is adequate if you are only interested in splitting into two groups: The top N items and the rest. Just paste your items in the textbox below and click the respective button to start.</p>
 
 <p>Items to rank (one per line):<br/>
 <textarea id="itemInput" cols="100"></textarea><br/>
 <button onclick="startRanking(fullSort)">Full ranking is relevant (full sort) >></button><br/>
-<button onclick="startRanking(doubleOutSort)">Upper part is more relevant (double-out ranking) >></button></p>
+<button onclick="startRanking(doubleOutSort)">Upper part is more relevant (double-out ranking) >></button><br/>
+<button onclick="startRanking(topN)">Top-N selection is relevant (quickselect) >></button> N=<input id="topCount" type="number" min="1" value="3"></input></p>
 
 <p>If you want to learn more about the double-out technique, read the <a href="https://en.wikipedia.org/wiki/Double-elimination_tournament">Wikipedia article on Double-Elimination Tournaments</a>. This tool is a service by <a href="http://tobias-baum.de">tobias-baum.de</a>.
 </div>
