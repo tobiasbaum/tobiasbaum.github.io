@@ -34,7 +34,7 @@ function startRanking(rankFunction) {
 
 function continueRanking() {
 	try {
-		var copy = currentSortFunction(items, cmp);
+		let copy = currentSortFunction(items, cmp);
 		showResults(copy);
 	} catch (err) {
         updateMissingComparisonCount();
@@ -77,7 +77,7 @@ function updateMissingComparisonCount() {
 }
 
 function showResults(sortedItems) {
-	var res;
+	let res;
 	if (showResultsSorted) {
 		res = formatResultsSorted(sortedItems);
 	} else {
