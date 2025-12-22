@@ -341,17 +341,29 @@ function quickselectRec(arr, comparator, count, from, to) {
     let p2 = arr[Math.floor((from + to) / 2)];
     let p3 = arr[to - 1];
     let pivot;
-    if (comparator(p1, p2) < 0) {
-        if (comparator(p1, p3) < 0) {
-            pivot = p1;
-        } else {
-            pivot = p3;
-        }
+    if (to - from <= 5) {
+        pivot = p2;
     } else {
-        if (comparator(p2, p3) < 0) {
-            pivot = p2;
+        if (comparator(p1, p2) < 0) {
+            if (comparator(p1, p3) < 0) {
+                if (comparator(p2, p3) < 0) {
+                    pivot = p2;
+                } else {
+                    pivot = p3;
+                }
+            } else {
+                pivot = p1;
+            }
         } else {
-            pivot = p3;
+            if (comparator(p2, p3) < 0) {
+                if (comparator(p1, p3) < 0) {
+                    pivot = p1;
+                } else {
+                    pivot = p3;
+                }
+            } else {
+                pivot = p2;
+            }
         }
     }
     
