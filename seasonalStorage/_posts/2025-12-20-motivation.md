@@ -7,7 +7,7 @@ Ein paar Zahlen aus meinem eigenen Haushalt illustrieren das Problem:
 - Im Sommer und selbst in der Übergangszeit kommen wir damit fast immer sehr gut über Tag und Nacht und haben hohe Überschüsse.
 - Im Winter hingegen ist der Akku sehr häufig leer.
 - Alles in allem haben wir in einem Beispieljahr
--- x kWh ins Netz eingespeist
+-- 6120 kWh ins Netz eingespeist
 -- x kWh aus dem Netz bezogen
 - Übers Jahr gerechnet könnten wir uns also komplett selbst versorgen - wenn das Problem der Saisonalspeicherung nicht wäre.
 
