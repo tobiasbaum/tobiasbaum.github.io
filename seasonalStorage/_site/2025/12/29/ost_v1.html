@@ -1,0 +1,150 @@
+<h1 id="anforderungen---v1">Anforderungen - V1</h1>
+
+<p>Auch wenn es sich bei diesem Projekt um ein Open-Hardware-Hobbyprojekt handelt: Irgendwie ist es doch “Produktentwicklung”. Und als solches dürften strukturierte Ansätze zur Produktentwicklung nützlich sein, z.B. Denken in <a href="https://www.producttalk.org/opportunity-solution-trees/">“Opportunity-Solution-Trees”</a> und <a href="https://www.producttalk.org/hypothesis-testing/">Brainstormen und Bewerten von zugrundeliegenden Annahmen</a>. Ersteres, d.h. Ziele und alternative Lösungsansätze, habe ich im Artikel <a href="/seasonalStorage/_site/2025/12/20/motivation.html">Motivation</a> kurz angeschnitten. Hier soll es jetzt um ein erstes Brainstormen von Anforderungen, zugehörigen Hypothesen und auch eine erste Abschätzung dazu gehen.</p>
+
+<h2 id="anforderungenhypothesen">Anforderungen/Hypothesen</h2>
+
+<p>Annahme: Eine Saisonalspeicherlösung funktioniert für mich, wenn sie gleichzeitig …</p>
+<ul>
+  <li>einen ausreichenden Teil der überschüssigen Energie aus den Sommermonaten im Winter zur Verfügung stellen kann (Anforderung “Wirkungsgrad”)</li>
+  <li>das Speichern einer ausreichenden Energiemenge erlaubt (Anforderung “Kapazität”)</li>
+  <li>ausreichend Leistung abgeben kann, wenn diese benötigt wird (Anforderung “Entnahmeleistung”)</li>
+  <li>ausreichend Leistung aufnehmen kann, wenn diese zur Verfügung steht (Anforderung “Ladeleistung”)</li>
+  <li>klein genug ist (Anforderung “Platzbedarf”)</li>
+  <li>sicher genug ist (Anforderung “Sicherheit”)</li>
+  <li>günstig genug ist (Anforderung “Preis”)</li>
+  <li>haltbar genug ist (Anforderung “Haltbarkeit”)</li>
+  <li>mit den mir zur Verfügung stehenden Mitteln gebaut werden kann (Anforderung “DIY”)</li>
+  <li>legal ist (Anforderung “Legalität”)</li>
+</ul>
+
+<p>Das “gleichzeitig” ist dabei wichtig. Die Einzelanforderungen sind einfach zu erfüllen. Auch für die kompletten Anforderungen außer “Preis” und “DIY” gibt es u.a. mit Picea den Beweis, dass es funktioniert.</p>
+
+<h2 id="anforderung-preis">Anforderung “Preis”</h2>
+<h3 id="was-heißt-das-konkret">Was heißt das konkret?</h3>
+<p>Bei einem Fremdbezug von 1376 kWh in meinem Beispieljahr ergibt sich bei Bezugskosten pro kWh von 38,18 Ct. ein Einsparpotenzial von 525 €/Jahr. Wenn sich die Investition nach 10 Jahren amortisiert haben soll, stehen also max. 5250 € zur Verfügung.</p>
+
+<p>Allerdings geht (zumindest aktuell noch) auch Einspeisevergütung verloren. Damit wird die Rechnung vom Wirkungsgrad abhängig:</p>
+<ul>
+  <li>Bei 100% Wirkungsgrad gehen 1376 kWh Einspeisung verloren. Bei einer Vergütung von 0,082 €/kWh entspricht dies 113 €/Jahr und das Einsparpotenzial reduziert sich auf 412 €/Jahr.</li>
+  <li>Bei Nutzung des kompletten Überschusses (6120 kWh; Wirkungsgrad 23%) entspricht dies 502 €/Jahr, sodass sich das Einsparpotenzial auf 23 €/Jahr reduziert.</li>
+  <li>Bei 50% Wirkungsgrad gehen 2752 kWh Einspeisung verloren, d.h. 226 € Jahr. Es verbleibt ein Einsparpotenzial von 299 €/Jahr.</li>
+</ul>
+
+<p>Ich gehe bis auf weiteres von Zielkosten von ganz grob 2000 € über 5-10 Jahre aus.</p>
+
+<h3 id="erste-abschätzungen">Erste Abschätzungen</h3>
+
+<p>Im Idealfall fallen als Betriebskosten nur die Wasserkosten an. Wasserstoff (H2) hat einen Heizwert von 241,8 kJ/mol (<a href="https://www.pemfc.de/h2energie.pdf">https://www.pemfc.de/h2energie.pdf</a>). Bei einem angenommenen Speicherbedarf von 1500 kWh entspricht dies 22332 Mol H2 (1500*3600/241,8; 1 kWh = 3600 kJ). Aus einem Mol Wasser (H2O) entsteht ein Mol H2. Die Stoffmengenkonzentration von Wasser ist 55,5 mol/l, d.h. es werden also grob 400 Liter Wasser pro Jahr benötigt. Eine <a href="https://hydrogentools.de/wasserbedarf-elektrolyse/">Abschätzung aus dem Internet</a> ergibt mit 300ml/kWh einen Bedarf von 450 l, einen ähnlichen Wert. Das sind Wasserkosten von ca. 1 €/Jahr, also vernachlässigbar.</p>
+
+<p>Bei Großanlagen liegen die Investitionskosten bei grob <a href="https://www.pv-magazine.de/2024/09/17/elektrolyse-ist-bei-70-prozent-gruenstrom-im-netz-wirtschaftlich/">750 €/kW (AEL) bzw. 2000 €/kW (PEM)</a>. Ein kaufbarer PEM-Elektrolyseur im Kleinleistungsbereich liegt bei <a href="https://www.amazon.de/Toplionace-Wasserstoffreiche-Elektrolyseur-Wasserstoffgenerator-Physikalische/dp/B0DS2CQ4TX/ref=sr_1_10">361 € mit einer Leistung von 1200 ml H2 / Minute</a>, d.h. 200 Watt (1 l H2 bei Normaldruck = 10 kJ = 1/360 kWh). TODO was wird gebraucht?</p>
+
+<p>PEM ist also voraussichtlich zu teuer, AEL könnte passen, wenn ähnliche Kosten auch für die Kleinanlage erreicht werden können. Alles in allem ist die Erreichbarkeit des Investitionskostenziels also unsicher.</p>
+
+<h2 id="leistungsanforderungen-wirkungsgrad--kapazität--entnahmeleistung--ladeleistung">Leistungsanforderungen (“Wirkungsgrad” + “Kapazität” + “Entnahmeleistung” + “Ladeleistung”)</h2>
+<h3 id="was-heißt-das-konkret-1">Was heißt das konkret?</h3>
+<p>Eine grobe Analyse der Beispieldaten eines Jahres (TODO Link zu Detail-Artikel) ergibt folgendes Bild:</p>
+<ul>
+  <li>In den Wintermonaten werden ca. 2052 kWh elektrische Energie benötigt. Davon entfallen ca. 60% auf die Wärmepumpe. 1137 kWh werden im Winter durch die Solaranlage bereitgestellt.</li>
+  <li>Nicht die komplette im Wasserstoff gespeicherte Energie kann elektrisch bereitgestellt werden. Der Rest wird zu Wärme, die allerdings als Ersatz für Wärmepumpenstrom genutzt werden kann. Grobe Überschlagsrechnung:
+    <ul>
+      <li>Annahme 30% Wirkungsgrad (Wärmekraftmaschine): benötigte Kapazität 2300 kWh, daraus wird 690 kWh elektrische Energie</li>
+      <li>Annahme 60% Wirkungsgrad (Brennstoffzelle): benötigte Kapazität 1700 kWh, daraus wird 1020 kWh elektrische Energie</li>
+    </ul>
+  </li>
+  <li>Unter der Annahme, dass Lastspitzen durch Batteriespeicher o.ä. geglättet werden können, ergibt sich eine konstante elektrische Entnahmeleistung von 240 W (Wärmekraftmaschine; 690 kWh / 120 Tage / 24 Stunden/Tag) bzw. 355 W (Brennstoffzelle; 1020 kWh / 120 Tage / 24 Stunden/Tag).</li>
+  <li>Die Gesamteinspeisung in den Sommermonaten beträgt 4067 kWh. Allerdings muss auf die maximale Ladeleistung gekappt werden. Daraus ergeben sich z.B. folgende Szenarien (hier ist noch nicht berücksichtigt, dass der Batteriespeicher zur Glättung genutzt werden könnte):
+    <ul>
+      <li>Max. Ladeleistung 9300 W: Nutzbare Einspeisung 4067 kWh, benötiger Ladewirkungsgrad 57% bzw. 42%</li>
+      <li>Max. Ladeleistung 5000 W: Nutzbare Einspeisung 3537 kWh, benötiger Ladewirkungsgrad 65% bzw. 48%</li>
+      <li>Max. Ladeleistung 3000 W: Nutzbare Einspeisung 2579 kWh, benötiger Ladewirkungsgrad 89% bzw. 66%
+        <h3 id="erste-abschätzungen-1">Erste Abschätzungen</h3>
+        <p>Ein Ladewirkungsgrad von 70% erscheint nach Internetrecherche nicht ausgeschlossen, höher wird es wahrscheinlich nichts. Ein Generator bzw. eine Brennstoffzelle von einigen hundert Watt sollte auch nicht problematisch sein. Grundsätzlich klingt das alles machbar. Es hängt allerdings viel vom Entnahme-Wirkungsgrad ab. Deshalb ist eine wichtige Frage, ob es eine Brennstoffzelle im Preisrahmen gibt.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>Die obigen Label “Wärmekraftmaschine” und “Brennstoffzelle” sind nicht zwingend mit den angenommenen Wirkungsgraden verknüpft. Bei kommerziell erhältlichen Brennstoffzellen waren z.T. Wirkungsgrade auch nur im Bereich von 30% angegeben. Und eine Wasserstoff-Luft-Flamme hat eine Flammtemperatur von (2130 °C)[https://www.chemie.de/lexikon/Flammentemperatur.html]. Wenn der komplette Bereich von 2130 °C bis z.B. 100 °C genutzt werden kann (d.h. 2403 °K bis 373 °K), ergibt sich ein Carnot-Wirkungsgrad von 84%.</p>
+
+<h2 id="anforderung-platzbedarf">Anforderung “Platzbedarf”</h2>
+<h3 id="was-heißt-das-konkret-2">Was heißt das konkret?</h3>
+<p>Die Einheiten zur Elektrolyse und Speicherung sollten möglichst außerhalb des Hauses angesiedelt sein. Grob 2 m² Grundfläche und 2,5 m Höhe sollten noch gut passen.</p>
+
+<p>Für die Einheit zur Rückumwandlung könnte es wegen der Nutzung der erzeugten Wärme einfacher sein, sie im Haus anzusiedeln. Dort steht dann deutlich weniger Platz zur Verfügung, grob max. 0,5 m² Grundfläche und 2 m Höhe.</p>
+
+<h3 id="erste-abschätzungen-2">Erste Abschätzungen</h3>
+
+<p>1500 kWh Energie entsprechen 22332 Mol H2 (s.o.) bzw. 45 kg (Molare Masse: 2g/mol). Angenommen es stehen 3 m³ Volumen (von den insgesamt 5 m³) zur Speicherung zur Verfügung, dann reicht ein Speicherdruck von ca. 200 bar für die Speicherung der benötigten Menge (siehe [https://hydrogentools.de/masserechner-dichterechner-wasserstoff/]). Mit 0,5 m³ für das Wasser verbleiben 1,5 m³ für die Elektrolysetechnik. Klingt machbar.</p>
+
+<h2 id="anforderung-sicherheit">Anforderung “Sicherheit”</h2>
+<h3 id="was-heißt-das-konkret-3">Was heißt das konkret?</h3>
+<p>Jedes Speichern einer größeren Menge chemischer Energie birgt das Risiko, dass sich diese Energie unkontrolliert entlädt (bei Wasserstoff z.B. in Form eine Explosion). Völlige Risikofreiheit ist also nicht erreichbar. Es geht darum, ein akzeptables Risiko zu erreichen. Das könnte für mich grob heißen, dass das Risiko nicht höher liegt als bei vergleichbaren Anlagen mit konventionellen Energieträgern (z.B. Ölheizung, Gastank im Garten). Und dass im Falle eines Unfalls die Folgen so gering wie möglich sind: Eine verwüstete Garage ist OK, aber das Haus sollte noch stehen und die Nachbarschaft auch.</p>
+
+<p>Außerdem sollten so wenig wie möglich gesundheitsschädliche Stoffe zum Einsatz kommen.</p>
+
+<h3 id="erste-abschätzungen-3">Erste Abschätzungen</h3>
+<p>Eine gespeicherte Energiemenge von 1500 kWh entspricht 150 l Heizöl (10 kWh/l). Das ist ein Bruchteil eines üblichen Öltanks, allerdings ist Heizöl auch deutlich weniger explosiv als Wasserstoff. Analog entspricht sie 150 kg Erdgas (10 kWh/kg). Auch das ist ein Bruchteil üblicher stationärer Gastanks. Ein Vorteil von Wasserstoff ist, dass er leichter als Luft und deshalb bei geeigneter Konstruktion leicht flüchtig ist.</p>
+
+<p>Eine andere Abschätzung ergibt sich aus dem Vergleich mit Sprengkörpern. <a href="https://de.wikipedia.org/wiki/TNT-%C3%84quivalent">1 kg TNT entspricht ca. 4184 Kilojoule</a>, d.h. ca. 1162 kWh. Eine gespeicherte Energiemenge von 1500 kWh entspricht also 1,3 kg TNT. Eine 5-Zentner-Weltkriegsbombe hat eine Sprengkraft von 120 kg TNT. 200 g TNT (d.h. ) werden im Internet als tödlich benannt.</p>
+
+<p>Es gibt verschiedene <a href="https://www.ahock.com/unternehmen/wissen/wasserstoffnormen">Normen und Regelwerke, um den Umgang mit Wasserstoff sicher zu gestalten</a>. Dazu gehört z.B. <a href="https://www.asme.org/codes-standards/find-codes-standards/b31-12-hydrogen-piping-pipelines">ASME B31.12</a>.</p>
+
+<p>Fazit: Das Risiko sollte handbar sein, wenn …</p>
+<ul>
+  <li>die relevanten Normen beachtet werden,</li>
+  <li>insb. (gute Belüftung gegeben ist)[https://h2tools.org/bestpractices/laboratory-safety/laboratory-design/ventilation],</li>
+  <li>unnötige Risiken, wie die Speicherung explosionsfähiger Gemische (Knallgas), vermieden werden,</li>
+  <li>und die Größe der einzelnen Speichertanks begrenzt wird, z.B. auf 200 kWh pro Tank.</li>
+</ul>
+
+<h2 id="anforderung-haltbarkeit">Anforderung “Haltbarkeit”</h2>
+<h3 id="was-heißt-das-konkret-4">Was heißt das konkret?</h3>
+<p>Die Anlage soll über die Amortisationszeit (d.h. 10 Jahre) hinaus sicher betrieben werden können. Wenn einzelne Bestandteile zwischenzeitlich ausgetauscht werden müssen (z.B. Elektroden), dann sind diese bei den Betriebskosten zu berücksichtigen.</p>
+
+<h3 id="erste-abschätzungen-4">Erste Abschätzungen</h3>
+<p>Ein passendes, d.h. günstiges und haltbares, Elektrodenmaterial muss noch gefunden werden. Nickel ist der beste Kandidat.</p>
+
+<h2 id="anforderung-diy">Anforderung “DIY”</h2>
+<h3 id="was-heißt-das-konkret-5">Was heißt das konkret?</h3>
+<p>Ein Selbstbau ist mit üblichen “Maker-Hilfsmitteln” durch mich (ggf. unterstützt durch Familie und Bekannte) möglich.</p>
+<h3 id="erste-abschätzungen-5">Erste Abschätzungen</h3>
+<p>Mal schauen :)</p>
+
+<h2 id="anforderung-legalität">Anforderung “Legalität”</h2>
+<h3 id="was-heißt-das-konkret-6">Was heißt das konkret?</h3>
+<p>Durch Bau und Betrieb des Saisonalspeichers wird nicht gegen Gesetze verstoßen.</p>
+<h3 id="erste-abschätzungen-6">Erste Abschätzungen</h3>
+<p>Manchmal ist das Bundes-Immisionsschutzgesetz relevant, u.a. (für gelagerte Mengen über 3 Tonnen Wasserstoff)[https://wasserstoffwirtschaft.sh/de/wasserstoff-genehmigungen] und (für Elektrolyseure größer 5 MW)[https://www.umwelt.nrw.de/wasserstoff-produktion-wird-erleichtert]. Unter beidem liege ich deutlich drunter.</p>
+
+<h2 id="zusammengefasst">Zusammengefasst</h2>
+
+<p>Wenn der Preis egal ist, ist es sicher machbar. Mit der Preisobergrenze wird es sehr unsicher. Die höchste Priorität hat als nächstes der erreichbare Entnahme-Wirkungsgrad, denn von diesem hängen wiederum Speichergröße und -kosten, Elektrolyseleistung etc. ab. Konkretes Ziel wäre ein elektrischer Wirkungsgrad von deutlich über 50% bei einem Preis von unter 800 Euro und einer elektrischen Leistung von 360 W im Dauerbetrieb.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Anforderungs-Teilmenge</th>
+      <th style="text-align: center">Einschätzung</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Wirkungsgrad+Kapazität+Entnahmeleistung+Ladeleistung+Sicherheit+Platzbedarf+Haltbarkeit+Legalität</td>
+      <td style="text-align: center">sicher machbar</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">(Entnahme-)Wirkungsgrad+Entnahmeleistung+Preis</td>
+      <td style="text-align: center">hochgradig unsicher</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">…</td>
+      <td style="text-align: center">…</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Wirkungsgrad+Kapazität+Entnahmeleistung+Ladeleistung+Sicherheit+Platzbedarf+Haltbarkeit+Legalität+DIY+Preis</td>
+      <td style="text-align: center">hochgradig unsicher</td>
+    </tr>
+  </tbody>
+</table>
+
