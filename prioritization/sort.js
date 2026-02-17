@@ -55,6 +55,24 @@ function restart() {
 }
 
 function updateMissingComparisonCount() {
+    let missingCounts = [];
+    missingCounts.push(countMissingComparisons((a, b) => 1));
+    missingCounts.push(countMissingComparisons((a, b) => -1));
+    missingCounts.push(countMissingComparisons((a, b) => reverseString(a) < reverseString(b) ? 1 : -1));
+    missingCounts.push(countMissingComparisons((a, b) => reverseString(a) < reverseString(b) ? -1 : 1));
+    missingCounts.push(countMissingComparisons((a, b) => a.length < b.length ? 1 : -1));
+    missingCounts.sort((a, b) => a - b);
+    console.log("missing counts = " + missingCounts);
+    $("#remainingLower").text(missingCounts[0]);
+    $("#remaining").text(missingCounts[2]);
+    $("#remainingUpper").text(missingCounts[4]);
+}
+
+function reverseString(s) {
+    return [...s].reverse().join('');
+}
+
+function countMissingComparisons(cmpFunc) {
     let missingCount = 0;
     let knownFakeComparisons = {};
     let fakeCmp = (a, b) => {
@@ -68,12 +86,13 @@ function updateMissingComparisonCount() {
         if (key.k in knownFakeComparisons) {
             return key.m * knownFakeComparisons[key.k];
         }
-        knownFakeComparisons[key.k] = 1;
+        let cmpResult = cmpFunc(a, b);
+        knownFakeComparisons[key.k] = key.m * cmpResult;
         missingCount++;
-        return 1;
+        return cmpResult;
     }
     currentSortFunction(items, fakeCmp);
-    $("#remaining").text(missingCount);
+    return missingCount;
 }
 
 function showResults(sortedItems) {
