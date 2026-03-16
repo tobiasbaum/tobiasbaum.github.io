@@ -44,6 +44,11 @@ div {
 	white-space: nowrap;
 }
 
+.actionLink {
+    float: right;
+    padding-left: 3px;
+}
+
 #postpone {
 	background-color: #CCCCCC;
 	width: 150px;

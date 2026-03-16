@@ -72,7 +72,11 @@ function nextItem() {
 		printResults();
 		return;
 	}
-	curItem = todoList.pop();
+	setCurItem(todoList.pop());
+}
+
+function setCurItem(text) {
+	curItem = text;
 	$("#toClassify").html(curItem.replace("\n", "<br/>\n"));
 	$("#toGo").text("" + (todoList.length + 1));
 }
@@ -88,10 +92,14 @@ function newBucket() {
 	if (!buckets[bucketId]) {
 		buckets[bucketId] = {
 			name: name,
-			content: []
+			content: [],
+            expanded: false
 		};
 		var color = " style=\"background-color: hsl(" + getRandomInt(360) + ", 50%, 70%)\"";
-		$("#buckets").append("<div id=\"gr_" + bucketId + "\" class=\"bucket\"><div class=\"head\" " + color + ">" + escape(name) + "</div><div class=\"items\"></div>");
+		$("#buckets").append("<div id=\"gr_" + bucketId + "\" class=\"bucket\"><div class=\"head\" " + color + "><span class=\"headtext\">" + escape(name) 
+          + "</span><a href=\"javascript:toggleExpand('" + bucketId + "')\" title=\"Expand/Shrink\" class='actionLink'>E</a>"
+          + "<a href=\"javascript:rename('" + bucketId + "')\" title=\"Rename\" class='actionLink'>R</a>"
+          + "</div><div class=\"items\"></div>");
 		$("#gr_" + bucketId).droppable({
 			tolerance: "pointer",
 			hoverClass: "highlight",
@@ -109,12 +117,55 @@ function getRandomInt(max) {
 
 function putInBucket(bucketId) {
 	buckets[bucketId].content.push(curItem);
-	if ($("#gr_" + bucketId + " .items .item").length < 4) {
-		$("#gr_" + bucketId + " .items").append("<div class=\"item\" title=\"" + escape(curItem) + "\">" + escape(curItem) + "</div>");
-	} else {
-		$("#gr_" + bucketId + " .items").append("<span title=\"" + escape(curItem) + "\">. </span>");
-	}
+    printBucketItem(bucketId, curItem);
 	nextItem();
+}
+
+function printBucketItem(bucketId, item) {
+    let count = $("#gr_" + bucketId + " .items .item").length;
+	if (count < 4 || buckets[bucketId].expanded) {
+		$("#gr_" + bucketId + " .items").append("<div class=\"item\" title=\"" + escape(item) + "\">" + escape(item) + "<a href=\"javascript:duplicate('" + bucketId + "', " + count + ")\" title='Duplicate' class='actionLink'>D</a><a href=\"javascript:undo('" + bucketId + "', " + count + ")\" title='Undo add' class='actionLink'>U</a></div>");
+	} else {
+		$("#gr_" + bucketId + " .items").append("<span title=\"" + escape(item) + "\">. </span>");
+	}
+}
+
+function toggleExpand(bucketId) {
+    let b = buckets[bucketId];
+	b.expanded = !b.expanded;
+    repaintBucket(bucketId);
+}
+
+function rename(bucketId) {
+    let b = buckets[bucketId];
+	let name = prompt("New group name", b.name);
+    if (name) {
+        b.name = name;
+        repaintBucket(bucketId);
+    }
+}
+
+function repaintBucket(bucketId) {
+    $("#gr_" + bucketId + " .head .headtext").text(buckets[bucketId].name);
+    $("#gr_" + bucketId + " .items").empty();
+    var list = buckets[bucketId].content;
+    for (var i = 0; i < list.length; i++) {
+        printBucketItem(bucketId, list[i]);
+    }
+}
+
+function duplicate(bucketId, index) {
+    let text = buckets[bucketId].content[index];
+    todoList.push(curItem);
+    setCurItem(text);
+}
+
+function undo(bucketId, index) {
+    let text = buckets[bucketId].content[index];
+    buckets[bucketId].content.splice(index, 1);
+    todoList.push(curItem);
+    setCurItem(text);
+    repaintBucket(bucketId);
 }
 
 function escape(str) {
